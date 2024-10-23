@@ -11,8 +11,10 @@ class Terminal {
     #logsElement;
     /** @type {{[key: string]: () => void}} */
     #commands = {};
-    /** @type {string} */
-    #commandTyped = "";
+    /** @type {string?} */
+    #commandTyped = null;
+
+    #ElementP = document.createElement("p");
 
     /**
      * @param {HTMLElement} terminalElement
@@ -23,31 +25,45 @@ class Terminal {
 
         let notTyping = 0;
         this.#inputElement.addEventListener("keydown", async (e) => {
-            notTyping++;
             switch (e.key) {
                 case "ArrowUp":
-                    if (this.#historyIndex <= 0) break;
-                    this.#historyIndex -= 1;
+                    e.preventDefault();
+                    if (this.#commandTyped === null) {
+                        console.log(
+                            this.#commandTyped,
+                            this.#inputElement.value,
+                        );
+                        this.#commandTyped = this.#inputElement.value;
+                    }
+                    if (this.#historyIndex <= 0) return;
+                    this.#inputElement.value =
+                        this.#history[--this.#historyIndex];
+                    return;
+                case "ArrowDown":
+                    e.preventDefault();
+                    console.log(this.#historyIndex + 1);
+                    if (this.#historyIndex >= this.#history.length) return;
+                    if (++this.#historyIndex === this.#history.length) {
+                        this.#inputElement.value = this.#commandTyped || "";
+                        this.#commandTyped = null;
+                        if (this.#historyIndex === this.#history.length) return;
+                    }
+                    console.log("possibly undefined");
                     this.#inputElement.value =
                         this.#history[this.#historyIndex];
-                    break;
-                case "ArrowDown":
-                    if (this.#historyIndex >= this.#history.length) break;
-                    this.#historyIndex += 1;
-                    this.#inputElement.value =
-                        this.#historyIndex === this.#history.length
-                            ? this.#commandTyped
-                            : this.#history[this.#historyIndex];
-                    break;
+                    return;
                 case "Enter":
                     const command = this.#inputElement.value;
-                    this.#historyIndex = this.#history.length;
+                    if (command === "") return;
                     this.#history.push(command);
+                    this.#historyIndex = this.#history.length;
                     this.#inputElement.value = "";
                     this.#run(command);
-                    break;
+                    this.#commandTyped = null;
+                    return;
             }
 
+            notTyping++;
             await sleep(400);
             if ((notTyping -= 1) >= 1) return;
             // code there will be run only after the user has stopped typing
@@ -87,24 +103,23 @@ class Terminal {
 
     log(...args) {
         console.log("logged:", ...args);
-        this.#logsElement.innerHTML = `<p>${args.join("\n")}</p>` +
+        this.#ElementP.innerText = args.join("<br>");
+        this.#logsElement.innerHTML = this.#ElementP.outerHTML +
             this.#logsElement.innerHTML;
     }
     warn(...args) {
         console.warn("logged:", ...args);
-        this.#logsElement.innerHTML = `<p class="warn">${
-            args.join(
-                "\n",
-            )
-        }</p>` + this.#logsElement.innerHTML;
+        this.#ElementP.innerText = args.join("<br>");
+        this.#ElementP.classList.add("warn");
+        this.#logsElement.innerHTML = this.#ElementP.outerHTML +
+            this.#logsElement.innerHTML;
     }
     error(...args) {
         console.error("logged:", ...args);
-        this.#logsElement.innerHTML = `<p class="error">${
-            args.join(
-                "\n",
-            )
-        }</p>` + this.#logsElement.innerHTML;
+        this.#ElementP.innerText = args.join("<br>");
+        this.#ElementP.classList.add("error");
+        this.#logsElement.innerHTML = this.#ElementP.outerHTML +
+            this.#logsElement.innerHTML;
     }
 }
 
