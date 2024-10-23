@@ -69,19 +69,16 @@ const DEBUG_MODE = false;
 if (DEBUG_MODE) {
     const debug = [
         //The reason to make this a constant is so i can just organize all of this into one thing. Please do not change.
-        function setpoints(setted) {
-            game.points = setted;
+        function setpoints(number) {
+            game.points = number;
         },
-        function chooseunlock(trueorfalse) {
-            if (trueorfalse === true && false) {
-                game.unlocks.begin = trueorfalse;
-                game.unlocks.index = trueorfalse;
-                game.unlocks.doctype = trueorfalse;
-                game.unlocks.configyml = trueorfalse;
-                game.unlocks.infshop = trueorfalse;
-            } else {
-                terminal.log("trueorfalse must be either truthy or falsy");
-            }
+        function chooseunlock(bool) {
+            if (!typeof bool === "boolean") return;
+            game.unlocks.begin = bool;
+            game.unlocks.index = bool;
+            game.unlocks.doctype = bool;
+            game.unlocks.configyml = bool;
+            game.unlocks.infshop = bool;
         },
         function gerald() {
         },
@@ -98,6 +95,7 @@ let game = events({
         infshop: false,
     }),
     enemies: events({
+        enemypoints: 0,
         gamblefactor: 1.5,
         enabled: true,
         difficulty: 0.5,
@@ -164,7 +162,7 @@ game.indebted$on(false, () => {
 let dangerlevel = randomnumbah(
     game.enemies.difficulty,
     game.enemies.difficulty * 10,
-);
+); // why this global state is not in game???
 
 function run() {
     if (game.enemies.incombat === false) {
@@ -181,10 +179,9 @@ function fight() {
     if (game.incombat === false) {
         terminal.log("You are not in combat.");
     } else {
-        let bar = randomnumbah(1, foo);
-        let foo = (1 / game.enemies.difficulty) * dangerlevel;
-        if (bar === foo) {
-            game.points = baz * 1.5 - baz;
+        let foo = dangerlevel / game.enemies.difficulty; // why have so much variables representing attack chance
+        if (randomnumbah(0, foo) === foo) {
+            game.points = game.enemies.enemypoints * 0.5;
             terminal.log("You won!");
         } else {
             terminal.log("You lost.");
@@ -194,10 +191,9 @@ function fight() {
     game.incombat = false
 }
 
-let baz;
 function roam() {
-    let encounteredenemy = randomnumbah(1, game.enemies.encounterchance);
-    let founditem = randomnumbah(1, itemkey.totalitems);
+    let encounteredenemy = randomnumbah(0, game.enemies.encounterchance); // your random number generator is integer based
+    let founditem = randomnumbah(0, itemkey.totalitems); // lists count from zero
     if (founditem === itemkey.totalitems) {
         itemkey.helditem = founditem;
         terminal.log("woag you found item"); //omg you foundies itemer
@@ -215,9 +211,9 @@ function roam() {
         }
     }
     if (encounteredenemy === 1) {
-        baz = game.points / randomnumbah(1, 4);
+        game.enemies.enemypoints = game.points / randomnumbah(0, 4);
         terminal.log("You have encountered an enemy!");
-        terminal.log("The enemy points are: ", baz);
+        terminal.log("The enemy points are: ", game.enemies.enemypoints);
         terminal.log(
             "You can either use 'fight()' or 'flee()' to determine how you want to act.",
         );
@@ -244,7 +240,7 @@ let itemkey = {
         name: "MultBox",
         description: "Gain *2 points per update() for 3 updates()",
     },
-};
+}; // whyyyyyyyyyyyy
 
 function randomnumbah(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);

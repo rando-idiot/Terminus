@@ -29,10 +29,6 @@ class Terminal {
                 case "ArrowUp":
                     e.preventDefault();
                     if (this.#commandTyped === null) {
-                        console.log(
-                            this.#commandTyped,
-                            this.#inputElement.value,
-                        );
                         this.#commandTyped = this.#inputElement.value;
                     }
                     if (this.#historyIndex <= 0) return;
@@ -41,25 +37,25 @@ class Terminal {
                     return;
                 case "ArrowDown":
                     e.preventDefault();
-                    console.log(this.#historyIndex + 1);
                     if (this.#historyIndex >= this.#history.length) return;
                     if (++this.#historyIndex === this.#history.length) {
                         this.#inputElement.value = this.#commandTyped || "";
                         this.#commandTyped = null;
                         if (this.#historyIndex === this.#history.length) return;
                     }
-                    console.log("possibly undefined");
                     this.#inputElement.value =
                         this.#history[this.#historyIndex];
                     return;
                 case "Enter":
                     const command = this.#inputElement.value;
                     if (command === "") return;
-                    this.#history.push(command);
+                    this.#commandTyped = null;
+                    if (command !== this.#history.at(-1)) {
+                        this.#history.push(command);
+                    }
                     this.#historyIndex = this.#history.length;
                     this.#inputElement.value = "";
                     this.#run(command);
-                    this.#commandTyped = null;
                     return;
             }
 
@@ -102,20 +98,20 @@ class Terminal {
     }
 
     log(...args) {
-        console.log("logged:", ...args);
+        // console.log("logged:", ...args);
         this.#ElementP.innerText = args.join("<br>");
         this.#logsElement.innerHTML = this.#ElementP.outerHTML +
             this.#logsElement.innerHTML;
     }
     warn(...args) {
-        console.warn("logged:", ...args);
+        // console.warn("logged:", ...args);
         this.#ElementP.innerText = args.join("<br>");
         this.#ElementP.classList.add("warn");
         this.#logsElement.innerHTML = this.#ElementP.outerHTML +
             this.#logsElement.innerHTML;
     }
     error(...args) {
-        console.error("logged:", ...args);
+        // console.error("logged:", ...args);
         this.#ElementP.innerText = args.join("<br>");
         this.#ElementP.classList.add("error");
         this.#logsElement.innerHTML = this.#ElementP.outerHTML +

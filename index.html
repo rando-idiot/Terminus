@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <title>Terminus</title>
+        <link rel="stylesheet" href="./styles.css" />
         <script defer src="./src/lib/events.js"></script>
         <script defer src="./src/lib/helpers.js"></script>
         <script defer src="./src/terminal.js"></script>
@@ -12,133 +12,7 @@
         <script defer src="./src/logi/achievements.js"></script>
         <script defer src="./src/terminus.js"></script>
 
-        <style>
-            @font-face {
-                font-family: "Monocraft";
-                src: url("resources/Monocraft.woff") format("woff");
-            }
-            html {
-                font-size: 3vh;
-                scroll-behavior: unset;
-                --terminal-font: 350 0.5rem "Monocraft";
-            }
-            body {
-                scroll-behavior: unset;
-                display: flex;
-                flex-direction: row;
-                justify-content: flex-start;
-                align-items: flex-start;
-                margin: 0;
-                height: 100vh;
-            }
-            @media (max-aspect-ratio: 1/1) {
-                html {
-                    font-size: 5vw;
-                }
-                body {
-                    flex-direction: column;
-                }
-                #terminal {
-                    width: 100vw;
-                    min-height: 300px;
-                    max-height: 30vh;
-                }
-                #terminal #log {
-                    max-height: 20em;
-                }
-            }
-
-            @media (min-aspect-ratio: 1/1) {
-                html {
-                    font-size: 3vh;
-                }
-                #terminal {
-                    height: 100vh;
-                    min-width: 300px;
-                    max-width: 30vw;
-                }
-            }
-
-            #terminal {
-                display: flex;
-                flex-direction: column;
-                flex-basis: content;
-                flex-shrink: 0;
-                background-color: #222;
-                color: white;
-
-                font: var(--terminal-font);
-            }
-            #terminal #log {
-                margin: 0.3rem;
-                margin-bottom: 0.1rem;
-                flex-grow: 1;
-                overflow-y: auto;
-                scroll-behavior: smooth;
-                display: flex;
-                flex-direction: column-reverse;
-                /* font-size: 1rem; */
-            }
-            #terminal #log > p {
-                padding: 0.2em;
-                color: white;
-                margin-top: 0.1em;
-                margin-bottom: 0.1em;
-                background-color: #3338;
-                line-height: 1em;
-                line-break: auto;
-            }
-            #terminal #log > p:nth-child(even) {
-                background-color: #4448;
-            }
-            #terminal #log > p.error {
-                background-color: #a338;
-            }
-            #terminal #log > p.error:nth-child(even) {
-                background-color: #e338;
-            }
-            #terminal #log > p.warn {
-                background-color: rgba(170, 118, 51, 0.533);
-            }
-            #terminal #log > p.warn:nth-child(even) {
-                background-color: rgba(238, 151, 51, 0.533);
-            }
-            #terminal #log:before {
-                content: "";
-                display: block;
-                background-image: repeating-linear-gradient(
-                    25deg,
-                    transparent,
-                    transparent 1rem,
-                    #555 1rem,
-                    #555 2rem
-                );
-            }
-            #terminal #log:after {
-                content: "";
-                display: block;
-                background-image: repeating-linear-gradient(
-                    25deg,
-                    transparent,
-                    transparent 1rem,
-                    #555 1rem,
-                    #555 2rem
-                );
-            }
-            #terminal #input {
-                margin: 0.3rem;
-                padding: 0.2em;
-                margin-top: 0.1rem;
-                height: 1em;
-                flex-grow: 0;
-                background-color: #6668;
-                border: none;
-                outline: none;
-                caret-color: white;
-                color: white;
-                font: var(--terminal-font);
-            }
-        </style>
+        <title>Terminus</title>
     </head>
     <body>
         Open your developer console.
