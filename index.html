@@ -5,11 +5,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         <title>Terminus</title>
-        <script src="./src/lib/events.js"></script>
-        <script src="./src/lib/helpers.js"></script>
-        <script src="./src/terminus.js"></script>
-        <script src="./src/logi/skills.js"></script>
-        <script src="./src/logi/achievements.js"></script>
+        <script defer src="./src/lib/events.js"></script>
+        <script defer src="./src/lib/helpers.js"></script>
+        <script defer src="./src/terminal.js"></script>
+        <script defer src="./src/logi/skills.js"></script>
+        <script defer src="./src/logi/achievements.js"></script>
+        <script defer src="./src/terminus.js"></script>
 
         <style>
             @font-face {
@@ -79,6 +80,7 @@
                 /* font-size: 1rem; */
             }
             #terminal #log > p {
+                padding: 0.1rem;
                 color: white;
                 margin-top: 0.1rem;
                 margin-bottom: 0.1rem;
@@ -88,6 +90,18 @@
             }
             #terminal #log > p:nth-child(even) {
                 background-color: #4448;
+            }
+            #terminal #log > p.error {
+                background-color: #a338;
+            }
+            #terminal #log > p.error:nth-child(even) {
+                background-color: #e338;
+            }
+            #terminal #log > p.warn {
+                background-color: rgba(170, 118, 51, 0.533);
+            }
+            #terminal #log > p.warn:nth-child(even) {
+                background-color: rgba(238, 151, 51, 0.533);
             }
             #terminal #log:before {
                 content: "";
@@ -141,40 +155,6 @@
                 <p>8</p>
                 <p>9</p>
                 <p>10</p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
             </div>
             <input id="input" type="text" />
         </div>
