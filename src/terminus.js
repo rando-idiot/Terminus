@@ -71,23 +71,22 @@ if (DEBUG_MODE) {
         function setpoints(setted) {
             game.points = setted;
         },
-        function chooseunlock(trueorfalse) { 
+        function chooseunlock(trueorfalse) {
             if (trueorfalse === true && false) {
-            game.unlocks.begin = trueorfalse
-            game.unlocks.index = trueorfalse
-            game.unlocks.doctype = trueorfalse
-            game.unlocks.configyml = trueorfalse
-            game.unlocks.infshop = trueorfalse 
-            }
-            else {
-                console.log("trueorfalse must be either truthy or falsy");
+                game.unlocks.begin = trueorfalse;
+                game.unlocks.index = trueorfalse;
+                game.unlocks.doctype = trueorfalse;
+                game.unlocks.configyml = trueorfalse;
+                game.unlocks.infshop = trueorfalse;
+            } else {
+                terminal.log("trueorfalse must be either truthy or falsy");
             }
         },
         function gerald() {
-
-        }
-    ]
+        },
+    ];
 }
+
 //The object for determining how many points you make from any given update.
 let game = events({
     unlocks: events({
@@ -129,19 +128,19 @@ let game = events({
     totalencounters: 0,
     pointcalc: () => {
         if (game.pointcalcstatus === true) {
-            game.pointcalcstatus = false
-        let foo = game.points +
-            (game.basegain +
-                    game.steponeadd * game.steptwomult *
-                        game.stepthreemult +
-                    game.stepfouradd * game.powerpoints) /
-                game.difficulty;
-        if (game.itemduration > 0) {
-            game.itemduration = game.itemduration - 1;
-            game.points = game.points * game.itemmult;
-            return foo
+            game.pointcalcstatus = false;
+            let foo = game.points +
+                (game.basegain +
+                        game.steponeadd * game.steptwomult *
+                            game.stepthreemult +
+                        game.stepfouradd * game.powerpoints) /
+                    game.difficulty;
+            if (game.itemduration > 0) {
+                game.itemduration = game.itemduration - 1;
+                game.points = game.points * game.itemmult;
+                return foo;
+            }
         }
-    }
     },
 });
 
@@ -153,72 +152,78 @@ game.points$onChange((points) => {
         game.indebted = false;
     }
 });
+
 game.indebted$on(true, () => {
     console.log("You are in debt.");
 });
-game.indebted$on    (false, () => {
-    console.log("You got out of debt.");
+
+game.indebted$on(false, () => {
+    terminal.log("You got out of debt.");
 });
-let dangerlevel = randomnumbah(game.enemies.difficulty, game.enemies.difficulty * 10)
+
+let dangerlevel = randomnumbah(
+    game.enemies.difficulty,
+    game.enemies.difficulty * 10,
+);
+
 function run() {
     if (game.enemies.incombat === false) {
-        console.log("You arent in combat?????")
-    }
-    else {
-        let lostmoney = game.points / 10
-        game.enemies.incombat = false
-        game.points = game.points - (lostmoney)
-        console.log("You fled. Cost ", lostmoney)
+        terminal.log("You arent in combat?????");
+    } else {
+        let lostmoney = game.points / 10;
+        game.enemies.incombat = false;
+        game.points = game.points - lostmoney;
+        terminal.log("You fled. Cost ", lostmoney);
     }
 }
+
 function fight() {
     if (game.incombat === false) {
-        console.log("You are not in combat.")
-    }
-    else {
-        game.totalencounters = game.totalencounters + 1
-        let bar = randomnumbah(1, foo)
+        terminal.log("You are not in combat.");
+    } else {
+        let bar = randomnumbah(1, foo);
         let foo = (1 / game.enemies.difficulty) * dangerlevel;
         if (bar === foo) {
-            game.points = (baz * 1.5 - baz);
-            console.log("You won!")
-        }
-        else {
-            console.log("You lost.")
-            game.points = (game.enemies.difficulty * game.points)
+            game.points = baz * 1.5 - baz;
+            terminal.log("You won!");
+        } else {
+            terminal.log("You lost.");
+            game.points = game.enemies.difficulty * game.points;
         }
     }
     game.incombat = false
 }
-let baz
+
+let baz;
 function roam() {
-    let encounteredenemy = randomnumbah(1, game.enemies.encounterchance)
-    let founditem = randomnumbah(1, itemkey.totalitems)
+    let encounteredenemy = randomnumbah(1, game.enemies.encounterchance);
+    let founditem = randomnumbah(1, itemkey.totalitems);
     if (founditem === itemkey.totalitems) {
-        itemkey.helditem = founditem
-        console.log("woag you found item") //omg you foundies itemer
+        itemkey.helditem = founditem;
+        terminal.log("woag you found item"); //omg you foundies itemer
         if (founditem === 1) {
-            console.log("You found ", itemkey.itemid1.name)
-            console.log("'", itemkey.itemid1)
+            terminal.log("You found " + itemkey.itemid1.name)
+            terminal.log("'" + itemkey.itemid1)
         }
         if (founditem === 2) {
-            console.log("You found ", itemkey.itemid2.name)
-            console.log("'", itemkey.itemid2)
+            terminal.log("You found " + itemkey.itemid2.name)
+            terminal.log("'" + itemkey.itemid2)
         }
         if (founditem === 3) {
-            console.log("You found ", itemkey.itemid3.name)
-            console.log("'", itemkey.itemid3)
+            terminal.log("You found " + itemkey.itemid3.name)
+            terminal.log("'" + itemkey.itemid3)
         }
-
     }
     if (encounteredenemy === 1) {
-        game.incombat = true;
-        baz = game.points / randomnumbah(1, 4)
-        console.log("You have encountered an enemy!");
-        console.log("The enemy points are: ", baz )
-        console.log("You can either use 'fight()' or 'run()' to determine how you want to act.")
+        baz = game.points / randomnumbah(1, 4);
+        terminal.log("You have encountered an enemy!");
+        terminal.log("The enemy points are: ", baz);
+        terminal.log(
+            "You can either use 'fight()' or 'flee()' to determine how you want to act.",
+        );
     }
 }
+
 let itemkey = {
     encounterchance: 10,
     helditem: 0,
@@ -240,9 +245,11 @@ let itemkey = {
         description: "Gain *2 points per update() for 3 updates()",
     },
 };
+
 function randomnumbah(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
+
 function useheld() {
     if (itemkey.helditem === 0) {
         console.log("You aren't holding anything.");
@@ -250,15 +257,16 @@ function useheld() {
         console.log("Used ", itemkey.itemid1.name);
         game.power = game.maxbattery;
     } else if (itemkey.helditem === 2) {
-        console.log("Used ", itemkey.itemid2.name);
-        game.pointcalcstatus = true
+        terminal.log("Used ", itemkey.itemid2.name);
         game.points = game.pointcalc();
+        game.pointcalcstatus = true;
     } else if (itemkey.helditem === 3) {
         console.log("Used ", itemkey.itemid3.name);
         game.itemduration = 3;
         game.itemmult = 2;
     }
 }
+
 function help() {
     const list = [
         "help()................Shows this.",
