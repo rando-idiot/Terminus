@@ -1,8 +1,8 @@
-function isDefined(val) {
+export function isDefined(val) {
     return val !== undefined && val !== null;
 }
 
-function sleep(ms) {
+export function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
@@ -10,7 +10,7 @@ function sleep(ms) {
  * @param {Promise<void>} asyncfunc
  * @returns
  */
-function spawn(asyncfunc) {
+export function spawn(asyncfunc) {
     return new Promise((res, rej) =>
         asyncfunc instanceof Promise
             ? asyncfunc.then(res).catch(rej)

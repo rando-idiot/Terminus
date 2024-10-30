@@ -1,3 +1,5 @@
+import { isDefined } from "./helpers.js";
+
 /**
  * @template V, R
  * @typedef {(k: V) => R} Fn
@@ -13,7 +15,7 @@
  *  [K in keyof T as `${K & string}$onChange`]: Fn<Fn<T[K], void>, void>
  * } : { [K in keyof T as `${K & string}$on`]: T[K] }}
  */
-function events(obj) {
+export function events(obj) {
     let result = {};
     const arr_len = Array.isArray(obj) ? obj.length : false;
 
