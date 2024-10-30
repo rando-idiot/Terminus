@@ -1,38 +1,32 @@
-//maj V20
-//skills.js exists.
-//automated seasonal welcome msgs
-terminal.log("Welcome to Terminus.JS");
+// maj V21
+// Terminal is now it's own thing, debug console no more!
 
-const gameverison = "V20";
+function greetMessage() {
+    let date = new Date();
+    if (randomnumbah(0, 10000) == 1) {
+        return "Unwelcome to AntiTerminus.";
+    } else if (date.getMonth() == 0 && getDate() == 1) {
+        return "Happy New Year! Welcome to Terminus.";
+    } else if (date.getMonth() == 8 && date.getDate() == 15) {
+        return `It's Terminus.JS anniversary! Welcome!`;
+    }
+    return "Welcome to Terminus.JS";
+}
 
-const month = getMonth();
-const day = getDate();
-const newyearwelcome = "Happy new year! Welcome to Terminus.";
-const terminusanniversary = "Another year of Terminus. Welcome!";
-const normalwelcome = "Welcome to Terminus!";
-const superrarewelcome = "Unwelcome to Antiterminus."; //Please change this randomly whenever you make a commit to this file!
-let rarewelcome = randomnumbah(1, 10000);
-if (rarewelcome == 1) {
-    terminal.log(superrarewelcome);
-} else if (month == 0) {
-    if (day == 1) {
-        terminal.log(newyearwelcome);
-    }
-} else if (month == 8) {
-    if (day == 15) {
-        terminal.log(terminusanniversary);
-    }
-} else {
-    terminal.log(normalwelcome);
-}
-function checkversion() {
-    terminal.log("The current version is " + gameversion);
-}
+// Wow, fancy! :)
+spawn(async () => {
+    await sleep(1000);
+    terminal.log(greetMessage());
+    await sleep(2000);
+    terminal.log("You can type 'help' to see available commands");
+    await sleep(2000);
+});
 
 //The object for determining how many points you make from any given update.
 
 let game = events({
     terminal: new Terminal(document.body.querySelector("#terminal")),
+    gameverison: "V20",
     unlocks: events({
         begin: false,
         index: false,
@@ -88,14 +82,6 @@ let game = events({
 /** @type {Terminal} */
 const terminal = game.terminal;
 
-// Wow, fancy! :)
-spawn(async () => {
-    await sleep(1000);
-    terminal.log("Welcome to Terminus.JS");
-    await sleep(2000);
-    terminal.log("You can type 'help' to see available commands");
-});
-
 terminal.addCommand(function hints(force = -1) {
     const list = [
         "You can generate points by calling update().",
@@ -107,6 +93,10 @@ terminal.addCommand(function hints(force = -1) {
     ];
     if (force >= 0) return terminal.log(list[force]);
     terminal.log(list[Math.floor(Math.random() * list.length)]);
+});
+
+terminal.addCommand(function achievements() {
+    Achievement.checkAll();
 });
 
 terminal.addCommand(function github() {
@@ -152,7 +142,7 @@ game.points$onChange((points) => {
     terminal.log(`You have ${points.toFixed(2)} points.`);
     if (!game.indebted && points < 0) {
         game.indebted = true;
-    } else if (game.indebted) {
+    } else if (game.indebted && points > 0) {
         game.indebted = false;
     }
 });
@@ -314,14 +304,13 @@ terminal.addCommand(function charge() {
 const exptolevel = 100;
 terminal.addCommand(function update() {
     if (game.power <= 0) {
-        terminal.log("Gained 10 exp.");
         game.xp = game.xp + 10;
+        terminal.log("Gained 10 exp.");
         if (game.xp == exptolevel) {
             game.skillpoints = game.skillpoints + 1;
             terminal.log("Leveled up!");
         }
-        terminal.log("No power.");
-        return terminal.log("    ");
+        return;
     }
 
     game.powerpoints = game.power / game.antipower;
@@ -407,19 +396,18 @@ game.upgstage$on(1, () =>
         game.upgstage = 2;
         game.points -= 5000 * game.difficulty;
     }));
-game.upgstage$on(2, () => {
-    globalThis.push = function () {
+game.upgstage$on(2, () =>
+    terminal.changeCommand(function push() {
         if (game.indebted) return "Come back when you're a little bit richer";
 
         game.upgstage = 3;
         game.points -= 50000 * game.difficulty;
         return `You have ${game.points} points`;
-    };
-});
-game.upgstage$on(3, () => {
-    globalThis.push3 = () =>
+    }));
+game.upgstage$on(3, () =>
+    terminal.changeCommand(function push3() {
         terminal.log("Please don't try this again, it's not funny");
-});
+    }));
 terminal.addCommand(function push() {
     if (game.indebted) {
         return terminal.log("you are brokies :3");
@@ -432,38 +420,38 @@ terminal.addCommand(function push() {
 
 game.unlocks.infshop$on(true, () => {
     terminal.log("You've unlocked the infshop. Check 'help' for details.");
-    globalThis.infshop = function () {
+    terminal.changeCommand(function infshop() {
         let list = game.upgstage === 1
             ? [ // todo: Export cost calculations
                 `stepone: $${
                     5 + game.upgpriceboost * game.difficulty
-                }............Increases step 1 addition`,
+                }\nIncreases step 1 addition`,
                 `steptwo: $${
                     25 + game.upgpriceboost * game.difficulty
-                }...........Increases step 2 multiplier`,
+                }\nIncreases step 2 multiplier`,
                 `stepthree: $${
                     25 + game.upgpriceboost * game.difficulty
-                }.........Increases step 3 multiplier`,
+                }\nIncreases step 3 multiplier`,
                 `stepfour: $${
                     2 + game.upgpriceboost * game.difficulty
-                }...........Increases step 4 addition`,
+                }\nIncreases step 4 addition`,
             ]
             : [
                 `stepone: $${
                     20 + game.upgpriceboost * game.difficulty
-                }..........Increases step 1 addition`,
+                }\nIncreases step 1 addition`,
                 `steptwo: $${
                     100 + game.upgpriceboost * game.difficulty
-                }.........Increases step 2 multiplier`,
+                }\nIncreases step 2 multiplier`,
                 `stepthree: $${
                     100 + game.upgpriceboost * game.difficulty
-                }.......Increases step 3 multiplier`,
+                }\nIncreases step 3 multiplier`,
                 `stepfour: $${
                     8 + game.upgpriceboost * game.difficulty
-                }..........Increases step 4 addition`,
+                }\nIncreases step 4 addition`,
                 `maxpowerup: $${
                     800 + game.upgpriceboost * game.difficulty
-                }.......Increases the maximum battery.`,
+                }\nIncreases the maximum battery.`,
             ];
 
         list = [
@@ -471,17 +459,17 @@ game.unlocks.infshop$on(true, () => {
             ...list,
             `baseup: $${
                 500 + game.upgpriceboost * game.difficulty
-            }...........Increases the base that is then multiplied etc etc`,
+            }\nIncreases the base that is then multiplied etc etc`,
             `upgbonus: $${
                 100 + game.upgpriceboost * game.difficulty
-            }..........Increases how much upgrades upgrade stuff OTHER THAN ITSELF.`,
-            `helloworld: $0...........Prints 'Hello world!' in terminal.`,
+            }\nIncreases how much upgrades upgrade stuff OTHER THAN ITSELF.`,
+            `helloworld: $0\nPrints 'Hello world!' in terminal.`,
         ];
 
         terminal.log("See code comments for upgrade descriptions"); // should this be here?
 
-        terminal.log(list.join("\n"));
-    };
+        terminal.log(...list);
+    });
 });
 
 terminal.addCommand(function infshop() {
@@ -489,7 +477,7 @@ terminal.addCommand(function infshop() {
 });
 
 game.upgstage$on(1, () => {
-    globalThis.stepone = function () {
+    terminal.changeCommand(function stepone() {
         if (game.indebted) {
             return terminal.log("You don't have enough money");
         }
@@ -500,9 +488,9 @@ game.upgstage$on(1, () => {
         game.upgpriceboost += 5;
 
         terminal.log("purchased stepone;");
-    };
+    });
 
-    globalThis.steptwo = function () {
+    terminal.changeCommand(function steptwo() {
         if (game.indebted) return terminal.log("You don't have enough money");
 
         game.points -= 25 +
@@ -511,9 +499,9 @@ game.upgstage$on(1, () => {
         game.upgpriceboost += 5;
 
         terminal.log("purchased steptwo;");
-    };
+    });
 
-    globalThis.stepthree = function () {
+    terminal.changeCommand(function stepthree() {
         if (game.indebted) return terminal.log("You don't have enough money");
 
         game.points -= 25 +
@@ -522,9 +510,9 @@ game.upgstage$on(1, () => {
         game.upgpriceboost += 5;
 
         terminal.log("purchased stepthree;");
-    };
+    });
 
-    globalThis.stepfour = function () {
+    terminal.changeCommand(function stepfour() {
         if (game.indebted) return terminal.log("You don't have enough money");
 
         game.points -= 2 +
@@ -533,9 +521,9 @@ game.upgstage$on(1, () => {
         game.upgpriceboost += 5;
 
         terminal.log("purchased stepfour;");
-    };
+    });
 
-    globalThis.baseup = function () {
+    terminal.changeCommand(function baseup() {
         if (game.indebted) return terminal.log("You don't have enough money");
 
         game.points -= 500 +
@@ -544,9 +532,9 @@ game.upgstage$on(1, () => {
         game.upgpriceboost += 5;
 
         terminal.log("purchased baseup;");
-    };
+    });
 
-    globalThis.upgbonus = function () {
+    terminal.changeCommand(function upgbonus() {
         if (game.indebted) {
             return terminal.log("You don't have enough money");
         }
@@ -557,11 +545,11 @@ game.upgstage$on(1, () => {
         game.upgpriceboost += 5;
 
         terminal.log("purchased upgradebonus;");
-    };
+    });
 });
 
 game.upgstage$on(2, () => {
-    globalThis.stepone = function () {
+    terminal.changeCommand(function stepone() {
         if (game.indebted) {
             return terminal.log("You don't have enough money");
         }
@@ -572,9 +560,9 @@ game.upgstage$on(2, () => {
         game.upgpriceboost += 5;
 
         terminal.log("purchased stepone;");
-    };
+    });
 
-    globalThis.steptwo = function () {
+    terminal.changeCommand(function steptwo() {
         if (game.indebted) {
             return terminal.log("You don't have enough money");
         }
@@ -585,9 +573,9 @@ game.upgstage$on(2, () => {
         game.upgpriceboost += 5;
 
         terminal.log("purchased steptwo;");
-    };
+    });
 
-    globalThis.stepthree = function () {
+    terminal.changeCommand(function stepthree() {
         if (game.indebted) {
             return terminal.log("You don't have enough money");
         }
@@ -598,9 +586,9 @@ game.upgstage$on(2, () => {
         game.upgpriceboost += 5;
 
         terminal.log("purchased stepthree;");
-    };
+    });
 
-    globalThis.stepfour = function () {
+    terminal.changeCommand(function stepfour() {
         if (game.indebted) {
             return terminal.log("You don't have enough money");
         }
@@ -611,8 +599,8 @@ game.upgstage$on(2, () => {
         game.upgpriceboost += 5;
 
         terminal.log("purchased stepfour;");
-    };
-    globalThis.maxpowerup = function () {
+    });
+    terminal.changeCommand(function maxpowerup() {
         if (game.indebted) {
             return terminal.log("You don't have enough money");
         }
@@ -623,17 +611,7 @@ game.upgstage$on(2, () => {
         game.maxbattery += 5;
 
         terminal.log("purchased maxpowerup;");
-    };
-});
-
-game.upgstage$on(3, () => {
-    globalThis.stepone2 =
-        globalThis.steptwo2 =
-        globalThis.stepthree2 =
-        globalThis.stepfour2 =
-            function () {
-                return terminal.log("Lol you leveled up too much krill issue.");
-            };
+    });
 });
 
 terminal.addCommand(function stepone() {

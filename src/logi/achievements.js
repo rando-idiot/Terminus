@@ -74,9 +74,6 @@ class Achievement {
             this.description;
     }
 }
-function achievements() {
-    Achievement.checkAll();
-}
 
 const start = new Achievement({
     name: "Well, it's a start.",
