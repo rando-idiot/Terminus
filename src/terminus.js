@@ -1,10 +1,9 @@
 
 //maj V20
 //skills.js exists.
-
-const { version } = require("os")
-
 //automated seasonal welcome msgs
+
+
 const verison = "V20"
 
 const month = getMonth()
