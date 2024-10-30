@@ -40,24 +40,24 @@ function buyskill(skillname) {
                     skill1.effect;
                 }
                 else {
-                    console.log(cantaffordskill)
+                    terminal.log(cantaffordskill)
                 }
             }
             else {
-                console.log(needparentskill)
+                terminal.log(needparentskill)
             }
         }
     }
     else {
-        console.log("Hey, choose a skill!")
+        terminal.log("Hey, choose a skill!")
     }
 }
 
 function skilltree() {
     if ("unlocked"+"skill1.parent" == true || skill1.parent == "root" ) {
-        console.log(skill1.name)
-        console.log("   " + skill1.description)
-        console.log("   " + skill1.displayedeffect)
-        console.log("   Costs " + skill1.cost + " Skill Point(s).");
+        terminal.log(skill1.name)
+        terminal.log("   " + skill1.description)
+        terminal.log("   " + skill1.displayedeffect)
+        terminal.log("   Costs " + skill1.cost + " Skill Point(s).");
     }
 }

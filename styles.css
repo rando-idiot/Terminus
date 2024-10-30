@@ -16,42 +16,20 @@ body {
     margin: 0;
     height: 100vh;
 }
-@media (max-aspect-ratio: 1/1) {
-    html {
-        font-size: 5vw;
-    }
-    body {
-        flex-direction: column;
-    }
-    #terminal {
-        width: 100vw;
-        min-height: 300px;
-        max-height: 30vh;
-    }
-    #terminal #log {
-        max-height: 20em;
-    }
-}
-
-@media (min-aspect-ratio: 1/1) {
-    html {
-        font-size: 3vh;
-    }
-    #terminal {
-        height: 100vh;
-        min-width: 300px;
-        max-width: 30vw;
-    }
-}
 
 #terminal {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     flex-basis: content;
     flex-shrink: 0;
+    
+    height: 100vh;
+    min-width: 25vw;
+    max-width: 30vw;
+    
     background-color: #222;
     color: white;
-
+    
     font: var(--terminal-font);
 }
 #terminal #log {
@@ -122,4 +100,19 @@ body {
     caret-color: white;
     color: white;
     font: var(--terminal-font);
+}
+
+@media (max-aspect-ratio: 1/1) {
+    html {
+        font-size: 4vw;
+    }
+    body {
+        flex-direction: column;
+    }
+    #terminal {
+        width: 100vw;
+        min-height: 25vh;
+        max-height: 30vh;
+        max-width: 100vw;
+    }
 }

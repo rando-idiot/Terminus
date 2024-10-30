@@ -1,6 +1,6 @@
 class Terminal {
     /** @type {string[]} */
-    #log = [];
+    #logs = [];
     /** @type {string[]} */
     #history = [];
     /** @type {number} */
@@ -13,8 +13,8 @@ class Terminal {
     #commands = {};
     /** @type {string?} */
     #commandTyped = null;
-
     #ElementP = document.createElement("p");
+    #joinLine = "\n\n";
 
     /**
      * @param {HTMLElement} terminalElement
@@ -65,21 +65,26 @@ class Terminal {
             // code there will be run only after the user has stopped typing
 
             this.#commandTyped = this.#inputElement.value;
-            console.log("after typing: ", this);
         });
     }
 
-    addCommand(name, action) {
+    addCommand(func) {
+        const name = func.name;
+        if (!name) throw new Error("Command function must have a name.");
+
         if (this.#commands[name]) {
             throw new Error(`Command ${name} already exists.`);
         }
-        this.#commands[name] = action;
+        this.#commands[name] = func;
     }
-    changeCommand(name, action) {
+    changeCommand(func) {
+        const name = func.name;
+        if (!name) throw new Error("Command function must have a name.");
+
         if (!this.#commands[name]) {
             throw new Error(`Command ${name} does not exist.`);
         }
-        this.#commands[name] = action;
+        this.#commands[name] = func;
     }
     removeCommand(name) {
         if (!this.#commands[name]) {
@@ -98,26 +103,34 @@ class Terminal {
     }
 
     log(...args) {
-        // console.log("logged:", ...args);
-        this.#ElementP.innerText = args.join("<br>");
+        if (this.#logsElement.children.length > 100) {
+            this.#logsElement.removeChild(this.#logsElement.lastChild);
+        }
+
+        this.#ElementP.innerText = args.join(this.#joinLine);
         this.#logsElement.innerHTML = this.#ElementP.outerHTML +
             this.#logsElement.innerHTML;
     }
     warn(...args) {
-        // console.warn("logged:", ...args);
-        this.#ElementP.innerText = args.join("<br>");
+        if (this.#logsElement.children.length > 100) {
+            this.#logsElement.removeChild(this.#logsElement.lastChild);
+        }
+
+        this.#ElementP.innerText = args.join(this.#joinLine);
         this.#ElementP.classList.add("warn");
         this.#logsElement.innerHTML = this.#ElementP.outerHTML +
             this.#logsElement.innerHTML;
+        this.#ElementP.classList.remove("warn");
     }
     error(...args) {
-        // console.error("logged:", ...args);
-        this.#ElementP.innerText = args.join("<br>");
+        if (this.#logsElement.children.length > 100) {
+            this.#logsElement.removeChild(this.#logsElement.lastChild);
+        }
+
+        this.#ElementP.innerText = args.join(this.#joinLine);
         this.#ElementP.classList.add("error");
         this.#logsElement.innerHTML = this.#ElementP.outerHTML +
             this.#logsElement.innerHTML;
+        this.#ElementP.classList.remove("error");
     }
 }
-
-const terminal = new Terminal(document.body.querySelector("#terminal"));
-terminal.addCommand("warn", () => terminal.warn("warning"));
