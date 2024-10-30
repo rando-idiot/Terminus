@@ -3,14 +3,23 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <link rel="stylesheet" href="./styles.css" />
+        <script defer src="./src/lib/events.js"></script>
+        <script defer src="./src/lib/helpers.js"></script>
+        <script defer src="./src/terminal.js"></script>
+        <script defer src="./src/terminus.js"></script>
+        <script defer src="./src/logi/skills.js"></script>
+        <script defer src="./src/logi/achievements.js"></script>
+
         <title>Terminus</title>
-        <script src="./src/lib/events.js"></script>
-        <script src="./src/lib/helpers.js"></script>
-        <script src="./src/terminus.js"></script>
-        <script src="./src/logi/achievements.js"></script>
-        <script src="./src/logi/skills.js"></script>
     </head>
     <body>
-        Open your developer console.
+        Console is to the right
+        <div style="flex-grow: 1; height: 80vh"></div>
+        <div id="terminal">
+            <input id="input" type="text" />
+            <div id="log"></div>
+        </div>
     </body>
 </html>

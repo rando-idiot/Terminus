@@ -2,7 +2,7 @@ class Achievement {
     static #all = [];
 
     static checkAll() {
-        console.log(
+        terminal.log(
             "Achievements\n\n" +
                 Achievement.#all.filter((a) => a.#visible).map(String)
                     .join("\n--------------------\n"),
@@ -24,7 +24,7 @@ class Achievement {
      *     description: "Achievement example.",
      *     eventValue: "points",
      *     criteria: (p) => p >= 1,
-     *     action: () => console.log("New Achievement: Well, it's a start."),
+     *     action: () => terminal.log("New Achievement: Well, it's a start."),
      * })
      * @param {Object} parameters
      * @param {Number} parameters.name
@@ -53,7 +53,7 @@ class Achievement {
                         other.parents.every((p) => Achievement.#all[p].achieved)
                     ) other.#visible = true;
                 });
-                console.log("New Achievement: " + this.name);
+                terminal.log("New Achievement: " + this.name);
                 parameters.action();
             },
             { once: true },
@@ -73,9 +73,6 @@ class Achievement {
         return `${this.achieved ? "✅" : "❌"} ${this.name}\n` +
             this.description;
     }
-}
-function achievements() {
-    Achievement.checkAll();
 }
 
 const start = new Achievement({
@@ -111,7 +108,7 @@ const outage = new Achievement({
     eventValue: "power",
     criteria: (p) => p <= 0,
     action: () => {
-        console.log("To recharge power, use 'charge()'.");
+        terminal.log("To recharge power, use 'charge'.");
     },
 });
 const fullbattery = new Achievement({
