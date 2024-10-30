@@ -1,8 +1,38 @@
-//pat V19
-//Showed the items you pick up
 
-console.log("Welcome to Terminus.JS");
+//maj V20
+//skills.js exists.
 
+const { version } = require("os")
+
+//automated seasonal welcome msgs
+const verison = "V20"
+
+const month = getMonth()
+const day = getDate()
+const newyearwelcome = "Happy new year! Welcome to Terminus."
+const terminusanniversary = "Another year of Terminus. Welcome!"
+const normalwelcome = "Welcome to Terminus!"
+const superrarewelcome = "Unwelcome to Antiterminus." //Please change this randomly whenever you make a commit to this file!
+let rarewelcome = randomnumbah(1, 10000)
+if (rarewelcome == 1) {
+    console.log(superrarewelcome)
+}
+else if (month == 0) {
+    if (day == 1) {
+        console.log(newyearwelcome)
+    }
+}
+else if (month == 8) {
+    if (day == 15) {
+        console.log(terminusanniversary)
+    }
+}
+else {
+    console.log(normalwelcome)
+}
+function checkversion() {
+    console.log("The current version is " + version);
+}
 hints();
 function hints(force = 0) {
     const list = [
@@ -74,6 +104,8 @@ let game = events({
         difficulty: 0.5,
         encounterchance: 10,
     }),
+    skillpoints: 0,
+    xp: 0,
     incombat: false,
     pointcalcstatus: false,
     infstage: 0,
@@ -241,6 +273,7 @@ function help() {
         "hints()...............Shows a hint.",
         "achievements()........Shows achievements.",
         "roam()................Move around for a chance at encountering an enemy or finding an item.",
+        "version().............Check game version.",
     ];
     44; //huh? -Rando
     if (game.unlocks.infshop) {
@@ -256,7 +289,7 @@ function difficultyset(number) {
     console.log(`Set difficulty to ${number}`);
     console.log(
         "Can be changed at any time, but you wouldn't do that, would you?",
-    ); // why is this there?
+    ); 
 }
 
 game.power$onChange((power) => {
@@ -270,9 +303,19 @@ function charge() {
         game.power = game.power + game.rechargerate;
     }
 }
-
+const exptolevel = 100
 function update() {
-    if (game.power <= 0) return console.log("No power.");
+    if (game.power <= 0) {
+        console.log("Gained 10 exp.")
+        game.xp = game.xp + 10;
+        if (game.xp == exptolevel) {
+            game.skillpoints = game.skillpoints + 1
+            console.log("Leveled up!");
+        }
+        console.log("No power.");
+        return(console.log("    "))
+    }
+
     game.powerpoints = game.power / game.antipower;
     game.power -= 1;
 
@@ -427,7 +470,7 @@ game.unlocks.infshop$on(true, () => {
     };
 });
 
-function infshop() {
+function infshop() { //Todo: increase price to get to this.
     console.log("You have not unlocked infinite upgrades.");
 }
 
@@ -437,9 +480,9 @@ game.upgstage$on(1, () => {
             return console.log("You don't have enough money");
         }
 
-        game.points -= 5 + game.upgpriceboost * game.difficulty;
+        game.points -= 5 + game.upgpriceboost * game.upgpriceboost * game.difficulty;
         game.steponeadd += game.upgradebonus;
-        game.upgpriceboost += 1;
+        game.upgpriceboost += 5;
 
         console.log("purchased stepone();");
     };
@@ -447,9 +490,9 @@ game.upgstage$on(1, () => {
     globalThis.steptwo = function () {
         if (game.indebted) return console.log("You don't have enough money");
 
-        game.points -= 25 + game.upgpriceboost * game.difficulty;
+        game.points -= 25 + game.upgpriceboost * game.upgpriceboost * game.difficulty;
         game.steptwomult += game.upgradebonus;
-        game.upgpriceboost += 1;
+        game.upgpriceboost += 5;
 
         console.log("purchased steptwo();");
     };
@@ -457,9 +500,9 @@ game.upgstage$on(1, () => {
     globalThis.stepthree = function () {
         if (game.indebted) return console.log("You don't have enough money");
 
-        game.points -= 25 + game.upgpriceboost * game.difficulty;
+        game.points -= 25 + game.upgpriceboost * game.upgpriceboost * game.difficulty;
         game.stepthreemult += game.upgradebonus;
-        game.upgpriceboost += 1;
+        game.upgpriceboost += 5;
 
         console.log("purchased stepthree();");
     };
@@ -467,9 +510,9 @@ game.upgstage$on(1, () => {
     globalThis.stepfour = function () {
         if (game.indebted) return console.log("You don't have enough money");
 
-        game.points -= 2 + game.upgpriceboost * game.difficulty;
+        game.points -= 2 + game.upgpriceboost * game.upgpriceboost * game.difficulty;
         game.stepfouradd += game.upgradebonus;
-        game.upgpriceboost += 1;
+        game.upgpriceboost += 5;
 
         console.log("purchased stepfour();");
     };
@@ -477,9 +520,9 @@ game.upgstage$on(1, () => {
     globalThis.baseup = function () {
         if (game.indebted) return console.log("You don't have enough money");
 
-        game.points -= 500 + game.upgpriceboost * game.difficulty;
+        game.points -= 500 + game.upgpriceboost * game.upgpriceboost * game.difficulty;
         game.basegain += game.upgradebonus;
-        game.upgpriceboost += 1;
+        game.upgpriceboost += 5;
 
         console.log("purchased baseup();");
     };
@@ -489,9 +532,9 @@ game.upgstage$on(1, () => {
             return console.log("You don't have enough money");
         }
 
-        game.points -= 100 + game.upgpriceboost * game.difficulty;
+        game.points -= 100 + game.upgpriceboost * game.upgpriceboost * game.difficulty;
         game.upgradebonus += 0.1;
-        game.upgpriceboost += 1;
+        game.upgpriceboost += 5;
 
         console.log("purchased upgradebonus();");
     };
@@ -503,9 +546,9 @@ game.upgstage$on(2, () => {
             return console.log("You don't have enough money");
         }
 
-        game.points -= 20 + game.upgpriceboost * game.difficulty;
+        game.points -= 20 + game.upgpriceboost * game.upgpriceboost * game.difficulty;
         game.steponeadd += game.upgradebonus;
-        game.upgpriceboost += 1;
+        game.upgpriceboost += 5;
 
         console.log("purchased stepone();");
     };
@@ -515,9 +558,9 @@ game.upgstage$on(2, () => {
             return console.log("You don't have enough money");
         }
 
-        game.points -= 100 + game.upgpriceboost * game.difficulty;
+        game.points -= 100 + game.upgpriceboost * game.upgpriceboost * game.difficulty;
         game.steptwomult += game.upgradebonus;
-        game.upgpriceboost += 1;
+        game.upgpriceboost += 5;
 
         console.log("purchased steptwo();");
     };
@@ -527,9 +570,9 @@ game.upgstage$on(2, () => {
             return console.log("You don't have enough money");
         }
 
-        game.points -= 100 + game.upgpriceboost * game.difficulty;
+        game.points -= 100 + game.upgpriceboost * game.upgpriceboost * game.difficulty;
         game.stepthreemult += game.upgradebonus;
-        game.upgpriceboost += 1;
+        game.upgpriceboost += 5;
 
         console.log("purchased stepthree();");
     };
@@ -539,9 +582,9 @@ game.upgstage$on(2, () => {
             return console.log("You don't have enough money");
         }
 
-        game.points -= 8 + game.upgpriceboost * game.difficulty;
+        game.points -= 8 + game.upgpriceboost * game.upgpriceboost * game.difficulty;
         game.stepfouradd += game.upgradebonus;
-        game.upgpriceboost += 1;
+        game.upgpriceboost += 5;
 
         console.log("purchased stepfour();");
     };
@@ -550,9 +593,9 @@ game.upgstage$on(2, () => {
             return console.log("You don't have enough money");
         }
 
-        game.points -= 800 + game.upgpriceboost * game.difficulty;
+        game.points -= 800 + game.upgpriceboost * game.upgpriceboost * game.difficulty;
         game.stepfouradd += game.upgradebonus;
-        game.maxbattery += 1;
+        game.maxbattery += 5;
 
         console.log("purchased maxpowerup();");
     };
