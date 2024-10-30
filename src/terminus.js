@@ -4,7 +4,7 @@
 //automated seasonal welcome msgs
 
 
-const verison = "V20"
+const gameverison = "V20"
 
 const month = getMonth()
 const day = getDate()
@@ -30,7 +30,7 @@ else {
     console.log(normalwelcome)
 }
 function checkversion() {
-    console.log("The current version is " + version);
+    console.log("The current version is " + gameversion);
 }
 hints();
 function hints(force = 0) {
