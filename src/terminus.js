@@ -651,8 +651,7 @@ Achievement.init({ terminal });
 const start = new Achievement({
     name: "Well, it's a start.",
     description: "Earn your first point.",
-    eventObject: game,
-    eventValue: "points",
+    eventValueSubscription: game.points$subscription(),
     criteria: (p) => p >= 1,
     action: () => {},
 });
@@ -660,8 +659,7 @@ const brokeass = new Achievement({
     name: "Broke ass",
     description: "Collect 100 points.",
     requirements: [start],
-    eventObject: game,
-    eventValue: "points",
+    eventValueSubscription: game.points$subscription(),
     criteria: (p) => p >= 100,
     action: () => {},
 });
@@ -669,16 +667,14 @@ const momentum = new Achievement({
     name: "Momentum",
     description: "Collect 1000 points.",
     requirements: [brokeass],
-    eventObject: game,
-    eventValue: "points",
+    eventValueSubscription: game.points$subscription(),
     criteria: (p) => p >= 1000,
     action: () => {},
 });
 const outage = new Achievement({
     name: "Outage",
     description: "Spend all power.",
-    eventObject: game,
-    eventValue: "power",
+    eventValueSubscription: game.power$subscription(),
     criteria: (p) => p <= 0,
     action: () => {
         terminal.log("To recharge power, use 'charge'.");
@@ -687,24 +683,21 @@ const outage = new Achievement({
 const fullbattery = new Achievement({
     name: "Full battery",
     description: "Reach full power.",
-    eventObject: game,
-    eventValue: "power",
+    eventValueSubscription: game.power$subscription(),
     criteria: (p) => p === game.maxbattery,
     action: () => {},
 });
 const overcharged = new Achievement({
     name: "Overcharged",
     description: "Get a power value over the default maximum.",
-    eventObject: game,
-    eventValue: "power",
+    eventValueSubscription: game.power$subscription(),
     criteria: (p) => p > 15, // default maximum
     action: () => {},
 });
 const fighter = new Achievement({
     name: "The Fighter",
     description: "Engage in combat",
-    eventObject: game,
-    eventValue: "totalencounters",
+    eventValueSubscription: game.totalencounters$subscription(),
     criteria: (p) => p >= 1,
     action: () => {},
 });
@@ -712,8 +705,7 @@ const fighter = new Achievement({
 const fighter2 = new Achievement({
     name: "Combat enjoyer",
     description: "Engage in combat, but, a lot more.",
-    eventObject: game,
-    eventValue: "totalencounters",
+    eventValueSubscription: game.totalencounters$subscription(),
     criteria: (p) => p >= 10,
     action: () => {},
 });

@@ -70,6 +70,13 @@ export function events(obj) {
                     events.push([() => true, func, { once: false }]);
                 },
             },
+            [k + "$subscription"]: {
+                configurable: false,
+                enumerable: false,
+                value: function () {
+                    return result[k + "$on"];
+                },
+            },
         });
     }
 
