@@ -1,5 +1,5 @@
-// maj V21
-// Terminal is now it's own thing, debug console no more!
+// 0.1.0
+// Random patches and features and stuff
 function greetMessage() {
     let date = new Date();
     if (randomnumbah(0, 10000) == 1) {
