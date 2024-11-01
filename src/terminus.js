@@ -134,6 +134,7 @@ terminal.addCommand(function fullscreen() {
     } else if (document.exitFullscreen) {
       document.exitFullscreen();
     }
+    console.log("Toggled fullscreen.")
   }
   );
 const DEBUG_MODE = false;
