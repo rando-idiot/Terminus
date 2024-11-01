@@ -47,6 +47,10 @@ let game = events({
         difficulty: 0.5,
         encounterchance: 10,
     }),
+    misc: events({ // I do not know why i called this misc, just shove random shtuff here.
+        cantaffordskill: "You need more skill points.",
+        needparentskill: "Unlock the previous skill first.",
+    }),
     skillpoints: 0,
     xp: 0,
     incombat: false,
@@ -84,7 +88,7 @@ let game = events({
         }
     },
 });
-
+const dangerlevel = randomnumbah(game.enemies.difficulty, game.enemies.difficulty * 10)
 /** @type {Terminal} */
 const terminal = game.terminal;
 
@@ -107,7 +111,7 @@ terminal.addCommand(function achievements() {
 });
 
 terminal.addCommand(function github() {
-    return "https://github.com/rando-idiot/Terminus.JS";
+    terminal.log("https://github.com/rando-idiot/Terminus.JS");
 });
 
 terminal.addCommand(function credits() {
@@ -170,10 +174,6 @@ game.indebted$on(false, () => {
     terminal.log("You got out of debt.");
 });
 
-let dangerlevel = randomnumbah(
-    game.enemies.difficulty,
-    game.enemies.difficulty * 10,
-); // why this global state is not in game???
 
 terminal.addCommand(function run() {
     if (game.enemies.incombat === false) {
@@ -190,7 +190,7 @@ terminal.addCommand(function fight() {
     if (game.incombat === false) {
         terminal.log("You are not in combat.");
     } else {
-        let foo = dangerlevel / game.enemies.difficulty; // why have so much variables representing attack chance
+        let foo = game.dangerlevel / game.enemies.difficulty; // why have so much variables representing attack chance
         if (randomnumbah(0, foo) === foo) {
             game.points = game.enemies.enemypoints * 0.5;
             terminal.log("You won!");
@@ -251,7 +251,7 @@ let itemkey = {
         name: "MultBox",
         description: "Gain *2 points per update() for 3 updates()",
     },
-}; // whyyyyyyyyyyyy
+}; // whyyyyyyyyyyyy //Rando - Because why not :333333
 
 function randomnumbah(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -482,7 +482,6 @@ game.unlocks.infshop$on(true, () => {
             `helloworld: $0\nPrints 'Hello world!' in terminal.`,
         ];
 
-        terminal.log("See code comments for upgrade descriptions"); // should this be here?
 
         terminal.log(...list);
     });
