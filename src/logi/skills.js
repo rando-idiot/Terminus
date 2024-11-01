@@ -5,8 +5,11 @@ class skill {
     static skillcheck() {
         terminal.log(
             "Skills\n\n" +
-                skill.#all.filter((a) => a.#visible).map(String)
-                    .join("\n--------------------\n"),
+            "   " + parameters.name + "\n\n" +
+            "       " + parameters.description + "\n\n" +
+            "       " + parameters.displayedeffect + "\n\n" +
+            "       Costs: " + parameters.description + "Skill Points.\n\n" +
+            "       Unlocked: " + parameters.description + "\n\n" 
         );
     }
 
