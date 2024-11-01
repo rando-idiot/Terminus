@@ -87,12 +87,13 @@ const terminal = game.terminal;
 
 terminal.addCommand(function hints(force = -1) {
     const list = [
-        "You can generate points by calling update().",
+        "You can generate points by calling update.",
         "Power mult = power / 10",
-        "help() can update its contents based on the things you have purchased.",
-        "You can change your difficulty by calling difficultyset(number)",
-        "You can get more hints by calling hints().",
-        "Use clear() to clear the console if it gets too cluttered.",
+        "help can update its contents based on the things you have purchased.",
+        "You can change your difficulty by calling difficultyset(number)", //BROKEN
+        "You can get more hints by calling hints.",
+        "Run 'fullscreen' to be able to, well, play in fullscreen. Call again to exit."
+        //TODO: Re add clear() to new terminal.
     ];
     if (force >= 0) return terminal.log(list[force]);
     terminal.log(list[Math.floor(Math.random() * list.length)]);
@@ -120,7 +121,14 @@ terminal.addCommand(function discord() {
         "Discord.gg/kYyEQ2hjPs",
     ].forEach((str) => terminal.log(str));
 });
-
+terminal.addCommand(function fullscreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+    } else if (document.exitFullscreen) {
+      document.exitFullscreen();
+    }
+  }
+  );
 const DEBUG_MODE = false;
 if (DEBUG_MODE) {
     const debug = [
