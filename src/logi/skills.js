@@ -21,7 +21,7 @@ const exampleskill = {
 };
 
 let unlockedskill1 = false;
-const skill1 = { //Add this.name to buyskill() if you want your skill to be aquireable
+const skill1 = {//Add this.name to buyskill() if you want your skill to be aquireable
     name: "skill_1.",
     description: "The first skill",
     displayedeffect: "Adds 10 to base point gain.",
