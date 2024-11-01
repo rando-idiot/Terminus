@@ -61,7 +61,7 @@ const exampleskill = {
 };
 
 
-let skill1 = new skill = { 
+let skill1 = new skill({ 
     name: "skill_1.",
     description: "The first skill",
     displayedeffect: "Adds 10 to base point gain.",
@@ -69,7 +69,7 @@ let skill1 = new skill = {
     cost: 1,
     parent: "root",
     unlocked: false,
-};
+});
 
 
 

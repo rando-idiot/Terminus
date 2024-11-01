@@ -81,7 +81,7 @@ let game = events({
         }
     },
 });
-
+const dangerlevel = randomnumbah(game.enemies.difficulty, game.enemies.difficulty * 10)
 /** @type {Terminal} */
 const terminal = game.terminal;
 
@@ -103,7 +103,7 @@ terminal.addCommand(function achievements() {
 });
 
 terminal.addCommand(function github() {
-    return "https://github.com/rando-idiot/Terminus.JS";
+    terminal.log("https://github.com/rando-idiot/Terminus.JS");
 });
 
 terminal.addCommand(function credits() {
@@ -157,10 +157,6 @@ game.indebted$on(false, () => {
     terminal.log("You got out of debt.");
 });
 
-let dangerlevel = randomnumbah(
-    game.enemies.difficulty,
-    game.enemies.difficulty * 10,
-); // why this global state is not in game??? //Note from Rando - I have no fucking idea
 
 terminal.addCommand(function run() {
     if (game.enemies.incombat === false) {
@@ -177,7 +173,7 @@ terminal.addCommand(function fight() {
     if (game.incombat === false) {
         terminal.log("You are not in combat.");
     } else {
-        let foo = dangerlevel / game.enemies.difficulty; // why have so much variables representing attack chance
+        let foo = game.dangerlevel / game.enemies.difficulty; // why have so much variables representing attack chance
         if (randomnumbah(0, foo) === foo) {
             game.points = game.enemies.enemypoints * 0.5;
             terminal.log("You won!");
