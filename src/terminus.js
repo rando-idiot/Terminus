@@ -25,7 +25,7 @@ spawn(async () => {
 
 let game = events({
     terminal: new Terminal(document.body.querySelector("#terminal")),
-    gameverison: "V20",
+    gameverison: "0.1.0",
     unlocks: events({
         begin: false,
         index: false,
