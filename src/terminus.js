@@ -4,8 +4,8 @@ import { sleep, spawn } from "./lib/helpers.js";
 import { Achievement } from "./lib/achievements.js";
 // import "./logi/skills.js"; // this is heavily broken rn, TODO: change this to use class (like achievements)
 
-// maj V21
-// Terminal is now it's own thing, debug console no more!
+// 0.1.0
+// Rando stops committing to dev
 
 function greetMessage() {
     let date = new Date();
