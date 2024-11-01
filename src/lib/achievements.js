@@ -36,8 +36,7 @@ export class Achievement {
      * @param {Number} parameters.name
      * @param {String} parameters.description
      * @param {Array<Achievement>?} parameters.requirements
-     * @param {String} parameters.eventObject
-     * @param {String} parameters.eventValue
+     * @param {String} parameters.eventValueSubscription
      * @param {(value) => boolean} parameters.criteria
      * @param {() => void} parameters.action
      */
@@ -45,11 +44,7 @@ export class Achievement {
         this.id = Achievement.#all.length;
         this.name = parameters.name;
         this.description = parameters.description;
-        console.log(
-            "name: " + this.name,
-            "\ncond: " + parameters.criteria.toString(),
-        );
-        this.criteria = parameters.eventObject[parameters.eventValue + "$on"](
+        this.criteria = parameters.eventValueSubscription(
             (foo) => {
                 return parameters.criteria(foo);
             },
