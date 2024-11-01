@@ -24,8 +24,8 @@ body {
     flex-shrink: 0;
     
     height: 100vh;
-    min-width: 30vw;
-    max-width: 30vw;
+    min-width: 100vw;
+    max-width: 100vw;
     
     background-color: #222;
     color: white;
@@ -111,8 +111,19 @@ body {
     }
     #terminal {
         width: 100vw;
-        min-height: 30vh;
-        max-height: 30vh;
+        min-height: 100vh;
+        max-height: 100vh;
         max-width: 100vw;
+    }
+    #terminal #input {
+        height: 1.5em;
+        font-size: 3em;
+        padding: 0em;
+        margin: 0.3rem;
+    }
+    #terminal #log {
+        height: 1.5em;
+        font-size: 3em;
+        
     }
 }

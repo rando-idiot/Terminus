@@ -1,6 +1,5 @@
 // maj V21
 // Terminal is now it's own thing, debug console no more!
-
 function greetMessage() {
     let date = new Date();
     if (randomnumbah(0, 10000) == 1) {
@@ -40,6 +39,10 @@ let game = events({
         enabled: true,
         difficulty: 0.5,
         encounterchance: 10,
+    }),
+    misc: events({ // I do not know why i called this misc, just shove random shtuff here.
+        cantaffordskill: "You need more skill points.",
+        needparentskill: "Unlock the previous skill first.",
     }),
     skillpoints: 0,
     xp: 0,
@@ -157,7 +160,7 @@ game.indebted$on(false, () => {
 let dangerlevel = randomnumbah(
     game.enemies.difficulty,
     game.enemies.difficulty * 10,
-); // why this global state is not in game???
+); // why this global state is not in game??? //Note from Rando - I have no fucking idea
 
 terminal.addCommand(function run() {
     if (game.enemies.incombat === false) {
@@ -235,7 +238,7 @@ let itemkey = {
         name: "MultBox",
         description: "Gain *2 points per update() for 3 updates()",
     },
-}; // whyyyyyyyyyyyy
+}; // whyyyyyyyyyyyy //Rando - Because why not :333333
 
 function randomnumbah(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -466,7 +469,6 @@ game.unlocks.infshop$on(true, () => {
             `helloworld: $0\nPrints 'Hello world!' in terminal.`,
         ];
 
-        terminal.log("See code comments for upgrade descriptions"); // should this be here?
 
         terminal.log(...list);
     });

@@ -1,4 +1,4 @@
-class Achievement {
+class Achievement { 
     static #all = [];
 
     static checkAll() {
