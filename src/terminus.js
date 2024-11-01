@@ -1,3 +1,9 @@
+import { events } from "./lib/events.js";
+import { Terminal } from "./lib/terminal.js";
+import { sleep, spawn } from "./lib/helpers.js";
+import { Achievement } from "./lib/achievements.js";
+// import "./logi/skills.js"; // this is heavily broken rn, TODO: change this to use class (like achievements)
+
 // maj V21
 // Terminal is now it's own thing, debug console no more!
 
@@ -96,7 +102,7 @@ terminal.addCommand(function hints(force = -1) {
 });
 
 terminal.addCommand(function achievements() {
-    Achievement.checkAll();
+    terminal.log(Achievement.all());
 });
 
 terminal.addCommand(function github() {
@@ -638,6 +644,78 @@ terminal.addCommand(function maxpowerup() {
 
 terminal.addCommand(function helloworld() {
     terminal.log("Hello world!");
+});
+
+Achievement.init({ terminal });
+
+const start = new Achievement({
+    name: "Well, it's a start.",
+    description: "Earn your first point.",
+    eventObject: game,
+    eventValue: "points",
+    criteria: (p) => p >= 1,
+    action: () => {},
+});
+const brokeass = new Achievement({
+    name: "Broke ass",
+    description: "Collect 100 points.",
+    requirements: [start],
+    eventObject: game,
+    eventValue: "points",
+    criteria: (p) => p >= 100,
+    action: () => {},
+});
+const momentum = new Achievement({
+    name: "Momentum",
+    description: "Collect 1000 points.",
+    requirements: [brokeass],
+    eventObject: game,
+    eventValue: "points",
+    criteria: (p) => p >= 1000,
+    action: () => {},
+});
+const outage = new Achievement({
+    name: "Outage",
+    description: "Spend all power.",
+    eventObject: game,
+    eventValue: "power",
+    criteria: (p) => p <= 0,
+    action: () => {
+        terminal.log("To recharge power, use 'charge'.");
+    },
+});
+const fullbattery = new Achievement({
+    name: "Full battery",
+    description: "Reach full power.",
+    eventObject: game,
+    eventValue: "power",
+    criteria: (p) => p === game.maxbattery,
+    action: () => {},
+});
+const overcharged = new Achievement({
+    name: "Overcharged",
+    description: "Get a power value over the default maximum.",
+    eventObject: game,
+    eventValue: "power",
+    criteria: (p) => p > 15, // default maximum
+    action: () => {},
+});
+const fighter = new Achievement({
+    name: "The Fighter",
+    description: "Engage in combat",
+    eventObject: game,
+    eventValue: "totalencounters",
+    criteria: (p) => p >= 1,
+    action: () => {},
+});
+
+const fighter2 = new Achievement({
+    name: "Combat enjoyer",
+    description: "Engage in combat, but, a lot more.",
+    eventObject: game,
+    eventValue: "totalencounters",
+    criteria: (p) => p >= 10,
+    action: () => {},
 });
 
 //:3

@@ -1,4 +1,6 @@
-class Terminal {
+import { sleep } from "./helpers.js";
+
+export class Terminal {
     /** @type {string[]} */
     #logs = [];
     /** @type {string[]} */
