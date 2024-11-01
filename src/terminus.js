@@ -125,19 +125,21 @@ const DEBUG_MODE = false;
 if (DEBUG_MODE) {
     const debug = [
         //The reason to make this a constant is so i can just organize all of this into one thing. Please do not change.
-        function setpoints(number) {
+        terminal.addCommand(function setpoints(number) {
             game.points = number;
-        },
-        function chooseunlock(bool) {
+        }),
+        terminal.addCommand(function chooseunlock(bool) {
             if (!typeof bool === "boolean") return;
             game.unlocks.begin = bool;
             game.unlocks.index = bool;
             game.unlocks.doctype = bool;
             game.unlocks.configyml = bool;
             game.unlocks.infshop = bool;
-        },
-        function gerald() {
-        },
+        }),
+        terminal.addCommand(function dumpgame() {
+            terminal.log(game)
+            console.log(game)
+        }),
     ];
 }
 
