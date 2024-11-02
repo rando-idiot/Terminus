@@ -1,16 +1,8 @@
 # Terminus.JS
 A somewhat small incremental game played in a web terminal.
 
-# __INSTALLATION__
-**Method ONE:**
-Inject into a web page via copy and paste and any js injector extention.
-
-**Method TWO:**
-Install the chrome extention (WIP)
-
-**Method THREE:**
-Add via bookmarklet (WIP)
-
+# __HOW TO PLAY__
+Visit the github [pages site]{https://rando-idiot.github.io/Terminus.JS/}, or run on your local machine by downnloading the repo.
 
 # __DISCORD__
 **https://discord.gg/kYyEQ2hjPs**
