@@ -1,15 +1,18 @@
 # Terminus.JS
 A somewhat small incremental game played in a web terminal.
 
-# __INSTALLATION__
-**Method ONE:**
-Inject into a web page via copy and paste and any js injector extention.
+# __HOW TO PLAY__
+Visit the github pages site, or run on your local machine by downnloading the repo.
 
-**Method TWO:**
-Install the chrome extention (WIP)
+## Running locally:
 
-**Method THREE:**
-Add via bookmarklet (WIP)
+   install git (if not installed)
+   
+   run `git clone --depth=1 https://github.com/rando-idiot/Terminus.JS.git`
+   
+   install node.js (if not installed)
+
+   run `npx serve`
 
 
 # __DISCORD__
@@ -17,3 +20,7 @@ Add via bookmarklet (WIP)
 
 # __about:blank__
 It is recommended to try using this game on the about:blank page as it has literally nothing in it. Or try using a javascript playground thingy. Idk. Pick your thingy.
+
+
+
+# https://rando-idiot.github.io/Terminus.JS/
