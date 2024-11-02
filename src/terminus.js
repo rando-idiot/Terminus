@@ -69,7 +69,6 @@ let game = events({
     power: 10,
     powerpoints: 1, //Hahah PP
     indebted: 1,
-    difficulty: 1,
     maxbattery: 15,
     rechargerate: 1,
     antipower: 10,
@@ -80,8 +79,8 @@ let game = events({
         game.points += (game.basegain +
             game.steponeadd * game.steptwomult *
                 game.stepthreemult +
-            game.stepfouradd * game.powerpoints) /
-            game.difficulty;
+            game.stepfouradd * game.powerpoints)
+             ;
         if (game.itemduration > 0) {
             game.itemduration -= 1;
             game.points *= game.itemmult;
@@ -97,7 +96,6 @@ terminal.addCommand(function hints(force = -1) {
         "You can generate points by calling update.",
         "Power mult = power / 10",
         "help can update its contents based on the things you have purchased.",
-        "You can change your difficulty by calling difficultyset(number)", //BROKEN
         "You can get more hints by calling hints.",
         "Run 'fullscreen' to be able to, well, play in fullscreen. Call again to exit."
         //TODO: Re add clear() to new terminal.
@@ -281,7 +279,6 @@ terminal.addCommand(function help() {
         "shop\n- Shows the available purchasable items.",
         "update\n- Increases points. Equivalent of clicking in a clicker game.",
         "charge\n- Gain power.",
-        "difficultyset(number)\n- Change your difficulty.",
         "github\n- Shows the github repo link.",
         "credits\n- Shows the credits.",
         "discord\n- Gives a link to the terminus.js discord.",
@@ -298,13 +295,6 @@ terminal.addCommand(function help() {
 });
 // help();
 
-terminal.addCommand(function difficultyset(number) {
-    game.difficulty = number;
-    terminal.log(`Set difficulty to ${number}`);
-    terminal.log(
-        "Can be changed at any time, but you wouldn't do that, would you?",
-    );
-});
 
 game.power$onChange((power) => {
     if (game.power == game.maxbattery) {
@@ -354,7 +344,7 @@ terminal.addCommand(function shop() {
 
 game.unlocks.begin$on(true, () => {
     game.basegain = 10;
-    game.points -= 5 * game.difficulty;
+    game.points -= 5
     terminal.log("Began!");
 });
 terminal.addCommand(function begin() {
@@ -367,7 +357,7 @@ terminal.addCommand(function begin() {
 
 game.unlocks.index$on(true, () => {
     game.steptwomult += 0.5;
-    game.points -= 20 * game.difficulty;
+    game.points -= 20
     terminal.log("Created index.html!");
 });
 terminal.addCommand(function index() {
@@ -380,7 +370,7 @@ terminal.addCommand(function index() {
 
 game.unlocks.doctype$on(true, () => {
     game.stepthreemult += 0.5;
-    game.points -= 50 * game.difficulty;
+    game.points -= 50;
     terminal.log("Added <!DOCTYPE HTML>!\n");
 });
 terminal.addCommand(function doctype() {
@@ -395,7 +385,7 @@ terminal.addCommand(function doctype() {
 
 game.unlocks.configyml$on(true, () => {
     game.stepfourmult *= 2;
-    game.points -= 100 * game.difficulty;
+    game.points -= 100;
     terminal.log("Created config.yml!");
 });
 terminal.addCommand(function configyml() {
@@ -411,14 +401,14 @@ game.upgstage$on(1, () =>
         if (game.indebted) return "Come back when you're a little bit richer";
 
         game.upgstage = 2;
-        game.points -= 5000 * game.difficulty;
+        game.points -= 5000;
     }));
 game.upgstage$on(2, () =>
     terminal.changeCommand(function push() {
         if (game.indebted) return "Come back when you're a little bit richer";
 
         game.upgstage = 3;
-        game.points -= 50000 * game.difficulty;
+        game.points -= 50000;
         return `You have ${game.points} points`;
     }));
 game.upgstage$on(3, () =>
@@ -432,7 +422,7 @@ terminal.addCommand(function push() {
 
     game.unlocks.infshop = true;
     game.upgstage = 1;
-    game.points -= 500 * game.difficulty;
+    game.points -= 500;
 });
 
 game.unlocks.infshop$on(true, () => {
@@ -441,33 +431,33 @@ game.unlocks.infshop$on(true, () => {
         let list = game.upgstage === 1
             ? [ // todo: Export cost calculations
                 `stepone: $${
-                    5 + game.upgpriceboost * game.difficulty
+                    5 + game.upgpriceboost
                 }\nIncreases step 1 addition`,
                 `steptwo: $${
-                    25 + game.upgpriceboost * game.difficulty
+                    25 + game.upgpriceboost
                 }\nIncreases step 2 multiplier`,
                 `stepthree: $${
-                    25 + game.upgpriceboost * game.difficulty
+                    25 + game.upgpriceboost
                 }\nIncreases step 3 multiplier`,
                 `stepfour: $${
-                    2 + game.upgpriceboost * game.difficulty
+                    2 + game.upgpriceboost
                 }\nIncreases step 4 addition`,
             ]
             : [
                 `stepone: $${
-                    20 + game.upgpriceboost * game.difficulty
+                    20 + game.upgpriceboost
                 }\nIncreases step 1 addition`,
                 `steptwo: $${
-                    100 + game.upgpriceboost * game.difficulty
+                    100 + game.upgpriceboost
                 }\nIncreases step 2 multiplier`,
                 `stepthree: $${
-                    100 + game.upgpriceboost * game.difficulty
+                    100 + game.upgpriceboost
                 }\nIncreases step 3 multiplier`,
                 `stepfour: $${
-                    8 + game.upgpriceboost * game.difficulty
+                    8 + game.upgpriceboost
                 }\nIncreases step 4 addition`,
                 `maxpowerup: $${
-                    800 + game.upgpriceboost * game.difficulty
+                    800 + game.upgpriceboost
                 }\nIncreases the maximum battery.`,
             ];
 
@@ -475,10 +465,10 @@ game.unlocks.infshop$on(true, () => {
             `Stage ${game.upgstage} upgrades`,
             ...list,
             `baseup: $${
-                500 + game.upgpriceboost * game.difficulty
+                500 + game.upgpriceboost
             }\nIncreases the base that is then multiplied etc etc`,
             `upgbonus: $${
-                100 + game.upgpriceboost * game.difficulty
+                100 + game.upgpriceboost
             }\nIncreases how much upgrades upgrade stuff OTHER THAN ITSELF.`,
             `helloworld: $0\nPrints 'Hello world!' in terminal.`,
         ];
@@ -499,7 +489,7 @@ game.upgstage$on(1, () => {
         }
 
         game.points -= 5 +
-            game.upgpriceboost * game.upgpriceboost * game.difficulty;
+            game.upgpriceboost * game.upgpriceboost;
         game.steponeadd += game.upgradebonus;
         game.upgpriceboost += 5;
 
@@ -510,7 +500,7 @@ game.upgstage$on(1, () => {
         if (game.indebted) return terminal.log("You don't have enough money");
 
         game.points -= 25 +
-            game.upgpriceboost * game.upgpriceboost * game.difficulty;
+            game.upgpriceboost * game.upgpriceboost;
         game.steptwomult += game.upgradebonus;
         game.upgpriceboost += 5;
 
@@ -521,7 +511,7 @@ game.upgstage$on(1, () => {
         if (game.indebted) return terminal.log("You don't have enough money");
 
         game.points -= 25 +
-            game.upgpriceboost * game.upgpriceboost * game.difficulty;
+            game.upgpriceboost * game.upgpriceboost;
         game.stepthreemult += game.upgradebonus;
         game.upgpriceboost += 5;
 
@@ -532,7 +522,7 @@ game.upgstage$on(1, () => {
         if (game.indebted) return terminal.log("You don't have enough money");
 
         game.points -= 2 +
-            game.upgpriceboost * game.upgpriceboost * game.difficulty;
+            game.upgpriceboost * game.upgpriceboost;
         game.stepfouradd += game.upgradebonus;
         game.upgpriceboost += 5;
 
@@ -543,7 +533,7 @@ game.upgstage$on(1, () => {
         if (game.indebted) return terminal.log("You don't have enough money");
 
         game.points -= 500 +
-            game.upgpriceboost * game.upgpriceboost * game.difficulty;
+            game.upgpriceboost * game.upgpriceboost;
         game.basegain += game.upgradebonus;
         game.upgpriceboost += 5;
 
@@ -556,7 +546,7 @@ game.upgstage$on(1, () => {
         }
 
         game.points -= 100 +
-            game.upgpriceboost * game.upgpriceboost * game.difficulty;
+            game.upgpriceboost * game.upgpriceboost;
         game.upgradebonus += 0.1;
         game.upgpriceboost += 5;
 
@@ -571,7 +561,7 @@ game.upgstage$on(2, () => {
         }
 
         game.points -= 20 +
-            game.upgpriceboost * game.upgpriceboost * game.difficulty;
+            game.upgpriceboost * game.upgpriceboost;
         game.steponeadd += game.upgradebonus;
         game.upgpriceboost += 5;
 
@@ -584,7 +574,7 @@ game.upgstage$on(2, () => {
         }
 
         game.points -= 100 +
-            game.upgpriceboost * game.upgpriceboost * game.difficulty;
+            game.upgpriceboost * game.upgpriceboost;
         game.steptwomult += game.upgradebonus;
         game.upgpriceboost += 5;
 
@@ -597,7 +587,7 @@ game.upgstage$on(2, () => {
         }
 
         game.points -= 100 +
-            game.upgpriceboost * game.upgpriceboost * game.difficulty;
+            game.upgpriceboost * game.upgpriceboost;
         game.stepthreemult += game.upgradebonus;
         game.upgpriceboost += 5;
 
@@ -610,7 +600,7 @@ game.upgstage$on(2, () => {
         }
 
         game.points -= 8 +
-            game.upgpriceboost * game.upgpriceboost * game.difficulty;
+            game.upgpriceboost * game.upgpriceboost;
         game.stepfouradd += game.upgradebonus;
         game.upgpriceboost += 5;
 
@@ -622,7 +612,7 @@ game.upgstage$on(2, () => {
         }
 
         game.points -= 800 +
-            game.upgpriceboost * game.upgpriceboost * game.difficulty;
+            game.upgpriceboost * game.upgpriceboost;
         game.stepfouradd += game.upgradebonus;
         game.maxbattery += 5;
 
