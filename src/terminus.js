@@ -141,7 +141,7 @@ terminal.addCommand(function fullscreen() {
     console.log("Toggled fullscreen.")
   }
   );
-const DEBUG_MODE = false;
+const DEBUG_MODE = true;
 if (DEBUG_MODE) {
     const debug = [
         //The reason to make this a constant is so i can just organize all of this into one thing. Please do not change.
@@ -717,3 +717,16 @@ const fighter2 = new Achievement({
 });
 
 //:3
+
+
+terminal.addCommand(function savemygame() {
+    localStorage.setItem("newsave", game)
+    terminal.log("Saved game!")
+})
+
+terminal.addCommand(function loadmygame() {
+    game = localStorage.getItem("newsave")
+    terminal.log("Loaded save")
+})
+
+
