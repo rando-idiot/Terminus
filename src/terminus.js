@@ -290,6 +290,8 @@ terminal.addCommand(function help() {
         "discord\n- Gives a link to the terminus.js discord.",
         "hints\n- Shows a hint.",
         "achievements\n- Shows achievements.",
+        "savemygame\n - Saves your game.",
+        "loadmygame\n - Loads your most recent save."
     ];
 
     if (game.unlocks.infshop) {
@@ -725,8 +727,13 @@ terminal.addCommand(function savemygame() {
 })
 
 terminal.addCommand(function loadmygame() {
+    if (localStorage.getItem("newsave") != undefined) {
     game = localStorage.getItem("newsave")
     terminal.log("Loaded save")
+    }
+    else {
+        terminal.log("Make a save before loading, id rather you not get softlocked.")
+    }
 })
 
 
