@@ -127,6 +127,10 @@ terminal.addCommand(function discord() {
     ].forEach((str) => terminal.log(str));
 });
 
+terminal.addCommand(function weepwarp() {
+    open("https://www.youtube.com/watch?v=QH0z8ntGms8");
+})
+
 terminal.addCommand(function secret() {
     terminal.log("YOUR IP IS:");
     terminal.log("127.0.0.1");
@@ -722,13 +726,13 @@ const fighter2 = new Achievement({
 
 
 terminal.addCommand(function savemygame() {
-    localStorage.setItem("newsave", game)
+    localStorage.setItem("newsave", JSON.stringify(game))
     terminal.log("Saved game!")
 })
 
 terminal.addCommand(function loadmygame() {
     if (localStorage.getItem("newsave") != undefined) {
-    game = localStorage.getItem("newsave")
+    game = localStorage.getItem(JSON.parse("newsave"))
     terminal.log("Loaded save")
     }
     else {
