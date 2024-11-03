@@ -86,6 +86,7 @@ let game = events({
             game.points *= game.itemmult;
         }
     },
+    totalmus: 1,
 });
 const dangerlevel = randomnumbah(game.enemies.difficulty, game.enemies.difficulty * 10)
 /** @type {Terminal} */
@@ -741,3 +742,10 @@ terminal.addCommand(function loadmygame() {
 })
 
 
+//Music engine, when adding song(s), place in `mus` folder as a number, then increment game.totalmus by 1. Eg, there are 5 songs, so if you want to add a 6th one, you place it in the mus folder as '6.wav' and set game.totalmus to 6.
+terminal.addCommand(function playasong() {
+    let playedsong = (randomnumbah(1, game.totalmus)) 
+    let playedsongdir = "/resources/mus/" + playedsong + ".wav";
+    let audio = new Audio(playedsongdir);
+    audio.play();
+})
