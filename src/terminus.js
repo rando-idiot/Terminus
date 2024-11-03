@@ -126,6 +126,12 @@ terminal.addCommand(function discord() {
         "Discord.gg/kYyEQ2hjPs",
     ].forEach((str) => terminal.log(str));
 });
+
+terminal.addCommand(function secret() {
+    terminal.log("YOUR IP IS:");
+    terminal.log("127.0.0.1");
+});
+
 terminal.addCommand(function fullscreen() {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen();
