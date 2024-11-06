@@ -40,20 +40,12 @@ let game = events({
         configyml: false,
         infshop: false,
     }),
-    enemies: events({
-        enemypoints: 0,
-        gamblefactor: 1.5,
-        enabled: true,
-        difficulty: 0.5,
-        encounterchance: 10,
-    }),
     misc: events({ // I do not know why i called this misc, just shove random shtuff here.
         cantaffordskill: "You need more skill points.",
         needparentskill: "Unlock the previous skill first.",
     }),
     skillpoints: 0,
     xp: 0,
-    incombat: false,
     pointcalcstatus: false,
     infstage: 0,
     points: 0,
@@ -73,7 +65,6 @@ let game = events({
     rechargerate: 1,
     antipower: 10,
     itemduration: 0,
-    totalencounters: 0,
     pointcalc: () => {
         game.pointcalcstatus = false;
         game.points += (game.basegain +
@@ -185,104 +176,13 @@ game.indebted$on(false, () => {
 });
 
 
-terminal.addCommand(function run() {
-    if (game.enemies.incombat === false) {
-        terminal.log("You arent in combat?????");
-    } else {
-        let lostmoney = game.points / 10;
-        game.enemies.incombat = false;
-        game.points = game.points - lostmoney;
-        terminal.log("You fled. Cost ", lostmoney);
-    }
-});
 
-terminal.addCommand(function fight() {
-    if (game.incombat === false) {
-        terminal.log("You are not in combat.");
-    } else {
-        let foo = game.dangerlevel / game.enemies.difficulty; // why have so much variables representing attack chance
-        if (randomnumbah(0, foo) === foo) {
-            game.points = game.enemies.enemypoints * 0.5;
-            terminal.log("You won!");
-        } else {
-            terminal.log("You lost.");
-            game.points = game.enemies.difficulty * game.points;
-        }
-    }
-    game.incombat = false;
-});
-
-terminal.addCommand(function roam() {
-    let encounteredenemy = randomnumbah(0, game.enemies.encounterchance); // your random number generator is integer based
-    let founditem = randomnumbah(0, itemkey.totalitems); // lists count from zero
-    if (founditem === itemkey.totalitems) {
-        itemkey.helditem = founditem;
-        terminal.log("woag you found item"); //omg you foundies itemer
-        if (founditem === 1) {
-            terminal.log("You found " + itemkey.itemid1.name);
-            terminal.log("'" + itemkey.itemid1);
-        }
-        if (founditem === 2) {
-            terminal.log("You found " + itemkey.itemid2.name);
-            terminal.log("'" + itemkey.itemid2);
-        }
-        if (founditem === 3) {
-            terminal.log("You found " + itemkey.itemid3.name);
-            terminal.log("'" + itemkey.itemid3);
-        }
-    }
-    if (encounteredenemy === 1) {
-        game.enemies.enemypoints = game.points / randomnumbah(0, 4);
-        terminal.log("You have encountered an enemy!");
-        terminal.log("The enemy points are: ", game.enemies.enemypoints);
-        terminal.log(
-            "You can either use 'fight' or 'flee' to determine how you want to act.",
-        );
-    }
-});
-
-let itemkey = {
-    encounterchance: 10,
-    helditem: 0,
-    totalitems: 3,
-    itemid0: {
-        name: "N/A",
-        description: "This is not an item",
-    },
-    itemid1: {
-        name: "Battery",
-        description: "Refills battery",
-    },
-    itemid2: {
-        name: "Get Rich Quick!",
-        description: "Gain 2 updates worth of points",
-    },
-    itemid3: {
-        name: "MultBox",
-        description: "Gain *2 points per update() for 3 updates()",
-    },
-}; // whyyyyyyyyyyyy //Rando - Because why not :333333
 
 function randomnumbah(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-terminal.addCommand(function useheld() {
-    if (itemkey.helditem === 0) {
-        terminal.log("You aren't holding anything.");
-    } else if (itemkey.helditem === 1) {
-        terminal.log("Used ", itemkey.itemid1.name);
-        game.power = game.maxbattery;
-    } else if (itemkey.helditem === 2) {
-        terminal.log("Used ", itemkey.itemid2.name);
-        game.points = game.pointcalc();
-        game.pointcalcstatus = true;
-    } else if (itemkey.helditem === 3) {
-        terminal.log("Used ", itemkey.itemid3.name);
-        game.itemduration = 3;
-        game.itemmult = 2;
-    }
-});
+
 
 terminal.addCommand(function help() {
     const list = [
