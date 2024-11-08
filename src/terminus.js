@@ -79,7 +79,7 @@ let game = events({
     },
     totalmus: 1,
 });
-const dangerlevel = randomnumbah(game.enemies.difficulty, game.enemies.difficulty * 10)
+
 /** @type {Terminal} */
 const terminal = game.terminal;
 
