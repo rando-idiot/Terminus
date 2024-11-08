@@ -1,7 +1,9 @@
 import { events } from "./lib/events.js";
 import { Terminal } from "./lib/terminal.js";
-import { sleep, spawn } from "./lib/helpers.js";
+import { sleep, spawn, randomnumbah } from "./lib/helpers.js";
 import { Achievement } from "./lib/achievements.js";
+import { fish } from "./fish.js";
+import { describe } from "node:test";
 // import "./logi/skills.js"; // this is heavily broken rn, TODO: change this to use class (like achievements)
 
 // 0.1.0
@@ -79,7 +81,7 @@ let game = events({
     },
     totalmus: 1,
 });
-const dangerlevel = randomnumbah(game.enemies.difficulty, game.enemies.difficulty * 10)
+
 /** @type {Terminal} */
 const terminal = game.terminal;
 
@@ -89,7 +91,8 @@ terminal.addCommand(function hints(force = -1) {
         "Power mult = power / 10",
         "help can update its contents based on the things you have purchased.",
         "You can get more hints by calling hints.",
-        "Run 'fullscreen' to be able to, well, play in fullscreen. Call again to exit."
+        "Run 'fullscreen' to be able to, well, play in fullscreen. Call again to exit.",
+        "Yes, there is fishing. use 'catchmeafish' to go fishing."
         //TODO: Re add clear() to new terminal.
     ];
     if (force >= 0) return terminal.log(list[force]);
@@ -178,9 +181,7 @@ game.indebted$on(false, () => {
 
 
 
-function randomnumbah(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-}
+
 
 
 
@@ -608,7 +609,11 @@ const overcharged = new Achievement({
     action: () => {},
 });
 
+const cod = new fish("Cod", "A silly lil fish", 25, 50)
 
+terminal.addCommand(function catchmeafish() {
+    cod.catchafish //Add your own fish.catchafish here! without it the fish no catchy watchy with this function
+})
 //:3
 
 
