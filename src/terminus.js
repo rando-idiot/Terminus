@@ -3,6 +3,7 @@ import { Terminal } from "./lib/terminal.js";
 import { sleep, spawn, randomnumbah } from "./lib/helpers.js";
 import { Achievement } from "./lib/achievements.js";
 import { fish } from "./fish.js";
+import { musengine as playasong } from "../resources/mus/mus.js";
 // import "./lib/skills.js"; // this is heavily broken rn, TODO: change this to use class (like achievements)
 
 // 0.1.0
@@ -78,7 +79,6 @@ let game = events({
             game.points *= game.itemmult;
         }
     },
-    totalmus: 1,
 });
 
 /** @type {Terminal} */
@@ -632,10 +632,4 @@ terminal.addCommand(function loadmygame() {
 })
 
 
-//Music engine, when adding song(s), place in `mus` folder as a number, then increment game.totalmus by 1. Eg, there are 5 songs, so if you want to add a 6th one, you place it in the mus folder as '6.wav' and set game.totalmus to 6.
-terminal.addCommand(function playasong() {
-    let playedsong = (randomnumbah(1, game.totalmus)) 
-    let playedsongdir = "/resources/mus/" + playedsong + ".wav";
-    let audio = new Audio(playedsongdir);
-    audio.play();
-})
+terminal.addCommand(playasong())
