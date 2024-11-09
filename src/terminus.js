@@ -639,5 +639,7 @@ terminal.addCommand(function playasong() {
     let playedsong = (randomnumbah(1, game.totalmus)) 
     let playedsongdir = "../resources/mus/" + playedsong + ".wav";
     let audio = new Audio(playedsongdir);
+    terminal.mus("Now playing: " + playedsong + ".wav")
+    audio.stop();
     audio.play();
 })

@@ -135,4 +135,15 @@ export class Terminal {
             this.#logsElement.innerHTML;
         this.#ElementP.classList.remove("error");
     }
+    mus(...args) {
+        if (this.#logsElement.children.length > 100) {
+            this.#logsElement.removeChild(this.#logsElement.lastChild);
+        }
+
+        this.#ElementP.innerText = args.join(this.#joinLine);
+        this.#ElementP.classList.add("mus");
+        this.#logsElement.innerHTML = this.#ElementP.outerHTML +
+            this.#logsElement.innerHTML;
+        this.#ElementP.classList.remove("mus");
+    }
 }

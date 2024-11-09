@@ -66,6 +66,14 @@ body {
 #terminal #log > p.warn:nth-child(even) {
     background-color: rgba(238, 151, 51, 0.533);
 }
+#terminal #log > p.mus {
+    background-color: lightblue;
+    color: black;
+}
+#terminal #log > p.mus:nth-child(even) {
+    background-color: lightskyblue;
+    color: black;
+}
 #terminal #log:before {
     content: "";
     display: block;
@@ -125,5 +133,9 @@ body {
         height: 1.5em;
         font-size: 3em;
         
+    }
+    #terminal #mus {
+        height: 1.5em;
+        font-size: 3em;
     }
 }
