@@ -90,7 +90,8 @@ terminal.addCommand(function hints(force = -1) {
         "help can update its contents based on the things you have purchased.",
         "You can get more hints by calling hints.",
         "Run 'fullscreen' to be able to, well, play in fullscreen. Call again to exit.",
-        "Yes, there is fishing. use 'catchmeafish' to go fishing."
+        "Yes, there is fishing. use 'catchmeafish' to go fishing.",
+        "Use 'playasong' to play a random song. (WIP)"
         //TODO: Re add clear() to new terminal.
     ];
     if (force >= 0) return terminal.log(list[force]);
