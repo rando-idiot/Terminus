@@ -3,7 +3,6 @@ import { Terminal } from "./lib/terminal.js";
 import { sleep, spawn, randomnumbah } from "./lib/helpers.js";
 import { Achievement } from "./lib/achievements.js";
 import { fish } from "./fish.js";
-import { musengine as playasong } from "../resources/mus/mus.js";
 // import "./lib/skills.js"; // this is heavily broken rn, TODO: change this to use class (like achievements)
 
 // 0.1.0
