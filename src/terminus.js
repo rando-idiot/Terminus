@@ -4,7 +4,7 @@ import { sleep, spawn, randomnumbah } from "./lib/helpers.js";
 import { Achievement } from "./lib/achievements.js";
 import { fish } from "./fish.js";
 import { describe } from "node:test";
-// import "./logi/skills.js"; // this is heavily broken rn, TODO: change this to use class (like achievements)
+// import "./lib/skills.js"; // this is heavily broken rn, TODO: change this to use class (like achievements)
 
 // 0.1.0
 // Rando stops committing to dev
