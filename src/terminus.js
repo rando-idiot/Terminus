@@ -5,8 +5,8 @@ import { Achievement } from "./lib/achievements.js";
 import { fish } from "./fish.js";
 // import "./lib/skills.js"; // this is heavily broken rn, TODO: change this to use class (like achievements)
 
-// 0.1.0
-// Rando stops committing to dev
+// 0.2.5
+// A lot of patches and fishing was added
 
 function greetMessage() {
     let date = new Date();
@@ -633,7 +633,7 @@ terminal.addCommand(function loadmygame() {
 
 //Music engine, when adding song(s), place in `mus` folder as a number, then increment game.totalmus by 1. Eg, there are 5 songs, so if you want to add a 6th one, you place it in the mus folder as '6.wav' and set game.totalmus to 6.
 const totalmus = 1
-terminal.addCommand(function musengine() {
+terminal.addCommand(function playasong() {
     let playedsong = (randomnumbah(1, totalmus)) 
     let playedsongdir = "../resources/mus/" + playedsong + ".wav";
     let audio = new Audio(playedsongdir);
