@@ -5,8 +5,8 @@ import { Achievement } from "./lib/achievements.js";
 import { fish } from "./fish.js";
 // import "./lib/skills.js"; // this is heavily broken rn, TODO: change this to use class (like achievements)
 
-// 0.2.5
-// A lot of patches and fishing was added
+// 0.2.6
+// MUSIC RELATED STUFF, SEE COMMIT MSGS
 
 function greetMessage() {
     let date = new Date();
@@ -33,7 +33,7 @@ spawn(async () => {
 
 let game = events({
     terminal: new Terminal(document.body.querySelector("#terminal")),
-    gameverison: "0.1.0",
+    gameverison: "0.2.6",
     unlocks: events({
         begin: false,
         index: false,
