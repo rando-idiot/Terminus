@@ -640,6 +640,5 @@ terminal.addCommand(function playasong() {
     let playedsongdir = "../resources/mus/" + playedsong + ".wav";
     let audio = new Audio(playedsongdir);
     terminal.mus("Now playing: " + playedsong + ".wav")
-    audio.stop();
     audio.play();
 })
