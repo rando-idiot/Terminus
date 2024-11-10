@@ -140,7 +140,7 @@ terminal.addCommand(function fullscreen() {
     console.log("Toggled fullscreen.")
   }
   );
-const DEBUG_MODE = false;
+const DEBUG_MODE = true;
 if (DEBUG_MODE) {
     const debug = [
         //The reason to make this a constant is so i can just organize all of this into one thing. Please do not change.
@@ -156,9 +156,17 @@ if (DEBUG_MODE) {
             game.unlocks.infshop = bool;
         }),
         terminal.addCommand(function dumpgame() {
-            terminal.log(game)
-            console.log(game)
+            terminal.debug(JSON.stringify(game))
+            console.log(JSON.stringify(game))
         }),
+        terminal.addCommand(function terminaltest() {
+            terminal.log("TERMINAL.LOG")
+            terminal.warn("TERMINAL.WARN")
+            terminal.error("TERMINAL.ERROR")
+            terminal.mus("TERMINAL.MUS")
+            terminal.debug("TERMINAL.DEBUG")
+            terminal.break();
+        })
     ];
 }
 
@@ -639,6 +647,11 @@ terminal.addCommand(function playasong() {
     let playedsong = (randomnumbah(1, game.totalmus)) 
     let playedsongdir = "../resources/mus/" + playedsong + ".wav";
     let audio = new Audio(playedsongdir);
-    terminal.mus("Now playing: " + playedsong + ".wav")
+    if (playedsong === 1) {
+        terminal.mus("Terminus Tune -Rando")
+    }
+    else {
+    terminal.mus(playedsong + ".wav")
+    }
     audio.play();
 })

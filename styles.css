@@ -27,7 +27,7 @@ body {
     min-width: 100vw;
     max-width: 100vw;
     
-    background-color: #222;
+    background-color: #222222;
     color: white;
     
     font: var(--terminal-font);
@@ -73,6 +73,17 @@ body {
 #terminal #log > p.mus:nth-child(even) {
     background-color: lightskyblue;
     color: black;
+}
+#terminal #log > p.debug {
+    background-color: green;
+    color: black;
+}
+#terminal #log > p.debug:nth-child(even) {
+    background-color: lime;
+    color: black;
+}
+#terminal #break > p.break {
+    background-color: #222;
 }
 #terminal #log:before {
     content: "";
@@ -135,6 +146,10 @@ body {
         
     }
     #terminal #mus {
+        height: 1.5em;
+        font-size: 3em;
+    }
+    #terminal #break {
         height: 1.5em;
         font-size: 3em;
     }
