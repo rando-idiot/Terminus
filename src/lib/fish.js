@@ -1,5 +1,5 @@
-import { randomnumbah } from "./lib/helpers.js"
-import { Terminal } from "./lib/terminal.js"
+import { randomnumbah } from "./helpers.js"
+import { Terminal } from "./terminal.js"
 
 export class fish {
     constructor(name, desc, price, chance) {
