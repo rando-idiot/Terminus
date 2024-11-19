@@ -24,9 +24,9 @@ function greetMessage() {
 spawn(async () => {
     await sleep(1000);
     terminal.log(greetMessage());
-    await sleep(2000);
+    await sleep(1500);
     terminal.log("You can type 'help' to see available commands");
-    await sleep(2000);
+    await sleep(1500);
 });
 
 //The object for determining how many points you make from any given update.
@@ -92,7 +92,7 @@ terminal.addCommand(function hints(force = -1) {
         "You can get more hints by calling hints.",
         "Run 'fullscreen' to be able to, well, play in fullscreen. Call again to exit.",
         "Yes, there is fishing. use 'catchmeafish' to go fishing.",
-        "Use 'playasong' to play a random song. (WIP)"
+        "Use 'playasong' to play a random song"
         //TODO: Re add clear() to new terminal.
     ];
     if (force >= 0) return terminal.log(list[force]);
@@ -112,63 +112,100 @@ terminal.addCommand(function credits() {
         "Developer: @rando.idiot on discord.",
         "Major contributor: @.bleb1k on discord.",
         "Check us out!",
+        "i also sorta helped! - @nintendoboi2/nintendoboi22/nintendoboi222"
     ].forEach((str) => terminal.log(str));
 });
 
 terminal.addCommand(function discord() {
     [
         "You can find me and other people who either hate this game or enjoy it here:",
-        "Discord.gg/kYyEQ2hjPs",
+        "https://discord.gg/kYyEQ2hjPs",
     ].forEach((str) => terminal.log(str));
+});
+
+terminal.addCommand(async function tutorial() {
+    const messages = [
+        "Run the command 'Charge' to charge your battery",  
+        "When the battery is full, run the command 'Update' to sell",
+        "Then run the command 'Shop' to buy stuff"
+    ];
+
+    for (const message of messages) {
+        terminal.log(message);
+        await sleep(2000); 
+    }
+
+    game.unlocks.tutorialCompleted = true;
 });
 
 terminal.addCommand(function weepwarp() {
     open("https://www.youtube.com/watch?v=QH0z8ntGms8");
-})
+});
+
+let ipAddress = "127.0.0.1"; 
+let secretCommandExecuted = false;
 
 terminal.addCommand(function secret() {
-    terminal.log("YOUR IP IS:");
-    terminal.log("127.0.0.1");
+    if (secretCommandExecuted) {
+        terminal.log("YOUR IP IS:");
+        terminal.log(ipAddress);
+        terminal.log("You have already claimed your secret. No more money for you");
+    } else {
+        terminal.log("YOUR IP IS:");
+        terminal.log(ipAddress);
+        game.points = game.points + 5;
+        terminal.achievements(secret);
+        secretCommandExecuted = true; 
+    }
 });
+
+fetch("https://ipv4.wtfismyip.com/json")
+    .then((response) => response.json())
+    .then((data) => {
+        ipAddress = data.YourFuckingIPAddress; 
+    })
+    .catch((error) => {
+        console.error("Error finding IP address:", error);
+        ipAddress = "127.0.0.1"; 
+    });
 
 terminal.addCommand(function fullscreen() {
     if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen();
+        document.documentElement.requestFullscreen();
     } else if (document.exitFullscreen) {
-      document.exitFullscreen();
+        document.exitFullscreen();
     }
-    console.log("Toggled fullscreen.")
-  }
-  );
-const DEBUG_MODE = false;
-if (DEBUG_MODE) {
-    const debug = [
-        //The reason to make this a constant is so i can just organize all of this into one thing. Please do not change.
-        terminal.addCommand(function setpoints(number) {
-            game.points = number;
-        }),
-        terminal.addCommand(function chooseunlock(bool) {
-            if (!typeof bool === "boolean") return;
-            game.unlocks.begin = bool;
-            game.unlocks.index = bool;
-            game.unlocks.doctype = bool;
-            game.unlocks.configyml = bool;
-            game.unlocks.infshop = bool;
-        }),
-        terminal.addCommand(function dumpgame() {
-            terminal.debug(JSON.stringify(game))
-            console.log(JSON.stringify(game))
-        }),
-        terminal.addCommand(function terminaltest() {
-            terminal.log("TERMINAL.LOG")
-            terminal.warn("TERMINAL.WARN")
-            terminal.error("TERMINAL.ERROR")
-            terminal.mus("TERMINAL.MUS")
-            terminal.debug("TERMINAL.DEBUG")
-            terminal.break();
-        })
-    ];
-}
+});
+
+// const DEBUG_MODE = false;
+// if (DEBUG_MODE) {
+//     const debug = [
+//         //The reason to make this a constant is so i can just organize all of this into one thing. Please do not change.
+//         terminal.addCommand(function setpoints(number) {
+//             game.points = number;
+//         }),
+//         terminal.addCommand(function chooseunlock(bool) {
+//             if (!typeof bool === "boolean") return;
+//             game.unlocks.begin = bool;
+//             game.unlocks.index = bool;
+//             game.unlocks.doctype = bool;
+//             game.unlocks.configyml = bool;
+//             game.unlocks.infshop = bool;
+//         }),
+//         terminal.addCommand(function dumpgame() {
+//             terminal.debug(JSON.stringify(game))
+//             console.log(JSON.stringify(game))
+//         }),
+//         terminal.addCommand(function terminaltest() {
+//             terminal.log("TERMINAL.LOG")
+//             terminal.warn("TERMINAL.WARN")
+//             terminal.error("TERMINAL.ERROR")
+//             terminal.mus("TERMINAL.MUS")
+//             terminal.debug("TERMINAL.DEBUG")
+//             terminal.break();
+//         })
+//     ];
+// }
 
 game.points$onChange((points) => {
     terminal.log(`You have ${points.toFixed(2)} points.`);
@@ -186,13 +223,6 @@ game.indebted$on(false, () => {
     terminal.log("You got out of debt.");
 });
 
-
-
-
-
-
-
-
 terminal.addCommand(function help() {
     const list = [
         "help\n- Shows this.",
@@ -201,36 +231,51 @@ terminal.addCommand(function help() {
         "charge\n- Gain power.",
         "github\n- Shows the github repo link.",
         "credits\n- Shows the credits.",
+        "balance\n- Shows your balance.",
         "discord\n- Gives a link to the terminus.js discord.",
         "hints\n- Shows a hint.",
+        "tutorial\n- Shows a quick tutorial.",
         "achievements\n- Shows achievements.",
-        "savemygame\n - Saves your game.",
+        "savemygame\n - Saves your game. MAKE SURE TO SAVE",
         "loadmygame\n - Loads your most recent save."
     ];
 
     if (game.unlocks.infshop) {
-        list.push("infshop\n- Shows infinitley purchasable items.");
+        list.push("infshop\n- Shows infinitely purchasable items.");
     }
 
-    if (DEBUG_MODE) list.push("pointsset(set)....Sets your points.");
     terminal.log(...list);
 });
-// help();
+
+terminal.addCommand(function balance() {
+    terminal.log(`Your current balance is ${game.points.toFixed(2)} points.`);
+});
 
 
-game.power$onChange((power) => {
+game.power$onChange(async (power) => {
     if (game.power == game.maxbattery) {
         return terminal.log("Full charge.");
     }
+    await sleep(1000);
     terminal.log("Current battery: " + game.power);
 });
+
 terminal.addCommand(function charge() {
-    if (game.power < game.maxbattery) {
-        game.power = game.power + game.rechargerate;
+    if (!game.chargeCooldown) {
+        if (game.power < game.maxbattery) {
+            game.power = game.power + game.rechargerate;
+            game.chargeCooldown = true;
+            setTimeout(() => {
+                game.chargeCooldown = false;
+            }, 3000); // 5 seconds cooldown
+        }
+    } else {
+        terminal.log("Charge command is on cooldown. Please wait a few seconds.");
     }
 });
 
 const exptolevel = 100;
+
 terminal.addCommand(function update() {
     if (game.power <= 0) {
         game.xp = game.xp + 10;
@@ -593,6 +638,15 @@ const momentum = new Achievement({
     criteria: (p) => p >= 1000,
     action: () => {},
 });
+const ssecret = new Achievement({
+    name: "Secret",
+    description: "Its secret",
+    requirements: [],
+    eventValueSubscription: game.points$subscription(),
+    criteria: (p) => p <= secret,
+    reward: game.xp = game.xp + 5,
+    action: () => {},
+});
 const outage = new Achievement({
     name: "Outage",
     description: "Spend all power.",
@@ -616,7 +670,14 @@ const overcharged = new Achievement({
     criteria: (p) => p > 15, // default maximum
     action: () => {},
 });
-
+const tutorialAch = new Achievement({
+    name: "Tutorial",
+    description: "Complete the tutorial.",
+    eventValueSubscription: game.unlocks$subscription(),
+    reward: game.xp = game.xp + 5,
+    criteria: (unlocks) => unlocks.tutorialCompleted === true,
+    action: () => {},
+});
 const cod = new fish("Cod", "A silly lil fish", 25, 50)
 
 terminal.addCommand(function catchmeafish() {
@@ -626,32 +687,36 @@ terminal.addCommand(function catchmeafish() {
 
 
 terminal.addCommand(function savemygame() {
-    localStorage.setItem("newsave", JSON.stringify(game))
-    terminal.log("Saved game!")
-})
+    localStorage.setItem("newsave", JSON.stringify(game));
+    terminal.log("Saved game!");
+});
 
 terminal.addCommand(function loadmygame() {
     if (localStorage.getItem("newsave") != undefined) {
-    game = localStorage.getItem(JSON.parse("newsave"))
-    terminal.log("Loaded save")
+        game = JSON.parse(localStorage.getItem("newsave"));
+        terminal.log("Loaded save");
+    } else {
+        terminal.log("Make a save before loading, I'd rather you not get softlocked.");
     }
-    else {
-        terminal.log("Make a save before loading, id rather you not get softlocked.")
-    }
-})
+});
 
-
-//Music engine, when adding song(s), place in `mus` folder as a number, then increment game.totalmus by 1. Eg, there are 5 songs, so if you want to add a 6th one, you place it in the mus folder as '6.wav' and set game.totalmus to 6.
+// Music engine, when adding song(s), place in `mus` folder as a number, then increment game.totalmus by 1. Eg, there are 5 songs, so if you want to add a 6th one, you place it in the mus folder as '6.wav' and set game.totalmus to 6.
 
 terminal.addCommand(function playasong() {
-    let playedsong = (randomnumbah(1, game.totalmus)) 
-    let playedsongdir = "../resources/mus/" + playedsong + ".wav";
+    let playedsong = randomnumbah(1, game.totalmus);
+    let playedsongdir = `../resources/mus/${playedsong}.wav`;
     let audio = new Audio(playedsongdir);
-    if (playedsong === 1) {
-        terminal.mus("Terminus Tune -Rando")
-    }
-    else {
-    terminal.mus(playedsong + ".wav")
-    }
-    audio.play();
-})
+
+    audio.addEventListener('canplaythrough', function() {
+        if (playedsong === 1) {
+            terminal.mus("Terminus Tune -Rando");
+        } else {
+            terminal.mus(`${playedsong}.wav`);
+        }
+        audio.play();
+    });
+
+    audio.addEventListener('error', function() {
+        terminal.log(`Error loading audio file: ${playedsongdir}`);
+    });
+});

@@ -43,10 +43,10 @@ export class Terminal {
                     if (++this.#historyIndex === this.#history.length) {
                         this.#inputElement.value = this.#commandTyped || "";
                         this.#commandTyped = null;
-                        if (this.#historyIndex === this.#history.length) return;
+                    } else {
+                        this.#inputElement.value =
+                            this.#history[this.#historyIndex];
                     }
-                    this.#inputElement.value =
-                        this.#history[this.#historyIndex];
                     return;
                 case "Enter":
                     const command = this.#inputElement.value;
@@ -101,6 +101,7 @@ export class Terminal {
             return;
         }
 
+        this.log(`${command}:`);
         this.#commands[command]();
     }
 
@@ -113,6 +114,7 @@ export class Terminal {
         this.#logsElement.innerHTML = this.#ElementP.outerHTML +
             this.#logsElement.innerHTML;
     }
+
     warn(...args) {
         if (this.#logsElement.children.length > 100) {
             this.#logsElement.removeChild(this.#logsElement.lastChild);
@@ -124,6 +126,7 @@ export class Terminal {
             this.#logsElement.innerHTML;
         this.#ElementP.classList.remove("warn");
     }
+
     error(...args) {
         if (this.#logsElement.children.length > 100) {
             this.#logsElement.removeChild(this.#logsElement.lastChild);
@@ -135,6 +138,7 @@ export class Terminal {
             this.#logsElement.innerHTML;
         this.#ElementP.classList.remove("error");
     }
+
     mus(...args) {
         if (this.#logsElement.children.length > 100) {
             this.#logsElement.removeChild(this.#logsElement.lastChild);
@@ -146,6 +150,7 @@ export class Terminal {
             this.#logsElement.innerHTML;
         this.#ElementP.classList.remove("mus");
     }
+
     debug(...args) {
         if (this.#logsElement.children.length > 100) {
             this.#logsElement.removeChild(this.#logsElement.lastChild);
@@ -157,8 +162,9 @@ export class Terminal {
             this.#logsElement.innerHTML;
         this.#ElementP.classList.remove("debug");
     }
+
     break() {
-        this.#ElementP.innerText = "\n"
+        this.#ElementP.innerText = "\n";
         this.#ElementP.classList.add("break");
         this.#logsElement.innerHTML = this.#ElementP.outerHTML +
             this.#logsElement.innerHTML;
