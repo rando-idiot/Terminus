@@ -140,13 +140,10 @@ terminal.addCommand(function fullscreen() {
     console.log("Toggled fullscreen.")
   }
   );
-const DEBUG_MODE = false;
+const DEBUG_MODE = true;
 if (DEBUG_MODE) {
     const debug = [
         //The reason to make this a constant is so i can just organize all of this into one thing. Please do not change.
-        terminal.addCommand(function setpoints(number) {
-            game.points = number;
-        }),
         terminal.addCommand(function chooseunlock(bool) {
             if (!typeof bool === "boolean") return;
             game.unlocks.begin = bool;
@@ -165,6 +162,7 @@ if (DEBUG_MODE) {
             terminal.error("TERMINAL.ERROR")
             terminal.mus("TERMINAL.MUS")
             terminal.debug("TERMINAL.DEBUG")
+            terminal.display();
             terminal.break();
         })
     ];
@@ -212,7 +210,6 @@ terminal.addCommand(function help() {
         list.push("infshop\n- Shows infinitley purchasable items.");
     }
 
-    if (DEBUG_MODE) list.push("pointsset(set)....Sets your points.");
     terminal.log(...list);
 });
 // help();
