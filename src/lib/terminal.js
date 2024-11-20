@@ -1,5 +1,5 @@
 import { sleep } from "./helpers.js";
-
+import { game } from "./gamestate.js";
 export class Terminal {
     /** @type {string[]} */
     #logs = [];
