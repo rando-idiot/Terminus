@@ -88,6 +88,10 @@ body {
     background-color: gray;
     border-color: white;
 }
+#terminal #log > p.pointsdisplay:nth-child(even) {
+    background-color: gray;
+    border-color: white;
+}
 #terminal #log:before {
     content: "";
     display: block;
