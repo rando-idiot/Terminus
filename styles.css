@@ -16,7 +16,6 @@ body {
     margin: 0;
     height: 100vh;
 }
-
 #terminal {
     display: flex;
     flex-direction: column-reverse;
@@ -82,8 +81,12 @@ body {
     background-color: lime;
     color: black;
 }
-#terminal #break > p.break {
+#terminal #log > p.break {
     background-color: #222;
+}
+#terminal #log > p.pointsdisplay {
+    background-color: gray;
+    border-color: white;
 }
 #terminal #log:before {
     content: "";

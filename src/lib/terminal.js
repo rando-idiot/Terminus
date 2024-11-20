@@ -164,4 +164,11 @@ export class Terminal {
             this.#logsElement.innerHTML;
         this.#ElementP.classList.remove("break");
     }
+    updatepoints() {
+        this.#ElementP.innerText = game.points
+        this.#ElementP.classList.add("pointsdisplay");
+        this.#logsElement.innerHTML = this.#ElementP.outerHTML +
+            this.#logsElement.innerHTML;
+        this.#ElementP.classList.remove("pointsdisplay");
+    }
 }
