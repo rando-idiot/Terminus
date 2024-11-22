@@ -1,4 +1,3 @@
-import { events } from "./lib/events.js";
 import { Terminal } from "./lib/terminal.js";
 import { sleep, spawn, randomnumbah } from "./lib/helpers.js";
 import { Achievement } from "./lib/achievements.js";
@@ -8,7 +7,6 @@ import { game } from "./lib/gamestate.js";
 
 // 0.2.6
 // MUSIC RELATED STUFF, SEE COMMIT MSGS
-
 function greetMessage() {
     let date = new Date();
     if (randomnumbah(0, 10000) == 1) {

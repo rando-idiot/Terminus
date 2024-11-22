@@ -1,6 +1,6 @@
-import { events } from "./lib/events.js";
+import { events } from "./events.js";
+import { Terminal } from "./terminal.js";
 export let game = events({
-    terminal: new Terminal(document.body.querySelector("#terminal")),
     gameverison: "0.2.6",
     unlocks: events({
         begin: false,

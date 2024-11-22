@@ -164,8 +164,8 @@ export class Terminal {
             this.#logsElement.innerHTML;
         this.#ElementP.classList.remove("break");
     }
-    display() {
-        this.#ElementP.innerText = game.points
+    display(varnme, givenvar1) {
+        this.#ElementP.innerText = varname + ": " + givenvar
         this.#ElementP.classList.add("pointsdisplay");
         this.#logsElement.innerHTML = this.#ElementP.outerHTML +
             this.#logsElement.innerHTML;
