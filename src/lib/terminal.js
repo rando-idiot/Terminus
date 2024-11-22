@@ -104,7 +104,8 @@ export class Terminal {
         this.#commands[command]();
     }
 
-    log(...args) {
+    log(test, ...args) {
+            if (test === undefined) {
         if (this.#logsElement.children.length > 100) {
             this.#logsElement.removeChild(this.#logsElement.lastChild);
         }
@@ -112,6 +113,7 @@ export class Terminal {
         this.#ElementP.innerText = args.join(this.#joinLine);
         this.#logsElement.innerHTML = this.#ElementP.outerHTML +
             this.#logsElement.innerHTML;
+        }
     }
     warn(...args) {
         if (this.#logsElement.children.length > 100) {

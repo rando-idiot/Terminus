@@ -53,6 +53,9 @@ body {
 #terminal #log > p:nth-child(even) {
     background-color: #4448;
 }
+#terminal #log > p.italic {
+    font-style: italic;
+}
 #terminal #log > p.error {
     background-color: #a338;
 }
