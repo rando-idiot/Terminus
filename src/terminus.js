@@ -2,7 +2,6 @@ import { Terminal } from "./lib/terminal.js";
 import { sleep, spawn, randomnumbah } from "./lib/helpers.js";
 import { Achievement } from "./lib/achievements.js";
 import { fish } from "./lib/fish.js";
-import { game } from "./lib/gamestate.js";
 // import "./lib/skills.js"; // this is heavily broken rn, TODO: change this to use class (like achievements)
 
 // 0.2.6
