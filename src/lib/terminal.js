@@ -1,4 +1,4 @@
-import { sleep } from "./helpers.js";
+import { isNumber, sleep } from "./helpers.js";
 
 export class Terminal {
     /** @type {string[]} */
@@ -96,15 +96,20 @@ export class Terminal {
     }
 
     #run(rawCommand) {
-        console.log(rawCommand.split(" "));
-        const [command, args] = rawCommand.split(" ");
+        let [command, ...args] = rawCommand.split(" ");
 
         if (!this.#commands[command]) {
             this.error(`Command ${command} does not exist.`);
             return;
         }
 
-        this.#commands[command](...(args || []));
+        args = args.map((arg) => (isNumber(arg) ? Number(arg) : arg));
+
+        try {
+            this.#commands[command](...(args || []));
+        } catch (err) {
+            this.error(err);
+        }
     }
 
     log(...args) {
