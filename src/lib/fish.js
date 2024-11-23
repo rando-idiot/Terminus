@@ -1,4 +1,4 @@
-import { randomnumbah } from "./helpers.js"
+import { randomnumber } from "./helpers.js"
 import { Terminal } from "./terminal.js"
 
 export class fish {
@@ -9,7 +9,7 @@ export class fish {
         this.chance = chance //Out of 100
     }
         catchafish() {
-            let didyacatchit = randomnumbah(1, 100)
+            let didyacatchit = randomnumber(1, 100)
             if (didyacatchit >= 0 && didyacatchit <= this.chance) {
                 terminal.log("log", "You caught a" + this.name + "!");
                 terminal.log("log", "''" + this.desc + "''");

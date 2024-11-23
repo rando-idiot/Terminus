@@ -1,5 +1,5 @@
 import { Terminal } from "./lib/terminal.js";
-import { sleep, spawn, randomnumbah } from "./lib/helpers.js";
+import { sleep, spawn, randomnumber } from "./lib/helpers.js";
 import { Achievement } from "./lib/achievements.js";
 import { fish } from "./lib/fish.js";
 import { events } from "./lib/events.js";
@@ -59,7 +59,7 @@ let game = events({
 // MUSIC RELATED STUFF, SEE COMMIT MSGS
 function greetMessage() {
     let date = new Date();
-    if (randomnumbah(0, 10000) == 1) {
+    if (randomnumber(0, 10000) == 1) {
         return "Unwelcome to AntiTerminus.";
     } else if (date.getMonth() == 0 && getDate() == 1) {
         return "Happy New Year! Welcome to Terminus.";
@@ -642,7 +642,7 @@ terminal.addCommand(function loadmygame() {
 //Music engine, when adding song(s), place in `mus` folder as a number, then increment game.totalmus by 1. Eg, there are 5 songs, so if you want to add a 6th one, you place it in the mus folder as '6.wav' and set game.totalmus to 6.
 
 terminal.addCommand(function playasong() {
-    let playedsong = (randomnumbah(1, game.totalmus)) 
+    let playedsong = (randomnumber(1, game.totalmus)) 
     let playedsongdir = "../resources/mus/" + playedsong + ".wav";
     let audio = new Audio(playedsongdir);
     if (playedsong === 1) {
