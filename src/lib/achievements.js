@@ -30,7 +30,7 @@ export class Achievement {
      *     description: "Achievement example.",
      *     eventValue: "points",
      *     criteria: (p) => p >= 1,
-     *     action: () => terminal.log("New Achievement: Well, it's a start."),
+     *     action: () => terminal.log("log", "New Achievement: Well, it's a start."),
      * })
      * @param {Object} parameters
      * @param {Number} parameters.name
@@ -58,7 +58,7 @@ export class Achievement {
                         other.parents.every((p) => Achievement.#all[p].achieved)
                     ) other.#visible = true;
                 });
-                Achievement.#terminal.log("New Achievement: " + this.name);
+                Achievement.#terminal.log("log", "New Achievement: " + this.name);
                 parameters.action();
             },
             { once: true },

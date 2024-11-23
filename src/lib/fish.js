@@ -11,8 +11,8 @@ export class fish {
         catchafish() {
             let didyacatchit = randomnumbah(1, 100)
             if (didyacatchit >= 0 && didyacatchit <= this.chance) {
-                Terminal.log("You caught a" + this.name + "!");
-                Terminal.log("''" + this.desc + "''");
+                terminal.log("log", "You caught a" + this.name + "!");
+                terminal.log("log", "''" + this.desc + "''");
                 game.points += this.price
             }
         }

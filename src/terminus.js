@@ -72,9 +72,9 @@ function greetMessage() {
 // Wow, fancy! :)
 spawn(async () => {
     await sleep(1000);
-    terminal.log(greetMessage());
+    terminal.log("log", greetMessage());
     await sleep(2000);
-    terminal.log("You can type 'help' to see available commands");
+    terminal.log("log", "You can type 'help' to see available commands");
     await sleep(2000);
 });
 
@@ -93,16 +93,16 @@ terminal.addCommand(function hints(force = -1) {
         "Use 'playasong' to play a random song. (WIP)"
         //TODO: Re add clear() to new terminal.
     ];
-    if (force >= 0) return terminal.log(list[force]);
-    terminal.log(list[Math.floor(Math.random() * list.length)]);
+    if (force >= 0) return terminal.log("log", list[force]);
+    terminal.log("log", list[Math.floor(Math.random() * list.length)]);
 });
 
 terminal.addCommand(function achievements() {
-    terminal.log(Achievement.all());
+    terminal.log("log", Achievement.all());
 });
 
 terminal.addCommand(function github() {
-    terminal.log("https://github.com/rando-idiot/Terminus.JS");
+    terminal.log("log", "https://github.com/rando-idiot/Terminus.JS");
 });
 
 terminal.addCommand(function credits() {
@@ -110,14 +110,14 @@ terminal.addCommand(function credits() {
         "Developer: @rando.idiot on discord.",
         "Major contributor: @.bleb1k on discord.",
         "Check us out!",
-    ].forEach((str) => terminal.log(str));
+    ].forEach((str) => terminal.log("log", str));
 });
 
 terminal.addCommand(function discord() {
     [
         "You can find me and other people who either hate this game or enjoy it here:",
         "Discord.gg/kYyEQ2hjPs",
-    ].forEach((str) => terminal.log(str));
+    ].forEach((str) => terminal.log("log", str));
 });
 
 terminal.addCommand(function weepwarp() {
@@ -125,8 +125,8 @@ terminal.addCommand(function weepwarp() {
 })
 
 terminal.addCommand(function secret() {
-    terminal.log("YOUR IP IS:");
-    terminal.log("127.0.0.1");
+    terminal.log("log", "YOUR IP IS:");
+    terminal.log("log", "127.0.0.1");
 });
 
 terminal.addCommand(function fullscreen() {
@@ -158,7 +158,7 @@ if (DEBUG_MODE) {
             console.log(JSON.stringify(game))
         }),
         terminal.addCommand(function terminaltest() {
-            terminal.log("TERMINAL.LOG")
+            terminal.log("log", "TERMINAL.LOG")
             terminal.warn("TERMINAL.WARN")
             terminal.error("TERMINAL.ERROR")
             terminal.mus("TERMINAL.MUS")
@@ -170,7 +170,7 @@ if (DEBUG_MODE) {
 }
 
 game.points$onChange((points) => {
-    terminal.log(`You have ${points.toFixed(2)} points.`);
+    terminal.log("log", `You have ${points.toFixed(2)} points.`);
     if (!game.indebted && points < 0) {
         game.indebted = true;
     } else if (game.indebted && points > 0) {
@@ -179,10 +179,10 @@ game.points$onChange((points) => {
 });
 
 game.indebted$on(true, () => {
-    terminal.log("You are in debt.");
+    terminal.log("log", "You are in debt.");
 });
 game.indebted$on(false, () => {
-    terminal.log("You got out of debt.");
+    terminal.log("log", "You got out of debt.");
 });
 
 
@@ -211,16 +211,16 @@ terminal.addCommand(function help() {
         list.push("infshop\n- Shows infinitley purchasable items.");
     }
 
-    terminal.log(...list);
+    terminal.log("log", ...list);
 });
 // help();
 
 
 game.power$onChange((power) => {
     if (game.power == game.maxbattery) {
-        return terminal.log("Full charge.");
+        return terminal.log("log", "Full charge.");
     }
-    terminal.log("Current battery: " + game.power);
+    terminal.log("log", "Current battery: " + game.power);
 });
 terminal.addCommand(function charge() {
     if (game.power < game.maxbattery) {
@@ -232,10 +232,10 @@ const exptolevel = 100;
 terminal.addCommand(function update() {
     if (game.power <= 0) {
         game.xp = game.xp + 10;
-        terminal.log("Gained 10 exp.");
+        terminal.log("log", "Gained 10 exp.");
         if (game.xp == exptolevel) {
             game.skillpoints = game.skillpoints + 1;
-            terminal.log("Leveled up!");
+            terminal.log("log", "Leveled up!");
         }
         return;
     }
@@ -247,7 +247,7 @@ terminal.addCommand(function update() {
 });
 
 terminal.addCommand(function shop() {
-    terminal.log(...[
+    terminal.log("log", ...[
         "begin: $5.........The beginning",
         "index: $20........index.html",
         "doctype: $50......<!DOCTYPE HTML>",
@@ -265,39 +265,39 @@ terminal.addCommand(function shop() {
 game.unlocks.begin$on(true, () => {
     game.basegain = 10;
     game.points -= 5
-    terminal.log("Began!");
+    terminal.log("log", "Began!");
 });
 terminal.addCommand(function begin() {
-    if (game.indebted) return terminal.log("Cannot afford!");
+    if (game.indebted) return terminal.log("log", "Cannot afford!");
     game.unlocks.begin = true;
     terminal.changeCommand(function begin() {
-        terminal.log("You already began.");
+        terminal.log("log", "You already began.");
     });
 });
 
 game.unlocks.index$on(true, () => {
     game.steptwomult += 0.5;
     game.points -= 20
-    terminal.log("Created index.html!");
+    terminal.log("log", "Created index.html!");
 });
 terminal.addCommand(function index() {
-    if (game.indebted) return terminal.log("Cannot afford!");
+    if (game.indebted) return terminal.log("log", "Cannot afford!");
     game.unlocks.index = true;
     terminal.changeCommand(function index() {
-        terminal.log("You already created index.html");
+        terminal.log("log", "You already created index.html");
     });
 });
 
 game.unlocks.doctype$on(true, () => {
     game.stepthreemult += 0.5;
     game.points -= 50;
-    terminal.log("Added <!DOCTYPE HTML>!\n");
+    terminal.log("log", "Added <!DOCTYPE HTML>!\n");
 });
 terminal.addCommand(function doctype() {
-    if (game.indebted) return terminal.log("Cannot afford!");
+    if (game.indebted) return terminal.log("log", "Cannot afford!");
     game.unlocks.doctype = true;
     terminal.changeCommand(function doctype() {
-        terminal.log(
+        terminal.log("log", 
             "You- YOU ALREADY ADDED <!DOCTYPE HTML> YOU DONT NEED TO PUT IT EVERY TIME YOU ADD <BODY> STOP PLEASE",
         );
     });
@@ -306,13 +306,13 @@ terminal.addCommand(function doctype() {
 game.unlocks.configyml$on(true, () => {
     game.stepfourmult *= 2;
     game.points -= 100;
-    terminal.log("Created config.yml!");
+    terminal.log("log", "Created config.yml!");
 });
 terminal.addCommand(function configyml() {
-    if (game.indebted) return terminal.log("Cannot afford!");
+    if (game.indebted) return terminal.log("log", "Cannot afford!");
     game.unlocks.configyml = true;
     terminal.changeCommand(function configyml() {
-        terminal.log("You already created config.yml");
+        terminal.log("log", "You already created config.yml");
     });
 });
 
@@ -333,11 +333,11 @@ game.upgstage$on(2, () =>
     }));
 game.upgstage$on(3, () =>
     terminal.changeCommand(function push3() {
-        terminal.log("Please don't try this again, it's not funny");
+        terminal.log("log", "Please don't try this again, it's not funny");
     }));
 terminal.addCommand(function push() {
     if (game.indebted) {
-        return terminal.log("you are brokies :3");
+        return terminal.log("log", "you are brokies :3");
     }
 
     game.unlocks.infshop = true;
@@ -346,7 +346,7 @@ terminal.addCommand(function push() {
 });
 
 game.unlocks.infshop$on(true, () => {
-    terminal.log("You've unlocked the infshop. Check 'help' for details.");
+    terminal.log("log", "You've unlocked the infshop. Check 'help' for details.");
     terminal.changeCommand(function infshop() {
         let list = game.upgstage === 1
             ? [ // todo: Export cost calculations
@@ -394,18 +394,18 @@ game.unlocks.infshop$on(true, () => {
         ];
 
 
-        terminal.log(...list);
+        terminal.log("log", ...list);
     });
 });
 
 terminal.addCommand(function infshop() {
-    terminal.log("You have not unlocked infinite upgrades.");
+    terminal.log("log", "You have not unlocked infinite upgrades.");
 });
 
 game.upgstage$on(1, () => {
     terminal.changeCommand(function stepone() {
         if (game.indebted) {
-            return terminal.log("You don't have enough money");
+            return terminal.log("log", "You don't have enough money");
         }
 
         game.points -= 5 +
@@ -413,56 +413,56 @@ game.upgstage$on(1, () => {
         game.steponeadd += game.upgradebonus;
         game.upgpriceboost += 5;
 
-        terminal.log("purchased stepone;");
+        terminal.log("log", "purchased stepone;");
     });
 
     terminal.changeCommand(function steptwo() {
-        if (game.indebted) return terminal.log("You don't have enough money");
+        if (game.indebted) return terminal.log("log", "You don't have enough money");
 
         game.points -= 25 +
             game.upgpriceboost * game.upgpriceboost;
         game.steptwomult += game.upgradebonus;
         game.upgpriceboost += 5;
 
-        terminal.log("purchased steptwo;");
+        terminal.log("log", "purchased steptwo;");
     });
 
     terminal.changeCommand(function stepthree() {
-        if (game.indebted) return terminal.log("You don't have enough money");
+        if (game.indebted) return terminal.log("log", "You don't have enough money");
 
         game.points -= 25 +
             game.upgpriceboost * game.upgpriceboost;
         game.stepthreemult += game.upgradebonus;
         game.upgpriceboost += 5;
 
-        terminal.log("purchased stepthree;");
+        terminal.log("log", "purchased stepthree;");
     });
 
     terminal.changeCommand(function stepfour() {
-        if (game.indebted) return terminal.log("You don't have enough money");
+        if (game.indebted) return terminal.log("log", "You don't have enough money");
 
         game.points -= 2 +
             game.upgpriceboost * game.upgpriceboost;
         game.stepfouradd += game.upgradebonus;
         game.upgpriceboost += 5;
 
-        terminal.log("purchased stepfour;");
+        terminal.log("log", "purchased stepfour;");
     });
 
     terminal.changeCommand(function baseup() {
-        if (game.indebted) return terminal.log("You don't have enough money");
+        if (game.indebted) return terminal.log("log", "You don't have enough money");
 
         game.points -= 500 +
             game.upgpriceboost * game.upgpriceboost;
         game.basegain += game.upgradebonus;
         game.upgpriceboost += 5;
 
-        terminal.log("purchased baseup;");
+        terminal.log("log", "purchased baseup;");
     });
 
     terminal.changeCommand(function upgbonus() {
         if (game.indebted) {
-            return terminal.log("You don't have enough money");
+            return terminal.log("log", "You don't have enough money");
         }
 
         game.points -= 100 +
@@ -470,14 +470,14 @@ game.upgstage$on(1, () => {
         game.upgradebonus += 0.1;
         game.upgpriceboost += 5;
 
-        terminal.log("purchased upgradebonus;");
+        terminal.log("log", "purchased upgradebonus;");
     });
 });
 
 game.upgstage$on(2, () => {
     terminal.changeCommand(function stepone() {
         if (game.indebted) {
-            return terminal.log("You don't have enough money");
+            return terminal.log("log", "You don't have enough money");
         }
 
         game.points -= 20 +
@@ -485,12 +485,12 @@ game.upgstage$on(2, () => {
         game.steponeadd += game.upgradebonus;
         game.upgpriceboost += 5;
 
-        terminal.log("purchased stepone;");
+        terminal.log("log", "purchased stepone;");
     });
 
     terminal.changeCommand(function steptwo() {
         if (game.indebted) {
-            return terminal.log("You don't have enough money");
+            return terminal.log("log", "You don't have enough money");
         }
 
         game.points -= 100 +
@@ -498,12 +498,12 @@ game.upgstage$on(2, () => {
         game.steptwomult += game.upgradebonus;
         game.upgpriceboost += 5;
 
-        terminal.log("purchased steptwo;");
+        terminal.log("log", "purchased steptwo;");
     });
 
     terminal.changeCommand(function stepthree() {
         if (game.indebted) {
-            return terminal.log("You don't have enough money");
+            return terminal.log("log", "You don't have enough money");
         }
 
         game.points -= 100 +
@@ -511,12 +511,12 @@ game.upgstage$on(2, () => {
         game.stepthreemult += game.upgradebonus;
         game.upgpriceboost += 5;
 
-        terminal.log("purchased stepthree;");
+        terminal.log("log", "purchased stepthree;");
     });
 
     terminal.changeCommand(function stepfour() {
         if (game.indebted) {
-            return terminal.log("You don't have enough money");
+            return terminal.log("log", "You don't have enough money");
         }
 
         game.points -= 8 +
@@ -524,11 +524,11 @@ game.upgstage$on(2, () => {
         game.stepfouradd += game.upgradebonus;
         game.upgpriceboost += 5;
 
-        terminal.log("purchased stepfour;");
+        terminal.log("log", "purchased stepfour;");
     });
     terminal.changeCommand(function maxpowerup() {
         if (game.indebted) {
-            return terminal.log("You don't have enough money");
+            return terminal.log("log", "You don't have enough money");
         }
 
         game.points -= 800 +
@@ -536,34 +536,34 @@ game.upgstage$on(2, () => {
         game.stepfouradd += game.upgradebonus;
         game.maxbattery += 5;
 
-        terminal.log("purchased maxpowerup;");
+        terminal.log("log", "purchased maxpowerup;");
     });
 });
 
 terminal.addCommand(function stepone() {
-    return terminal.log("You have not unlocked infinite upgrades.");
+    return terminal.log("log", "You have not unlocked infinite upgrades.");
 });
 terminal.addCommand(function steptwo() {
-    return terminal.log("You have not unlocked infinite upgrades.");
+    return terminal.log("log", "You have not unlocked infinite upgrades.");
 });
 terminal.addCommand(function stepthree() {
-    return terminal.log("You have not unlocked infinite upgrades.");
+    return terminal.log("log", "You have not unlocked infinite upgrades.");
 });
 terminal.addCommand(function stepfour() {
-    return terminal.log("You have not unlocked infinite upgrades.");
+    return terminal.log("log", "You have not unlocked infinite upgrades.");
 });
 terminal.addCommand(function baseup() {
-    return terminal.log("You have not unlocked infinite upgrades.");
+    return terminal.log("log", "You have not unlocked infinite upgrades.");
 });
 terminal.addCommand(function upgbonus() {
-    return terminal.log("You have not unlocked infinite upgrades.");
+    return terminal.log("log", "You have not unlocked infinite upgrades.");
 });
 terminal.addCommand(function maxpowerup() {
-    return terminal.log("You have not leveled up enough");
+    return terminal.log("log", "You have not leveled up enough");
 });
 
 terminal.addCommand(function helloworld() {
-    terminal.log("Hello world!");
+    terminal.log("log", "Hello world!");
 });
 
 Achievement.init({ terminal });
@@ -597,7 +597,7 @@ const outage = new Achievement({
     eventValueSubscription: game.power$subscription(),
     criteria: (p) => p <= 0,
     action: () => {
-        terminal.log("To recharge power, use 'charge'.");
+        terminal.log("log", "To recharge power, use 'charge'.");
     },
 });
 const fullbattery = new Achievement({
@@ -625,16 +625,16 @@ terminal.addCommand(function catchmeafish() {
 
 terminal.addCommand(function savemygame() {
     localStorage.setItem("newsave", JSON.stringify(game))
-    terminal.log("Saved game!")
+    terminal.log("log", "Saved game!")
 })
 
 terminal.addCommand(function loadmygame() {
     if (localStorage.getItem("newsave") != undefined) {
     game = localStorage.getItem(JSON.parse("newsave"))
-    terminal.log("Loaded save")
+    terminal.log("log", "Loaded save")
     }
     else {
-        terminal.log("Make a save before loading, id rather you not get softlocked.")
+        terminal.log("log", "Make a save before loading, id rather you not get softlocked.")
     }
 })
 

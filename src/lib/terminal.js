@@ -104,7 +104,7 @@ export class Terminal {
     }
 
     log(fonttype, ...args) {
-            if (fonttype === undefined) {
+            if (fonttype === "log") {
         if (this.#logsElement.children.length > 100) {
             this.#logsElement.removeChild(this.#logsElement.lastChild);
         }
