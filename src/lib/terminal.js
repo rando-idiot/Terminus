@@ -103,8 +103,8 @@ export class Terminal {
         this.#commands[command]();
     }
 
-    log(test, ...args) {
-            if (test === undefined) {
+    log(fonttype, ...args) {
+            if (fonttype === undefined) {
         if (this.#logsElement.children.length > 100) {
             this.#logsElement.removeChild(this.#logsElement.lastChild);
         }
@@ -112,6 +112,28 @@ export class Terminal {
         this.#ElementP.innerText = args.join(this.#joinLine);
         this.#logsElement.innerHTML = this.#ElementP.outerHTML +
             this.#logsElement.innerHTML;
+        }
+        else if (fonttype === "italic") {
+            if (this.#logsElement.children.length > 100) {
+                this.#logsElement.removeChild(this.#logsElement.lastChild);
+            }
+    
+            this.#ElementP.innerText = args.join(this.#joinLine);
+            this.#ElementP.classList.add("italic");
+            this.#logsElement.innerHTML = this.#ElementP.outerHTML +
+                this.#logsElement.innerHTML;
+            this.#ElementP.classList.remove("italic");
+        }
+        else if (fonttype === "bold") {
+            if (this.#logsElement.children.length > 100) {
+                this.#logsElement.removeChild(this.#logsElement.lastChild);
+            }
+    
+            this.#ElementP.innerText = args.join(this.#joinLine);
+            this.#ElementP.classList.add("bold");
+            this.#logsElement.innerHTML = this.#ElementP.outerHTML +
+                this.#logsElement.innerHTML;
+            this.#ElementP.classList.remove("bold");
         }
     }
     warn(...args) {

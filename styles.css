@@ -26,7 +26,7 @@ body {
     min-width: 100vw;
     max-width: 100vw;
     
-    background-color: #222222;
+    background-color: black;
     color: white;
     
     font: var(--terminal-font);
@@ -55,6 +55,12 @@ body {
 }
 #terminal #log > p.italic {
     font-style: italic;
+}
+#terminal #log > p.bold {
+    font-weight: bold;
+}
+#terminal #log > p.bolder {
+    font-weight: bolder;
 }
 #terminal #log > p.error {
     background-color: #a338;
