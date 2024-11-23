@@ -351,33 +351,33 @@ game.unlocks.infshop$on(true, () => {
         let list = game.upgstage === 1
             ? [ // todo: Export cost calculations
                 `stepone: $${
-                    5 + game.upgpriceboost
+                    5 + game.upgpriceboost * game.upgpriceboost
                 }\nIncreases step 1 addition`,
                 `steptwo: $${
-                    25 + game.upgpriceboost
+                    25 + game.upgpriceboost * game.upgpriceboost
                 }\nIncreases step 2 multiplier`,
                 `stepthree: $${
-                    25 + game.upgpriceboost
+                    25 + game.upgpriceboost * game.upgpriceboost
                 }\nIncreases step 3 multiplier`,
                 `stepfour: $${
-                    2 + game.upgpriceboost
+                    2 + game.upgpriceboost * game.upgpriceboost
                 }\nIncreases step 4 addition`,
             ]
             : [
                 `stepone: $${
-                    20 + game.upgpriceboost
+                    20 + game.upgpriceboost * game.upgpriceboost
                 }\nIncreases step 1 addition`,
                 `steptwo: $${
-                    100 + game.upgpriceboost
+                    100 + game.upgpriceboost * game.upgpriceboost
                 }\nIncreases step 2 multiplier`,
                 `stepthree: $${
-                    100 + game.upgpriceboost
+                    100 + game.upgpriceboost * game.upgpriceboost
                 }\nIncreases step 3 multiplier`,
                 `stepfour: $${
-                    8 + game.upgpriceboost
+                    8 + game.upgpriceboost * game.upgpriceboost
                 }\nIncreases step 4 addition`,
                 `maxpowerup: $${
-                    800 + game.upgpriceboost
+                    800 + game.upgpriceboost * game.upgpriceboost
                 }\nIncreases the maximum battery.`,
             ];
 
@@ -385,10 +385,10 @@ game.unlocks.infshop$on(true, () => {
             `Stage ${game.upgstage} upgrades`,
             ...list,
             `baseup: $${
-                500 + game.upgpriceboost
+                500 + game.upgpriceboost * game.upgpriceboost
             }\nIncreases the base that is then multiplied etc etc`,
             `upgbonus: $${
-                100 + game.upgpriceboost
+                100 + game.upgpriceboost * game.upgpriceboost
             }\nIncreases how much upgrades upgrade stuff OTHER THAN ITSELF.`,
             `helloworld: $0\nPrints 'Hello world!' in terminal.`,
         ];
