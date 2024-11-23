@@ -129,7 +129,8 @@ body {
     margin-top: 0.1rem;
     height: 1em;
     flex-grow: 0;
-    background-color: #6668;
+    background-color: black;
+    outline-color: white;
     border: none;
     outline: none;
     caret-color: white;

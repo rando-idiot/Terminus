@@ -13,7 +13,28 @@
     <body>
         <div style="flex-grow: 1; height: 800vh"></div>
         <div id="terminal">
-            <input id="input" type="text" />
+            <input id="input" type="text" placeholder="\Terminus>" minlength="1"/>
+        <!-- Script bit for changing the placeholder text of the input to whatever the fuck -->
+            <script>
+                const userAgent = navigator.userAgent;
+                var os = "Unknown OS";
+              
+                if (userAgent.indexOf("Win") != -1) os = "Windows";
+                if (userAgent.indexOf("Mac") != -1) os = "MacOS";
+                if (userAgent.indexOf("Linux") != -1) os = "Linux";
+                var terminaltype
+                if (os == "Linux") {
+                    terminaltype = "admin@terminusgame:"
+                }
+                if (os == "Windows") {
+                    terminaltype = "C:/Users/Admin>" //Cant use \ because javascript fucking sucks, sowwy
+                }
+                if (os == "MacOS") {
+                    terminaltype = "terminusgame:"
+                }
+                let foobar = document.getElementById("input")
+                foobar.placeholder = terminaltype
+                </script>
             <div id="log"></div>
         </div>
     </body>
