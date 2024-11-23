@@ -7,7 +7,7 @@ import { events } from "./lib/events.js";
 
 let game = events({
     terminal: new Terminal(document.body.querySelector("#terminal")),
-    gameverison: "0.2.6",
+    gameverison: "0.2.7",
     unlocks: events({
         begin: false,
         index: false,
@@ -55,7 +55,7 @@ let game = events({
     totalmus: 1,
 });
 
-// 0.2.6
+// 0.2.7
 // MUSIC RELATED STUFF, SEE COMMIT MSGS
 function greetMessage() {
     let date = new Date();
