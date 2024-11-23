@@ -69,10 +69,12 @@ body {
     background-color: red;
 }
 #terminal #log > p.warn {
-    background-color: orange;
+    background-color: rgb(200, 200, 0);
+    color: black
 }
 #terminal #log > p.warn:nth-child(even) {
-    background-color: yellow;
+    background-color: rgb(255, 255, 0);
+    color: black
 }
 #terminal #log > p.mus {
     background-color: lightblue;
