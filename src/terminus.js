@@ -646,7 +646,7 @@ terminal.addCommand(function playasong() {
     let playedsongdir = "../resources/mus/" + playedsong + ".wav";
     let audio = new Audio(playedsongdir);
     if (playedsong === 1) {
-        terminal.mus("Terminus Tune -Rando")
+        terminal.mus("Dogshit -Rando")
     }
     else {
     terminal.mus(playedsong + ".wav")
