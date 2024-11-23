@@ -141,7 +141,7 @@ terminal.addCommand(function fullscreen() {
 
 
 
-const DEBUG_MODE = true;
+const DEBUG_MODE = false;
 if (DEBUG_MODE) {
     const debug = [
         //The reason to make this a constant is so i can just organize all of this into one thing. Please do not change.
