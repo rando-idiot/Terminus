@@ -163,7 +163,7 @@ if (DEBUG_MODE) {
             terminal.error("TERMINAL.ERROR")
             terminal.mus("TERMINAL.MUS")
             terminal.debug("TERMINAL.DEBUG")
-            terminal.display();
+            terminal.display("TERMINAL.DISPLAY", DEBUG_MODE);
             terminal.break();
         })
     ];

@@ -187,7 +187,7 @@ export class Terminal {
             this.#logsElement.innerHTML;
         this.#ElementP.classList.remove("break");
     }
-    display(varnme, givenvar1) {
+    display(varname, givenvar) {
         this.#ElementP.innerText = varname + ": " + givenvar
         this.#ElementP.classList.add("pointsdisplay");
         this.#logsElement.innerHTML = this.#ElementP.outerHTML +
