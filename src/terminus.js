@@ -658,3 +658,10 @@ terminal.addCommand(function playasong() {
     }
     audio.play();
 })
+
+//@AerieTheGamer on discord, you're welcome.
+terminal.addCommand(function classicstyle() {
+    logstyles.log = logstyles.classic;
+    terminal.log(logstyles.classic, "Changed to classic log style!");
+    //TODO: Add classic log style for errors etc.
+})

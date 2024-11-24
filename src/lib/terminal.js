@@ -114,63 +114,16 @@ export class Terminal {
         this.#logsElement.innerHTML = this.#ElementP.outerHTML +
             this.#logsElement.innerHTML;
         }
-        else if (style === "italic") {
-            if (this.#logsElement.children.length > 100) {
-                this.#logsElement.removeChild(this.#logsElement.lastChild);
-            }
-    
-            this.#ElementP.innerText = args.join(this.#joinLine);
-            this.#ElementP.classList.add("italic");
-            this.#logsElement.innerHTML = this.#ElementP.outerHTML +
-                this.#logsElement.innerHTML;
-            this.#ElementP.classList.remove("italic");
-        }
-        else if (style === "bold") {
-            if (this.#logsElement.children.length > 100) {
-                this.#logsElement.removeChild(this.#logsElement.lastChild);
-            }
-    
-            this.#ElementP.innerText = args.join(this.#joinLine);
-            this.#ElementP.classList.add("bold");
-            this.#logsElement.innerHTML = this.#ElementP.outerHTML +
-                this.#logsElement.innerHTML;
-            this.#ElementP.classList.remove("bold");
-        }
-        else if (style === "x2size") {
-            if (this.#logsElement.children.length > 100) {
-                this.#logsElement.removeChild(this.#logsElement.lastChild);
-            }
-    
-            this.#ElementP.innerText = args.join(this.#joinLine);
-            this.#ElementP.classList.add("x2size");
-            this.#logsElement.innerHTML = this.#ElementP.outerHTML +
-                this.#logsElement.innerHTML;
-            this.#ElementP.classList.remove("x2size");
-        }
-        else if (style === "x3size") {
-            if (this.#logsElement.children.length > 100) {
-                this.#logsElement.removeChild(this.#logsElement.lastChild);
-            }
-    
-            this.#ElementP.innerText = args.join(this.#joinLine);
-            this.#ElementP.classList.add("x3size");
-            this.#logsElement.innerHTML = this.#ElementP.outerHTML +
-                this.#logsElement.innerHTML;
-            this.#ElementP.classList.remove("x3size");
-        }
-        else if (style === "classic") {
-            if (this.#logsElement.children.length > 100) {
-                this.#logsElement.removeChild(this.#logsElement.lastChild);
-            }
-    
-            this.#ElementP.innerText = args.join(this.#joinLine);
-            this.#ElementP.classList.add("classic");
-            this.#logsElement.innerHTML = this.#ElementP.outerHTML +
-                this.#logsElement.innerHTML;
-            this.#ElementP.classList.remove("classic");
-        }
         else {
-            this.error("Invalid style.")
+            if (this.#logsElement.children.length > 100) {
+                this.#logsElement.removeChild(this.#logsElement.lastChild);
+            }
+    
+            this.#ElementP.innerText = args.join(this.#joinLine);
+            this.#ElementP.classList.add(style);
+            this.#logsElement.innerHTML = this.#ElementP.outerHTML +
+                this.#logsElement.innerHTML;
+            this.#ElementP.classList.remove(style);
         }
     }
     warn(...args) {
@@ -232,7 +185,7 @@ export class Terminal {
         this.#ElementP.classList.remove("pointsdisplay");
     }
 }
-export const logstyles = {
+export let logstyles = {
     log: "log",
     italic: "italic",
     bold: "bold",
