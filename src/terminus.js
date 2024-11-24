@@ -159,9 +159,11 @@ if (DEBUG_MODE) {
         }),
         terminal.addCommand(function terminaltest() {
             terminal.log(logstyles.log, "TERMINAL.LOG log")
-            terminal.log("italic", "TERMINAL.LOG italic")
-            terminal.log("bold", "TERMINAL.LOG bold")
-            terminal.log("x2size", "TERMINAL.LOG x2size")
+            terminal.log(logstyles.italic, "TERMINAL.LOG italic")
+            terminal.log(logstyles.bold, "TERMINAL.LOG bold")
+            terminal.log(logstyles.x2size, "TERMINAL.LOG x2size")
+            terminal.log(logstyles.x3size, "TERMINAL.LOG x3size")
+            terminal.log(logstyles.classic, "TERMINAL.LOG classic")
             terminal.warn("TERMINAL.WARN")
             terminal.error("TERMINAL.ERROR")
             terminal.mus("TERMINAL.MUS")

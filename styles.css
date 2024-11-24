@@ -1,11 +1,14 @@
 @font-face {
     font-family: "Monocraft";
     src: url("resources/Monocraft.woff") format("woff");
+    font-family: "Cascadia";
+    src: url("resources/CascadiaCode.woff2") format("woff2");
 }
 html {
     font-size: 3vh;
     scroll-behavior: unset;
     --terminal-font: 350 0.5rem "Monocraft";
+    --classic-font: 350 0.5rem "Cascadia";
 }
 body {
     scroll-behavior: unset;
@@ -62,6 +65,14 @@ body {
 #terminal #log > p.x2size {
     font-size: 200%
 }
+#terminal #log > p.x3size {
+    font-size: 300%
+}
+#terminal #log > p.classic {
+    color: green;
+    background-color: black;
+    font: var(--classic-font);
+}
 #terminal #log > p.error {
     background-color: darkred;
 }
@@ -93,7 +104,7 @@ body {
     color: black;
 }
 #terminal #log > p.break {
-    background-color: #222;
+    background-color: black;
 }
 #terminal #log > p.pointsdisplay {
     background-color: gray;

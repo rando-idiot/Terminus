@@ -158,6 +158,17 @@ export class Terminal {
                 this.#logsElement.innerHTML;
             this.#ElementP.classList.remove("x3size");
         }
+        else if (style === "classic") {
+            if (this.#logsElement.children.length > 100) {
+                this.#logsElement.removeChild(this.#logsElement.lastChild);
+            }
+    
+            this.#ElementP.innerText = args.join(this.#joinLine);
+            this.#ElementP.classList.add("classic");
+            this.#logsElement.innerHTML = this.#ElementP.outerHTML +
+                this.#logsElement.innerHTML;
+            this.#ElementP.classList.remove("classic");
+        }
         else {
             this.error("Invalid style.")
         }
@@ -227,4 +238,5 @@ export const logstyles = {
     bold: "bold",
     x2size: "x2size",
     x3size: "x3size",
+    classic: "classic",
 }
