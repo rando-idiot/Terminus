@@ -1,4 +1,5 @@
 import { sleep } from "./helpers.js";
+import { events } from "./events.js";
 export class Terminal {
     /** @type {string[]} */
     #logs = [];
@@ -103,8 +104,8 @@ export class Terminal {
         this.#commands[command]();
     }
 
-    log(fonttype, ...args) {
-            if (fonttype === "log") {
+    log(style, ...args) {
+            if (style === "log") {
         if (this.#logsElement.children.length > 100) {
             this.#logsElement.removeChild(this.#logsElement.lastChild);
         }
@@ -113,7 +114,7 @@ export class Terminal {
         this.#logsElement.innerHTML = this.#ElementP.outerHTML +
             this.#logsElement.innerHTML;
         }
-        else if (fonttype === "italic") {
+        else if (style === "italic") {
             if (this.#logsElement.children.length > 100) {
                 this.#logsElement.removeChild(this.#logsElement.lastChild);
             }
@@ -124,7 +125,7 @@ export class Terminal {
                 this.#logsElement.innerHTML;
             this.#ElementP.classList.remove("italic");
         }
-        else if (fonttype === "bold") {
+        else if (style === "bold") {
             if (this.#logsElement.children.length > 100) {
                 this.#logsElement.removeChild(this.#logsElement.lastChild);
             }
@@ -134,6 +135,31 @@ export class Terminal {
             this.#logsElement.innerHTML = this.#ElementP.outerHTML +
                 this.#logsElement.innerHTML;
             this.#ElementP.classList.remove("bold");
+        }
+        else if (style === "x2size") {
+            if (this.#logsElement.children.length > 100) {
+                this.#logsElement.removeChild(this.#logsElement.lastChild);
+            }
+    
+            this.#ElementP.innerText = args.join(this.#joinLine);
+            this.#ElementP.classList.add("x2size");
+            this.#logsElement.innerHTML = this.#ElementP.outerHTML +
+                this.#logsElement.innerHTML;
+            this.#ElementP.classList.remove("x2size");
+        }
+        else if (style === "x3size") {
+            if (this.#logsElement.children.length > 100) {
+                this.#logsElement.removeChild(this.#logsElement.lastChild);
+            }
+    
+            this.#ElementP.innerText = args.join(this.#joinLine);
+            this.#ElementP.classList.add("x3size");
+            this.#logsElement.innerHTML = this.#ElementP.outerHTML +
+                this.#logsElement.innerHTML;
+            this.#ElementP.classList.remove("x3size");
+        }
+        else {
+            this.error("Invalid style.")
         }
     }
     warn(...args) {
@@ -194,4 +220,11 @@ export class Terminal {
             this.#logsElement.innerHTML;
         this.#ElementP.classList.remove("pointsdisplay");
     }
+}
+export const logstyles = {
+    log: "log",
+    italic: "italic",
+    bold: "bold",
+    x2size: "x2size",
+    x3size: "x3size",
 }

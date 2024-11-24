@@ -59,8 +59,8 @@ body {
 #terminal #log > p.bold {
     font-weight: bold;
 }
-#terminal #log > p.bolder {
-    font-weight: bolder;
+#terminal #log > p.x2size {
+    font-size: 200%
 }
 #terminal #log > p.error {
     background-color: darkred;

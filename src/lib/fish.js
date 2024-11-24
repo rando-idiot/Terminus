@@ -1,5 +1,5 @@
 import { randomnumber } from "./helpers.js"
-import { Terminal } from "./terminal.js"
+import { Terminal, logstyles } from "./terminal.js"
 
 export class fish {
     constructor(name, desc, price, chance) {
@@ -11,8 +11,8 @@ export class fish {
         catchafish() {
             let didyacatchit = randomnumber(1, 100)
             if (didyacatchit >= 0 && didyacatchit <= this.chance) {
-                terminal.log("log", "You caught a" + this.name + "!");
-                terminal.log("log", "''" + this.desc + "''");
+                terminal.log(logstyles.log, "You caught a" + this.name + "!");
+                terminal.log(logstyles.log, "''" + this.desc + "''");
                 game.points += this.price
             }
         }
