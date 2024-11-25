@@ -141,7 +141,7 @@ terminal.addCommand(function fullscreen() {
 
 
 
-const DEBUG_MODE = false;
+const DEBUG_MODE = true;
 if (DEBUG_MODE) {
     const debug = [
         //The reason to make this a constant is so i can just organize all of this into one thing. Please do not change.
@@ -158,6 +158,8 @@ if (DEBUG_MODE) {
             console.log(JSON.stringify(game))
         }),
         terminal.addCommand(function terminaltest() {
+            terminal.debug("\n TESTING TERMINAL \n ⠀")
+            terminal.break();
             terminal.log(logstyles.log, "TERMINAL.LOG log")
             terminal.log(logstyles.italic, "TERMINAL.LOG italic")
             terminal.log(logstyles.bold, "TERMINAL.LOG bold")
@@ -169,7 +171,9 @@ if (DEBUG_MODE) {
             terminal.mus("TERMINAL.MUS")
             terminal.debug("TERMINAL.DEBUG")
             terminal.display("TERMINAL.DISPLAY", DEBUG_MODE);
+            terminal.log(logstyles.log, "Below is terminal.break test")
             terminal.break();
+            terminal.log(logstyles.log, "Above is terminal.break test")
         })
     ];
 }
