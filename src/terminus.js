@@ -155,12 +155,12 @@ if (DEBUG_MODE) {
         terminal.addCommand(function terminaltest() {
             terminal.debug("\n TESTING TERMINAL \n ⠀");
             terminal.break();
-            terminal.log("TERMINAL.LOG log");
+            terminal.log("TERMINAL.LOG");
             terminal.write("italic", "TERMINAL.LOG italic");
-            terminal.write("bold", "TERMINAL.LOG bold");
-            terminal.write("x2size", "TERMINAL.LOG x2size");
-            terminal.write("x3size", "TERMINAL.LOG x3size");
-            terminal.write("classic", "TERMINAL.LOG classic");
+            terminal.write("bold", "TERMINAL.WRITE bold");
+            terminal.write("x2size", "TERMINAL.WRITE x2size");
+            terminal.write("x3size", "TERMINAL.WRITE x3size");
+            terminal.write("classic", "TERMINAL.WRITE classic");
             terminal.warn("TERMINAL.WARN");
             terminal.error("TERMINAL.ERROR");
             terminal.mus("TERMINAL.MUS");
