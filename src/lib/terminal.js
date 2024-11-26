@@ -95,13 +95,15 @@ export class Terminal {
         delete this.#commands[name];
     }
 
-    #run(command) {
+    #run(rawCommand) {
+        const [command, args] = rawCommand.split(" ");
+
         if (!this.#commands[command]) {
             this.error(`Command ${command} does not exist.`);
             return;
         }
 
-        this.#commands[command]();
+        this.#commands[command](...(args || []));
     }
 
     log(style, ...args) {
@@ -133,8 +135,8 @@ export class Terminal {
 
         this.#ElementP.innerText = args.join(this.#joinLine);
         this.#ElementP.classList.add("warn");
-        this.#logsElement.innerHTML = this.#ElementP.outerHTML +
-            this.#logsElement.innerHTML;
+        this.#logsElement.innerHTML =
+            this.#ElementP.outerHTML + this.#logsElement.innerHTML;
         this.#ElementP.classList.remove("warn");
     }
     error(...args) {
@@ -144,8 +146,8 @@ export class Terminal {
 
         this.#ElementP.innerText = args.join(this.#joinLine);
         this.#ElementP.classList.add("error");
-        this.#logsElement.innerHTML = this.#ElementP.outerHTML +
-            this.#logsElement.innerHTML;
+        this.#logsElement.innerHTML =
+            this.#ElementP.outerHTML + this.#logsElement.innerHTML;
         this.#ElementP.classList.remove("error");
     }
     mus(...args) {
@@ -155,8 +157,8 @@ export class Terminal {
 
         this.#ElementP.innerText = "Now playing: " + args.join(this.#joinLine);
         this.#ElementP.classList.add("mus");
-        this.#logsElement.innerHTML = this.#ElementP.outerHTML +
-            this.#logsElement.innerHTML;
+        this.#logsElement.innerHTML =
+            this.#ElementP.outerHTML + this.#logsElement.innerHTML;
         this.#ElementP.classList.remove("mus");
     }
     debug(...args) {
@@ -166,15 +168,15 @@ export class Terminal {
 
         this.#ElementP.innerText = args.join(this.#joinLine);
         this.#ElementP.classList.add("debug");
-        this.#logsElement.innerHTML = this.#ElementP.outerHTML +
-            this.#logsElement.innerHTML;
+        this.#logsElement.innerHTML =
+            this.#ElementP.outerHTML + this.#logsElement.innerHTML;
         this.#ElementP.classList.remove("debug");
     }
     break() {
-        this.#ElementP.innerText = "\n"
+        this.#ElementP.innerText = "\n";
         this.#ElementP.classList.add("break");
-        this.#logsElement.innerHTML = this.#ElementP.outerHTML +
-            this.#logsElement.innerHTML;
+        this.#logsElement.innerHTML =
+            this.#ElementP.outerHTML + this.#logsElement.innerHTML;
         this.#ElementP.classList.remove("break");
     }
     display(varname, givenvar) {
