@@ -1,5 +1,5 @@
-import { Terminal, logstyles } from "./lib/terminal.js";
-import { sleep, spawn, randomnumber } from "./lib/helpers.js";
+import { logstyles, Terminal } from "./lib/terminal.js";
+import { randomnumber, sleep, spawn } from "./lib/helpers.js";
 import { Achievement } from "./lib/achievements.js";
 import { fish } from "./lib/fish.js";
 import { events } from "./lib/events.js";
@@ -42,11 +42,10 @@ let game = events({
     itemduration: 0,
     pointcalc: () => {
         game.pointcalcstatus = false;
-        game.points += (game.basegain +
+        game.points += game.basegain +
             game.steponeadd * game.steptwomult *
                 game.stepthreemult +
-            game.stepfouradd * game.powerpoints)
-             ;
+            game.stepfouradd * game.powerpoints;
         if (game.itemduration > 0) {
             game.itemduration -= 1;
             game.points *= game.itemmult;
@@ -74,10 +73,12 @@ spawn(async () => {
     await sleep(1000);
     terminal.log("italic", greetMessage());
     await sleep(2000);
-    terminal.log(logstyles.log, "You can type 'help' to see available commands");
+    terminal.log(
+        logstyles.log,
+        "You can type 'help' to see available commands",
+    );
     await sleep(2000);
 });
-
 
 /** @type {Terminal} */
 const terminal = game.terminal;
@@ -90,7 +91,7 @@ terminal.addCommand(function hints(force = -1) {
         "You can get more hints by calling hints.",
         "Run 'fullscreen' to be able to, well, play in fullscreen. Call again to exit.",
         "Yes, there is fishing. use 'catchmeafish' to go fishing.",
-        "Use 'playasong' to play a random song. (WIP)"
+        "Use 'playasong' to play a random song. (WIP)",
         //TODO: Re add clear() to new terminal.
     ];
     if (force >= 0) return terminal.log(logstyles.log, list[force]);
@@ -122,7 +123,7 @@ terminal.addCommand(function discord() {
 
 terminal.addCommand(function weepwarp() {
     open("https://www.youtube.com/watch?v=QH0z8ntGms8");
-})
+});
 
 terminal.addCommand(function secret() {
     terminal.log(logstyles.log, "YOUR IP IS:");
@@ -131,15 +132,12 @@ terminal.addCommand(function secret() {
 
 terminal.addCommand(function fullscreen() {
     if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen();
+        document.documentElement.requestFullscreen();
     } else if (document.exitFullscreen) {
-      document.exitFullscreen();
+        document.exitFullscreen();
     }
-    console.log("Toggled fullscreen.")
-  }
-  );
-
-
+    console.log("Toggled fullscreen.");
+});
 
 const DEBUG_MODE = false;
 if (DEBUG_MODE) {
@@ -154,27 +152,27 @@ if (DEBUG_MODE) {
             game.unlocks.infshop = bool;
         }),
         terminal.addCommand(function dumpgame() {
-            terminal.debug(JSON.stringify(game))
-            console.log(JSON.stringify(game))
+            terminal.debug(JSON.stringify(game));
+            console.log(JSON.stringify(game));
         }),
         terminal.addCommand(function terminaltest() {
-            terminal.debug("\n TESTING TERMINAL \n ⠀")
+            terminal.debug("\n TESTING TERMINAL \n ⠀");
             terminal.break();
-            terminal.log(logstyles.log, "TERMINAL.LOG log")
-            terminal.log(logstyles.italic, "TERMINAL.LOG italic")
-            terminal.log(logstyles.bold, "TERMINAL.LOG bold")
-            terminal.log(logstyles.x2size, "TERMINAL.LOG x2size")
-            terminal.log(logstyles.x3size, "TERMINAL.LOG x3size")
-            terminal.log(logstyles.classic, "TERMINAL.LOG classic")
-            terminal.warn("TERMINAL.WARN")
-            terminal.error("TERMINAL.ERROR")
-            terminal.mus("TERMINAL.MUS")
-            terminal.debug("TERMINAL.DEBUG")
+            terminal.log(logstyles.log, "TERMINAL.LOG log");
+            terminal.log(logstyles.italic, "TERMINAL.LOG italic");
+            terminal.log(logstyles.bold, "TERMINAL.LOG bold");
+            terminal.log(logstyles.x2size, "TERMINAL.LOG x2size");
+            terminal.log(logstyles.x3size, "TERMINAL.LOG x3size");
+            terminal.log(logstyles.classic, "TERMINAL.LOG classic");
+            terminal.warn("TERMINAL.WARN");
+            terminal.error("TERMINAL.ERROR");
+            terminal.mus("TERMINAL.MUS");
+            terminal.debug("TERMINAL.DEBUG");
             terminal.display("TERMINAL.DISPLAY", DEBUG_MODE);
-            terminal.log(logstyles.log, "Below is terminal.break test")
+            terminal.log(logstyles.log, "Below is terminal.break test");
             terminal.break();
-            terminal.log(logstyles.log, "Above is terminal.break test")
-        })
+            terminal.log(logstyles.log, "Above is terminal.break test");
+        }),
     ];
 }
 
@@ -194,13 +192,6 @@ game.indebted$on(false, () => {
     terminal.log(logstyles.log, "You got out of debt.");
 });
 
-
-
-
-
-
-
-
 terminal.addCommand(function help() {
     const list = [
         "help\n- Shows this.",
@@ -213,7 +204,7 @@ terminal.addCommand(function help() {
         "hints\n- Shows a hint.",
         "achievements\n- Shows achievements.",
         "savemygame\n - Saves your game.",
-        "loadmygame\n - Loads your most recent save."
+        "loadmygame\n - Loads your most recent save.",
     ];
 
     if (game.unlocks.infshop) {
@@ -223,7 +214,6 @@ terminal.addCommand(function help() {
     terminal.log(logstyles.log, ...list);
 });
 // help();
-
 
 game.power$onChange((power) => {
     if (game.power == game.maxbattery) {
@@ -273,7 +263,7 @@ terminal.addCommand(function shop() {
 
 game.unlocks.begin$on(true, () => {
     game.basegain = 10;
-    game.points -= 5
+    game.points -= 5;
     terminal.log(logstyles.log, "Began!");
 });
 terminal.addCommand(function begin() {
@@ -286,7 +276,7 @@ terminal.addCommand(function begin() {
 
 game.unlocks.index$on(true, () => {
     game.steptwomult += 0.5;
-    game.points -= 20
+    game.points -= 20;
     terminal.log(logstyles.log, "Created index.html!");
 });
 terminal.addCommand(function index() {
@@ -306,7 +296,8 @@ terminal.addCommand(function doctype() {
     if (game.indebted) return terminal.log(logstyles.log, "Cannot afford!");
     game.unlocks.doctype = true;
     terminal.changeCommand(function doctype() {
-        terminal.log(logstyles.log, 
+        terminal.log(
+            logstyles.log,
             "You- YOU ALREADY ADDED <!DOCTYPE HTML> YOU DONT NEED TO PUT IT EVERY TIME YOU ADD <BODY> STOP PLEASE",
         );
     });
@@ -342,7 +333,10 @@ game.upgstage$on(2, () =>
     }));
 game.upgstage$on(3, () =>
     terminal.changeCommand(function push3() {
-        terminal.log(logstyles.log, "Please don't try this again, it's not funny");
+        terminal.log(
+            logstyles.log,
+            "Please don't try this again, it's not funny",
+        );
     }));
 terminal.addCommand(function push() {
     if (game.indebted) {
@@ -355,7 +349,10 @@ terminal.addCommand(function push() {
 });
 
 game.unlocks.infshop$on(true, () => {
-    terminal.log(logstyles.log, "You've unlocked the infshop. Check 'help' for details.");
+    terminal.log(
+        logstyles.log,
+        "You've unlocked the infshop. Check 'help' for details.",
+    );
     terminal.changeCommand(function infshop() {
         let list = game.upgstage === 1
             ? [ // todo: Export cost calculations
@@ -402,7 +399,6 @@ game.unlocks.infshop$on(true, () => {
             `helloworld: $0\nPrints 'Hello world!' in terminal.`,
         ];
 
-
         terminal.log(logstyles.log, ...list);
     });
 });
@@ -426,7 +422,9 @@ game.upgstage$on(1, () => {
     });
 
     terminal.changeCommand(function steptwo() {
-        if (game.indebted) return terminal.log(logstyles.log, "You don't have enough money");
+        if (game.indebted) {
+            return terminal.log(logstyles.log, "You don't have enough money");
+        }
 
         game.points -= 25 +
             game.upgpriceboost * game.upgpriceboost;
@@ -437,7 +435,9 @@ game.upgstage$on(1, () => {
     });
 
     terminal.changeCommand(function stepthree() {
-        if (game.indebted) return terminal.log(logstyles.log, "You don't have enough money");
+        if (game.indebted) {
+            return terminal.log(logstyles.log, "You don't have enough money");
+        }
 
         game.points -= 25 +
             game.upgpriceboost * game.upgpriceboost;
@@ -448,7 +448,9 @@ game.upgstage$on(1, () => {
     });
 
     terminal.changeCommand(function stepfour() {
-        if (game.indebted) return terminal.log(logstyles.log, "You don't have enough money");
+        if (game.indebted) {
+            return terminal.log(logstyles.log, "You don't have enough money");
+        }
 
         game.points -= 2 +
             game.upgpriceboost * game.upgpriceboost;
@@ -459,7 +461,9 @@ game.upgstage$on(1, () => {
     });
 
     terminal.changeCommand(function baseup() {
-        if (game.indebted) return terminal.log(logstyles.log, "You don't have enough money");
+        if (game.indebted) {
+            return terminal.log(logstyles.log, "You don't have enough money");
+        }
 
         game.points -= 500 +
             game.upgpriceboost * game.upgpriceboost;
@@ -550,22 +554,40 @@ game.upgstage$on(2, () => {
 });
 
 terminal.addCommand(function stepone() {
-    return terminal.log(logstyles.log, "You have not unlocked infinite upgrades.");
+    return terminal.log(
+        logstyles.log,
+        "You have not unlocked infinite upgrades.",
+    );
 });
 terminal.addCommand(function steptwo() {
-    return terminal.log(logstyles.log, "You have not unlocked infinite upgrades.");
+    return terminal.log(
+        logstyles.log,
+        "You have not unlocked infinite upgrades.",
+    );
 });
 terminal.addCommand(function stepthree() {
-    return terminal.log(logstyles.log, "You have not unlocked infinite upgrades.");
+    return terminal.log(
+        logstyles.log,
+        "You have not unlocked infinite upgrades.",
+    );
 });
 terminal.addCommand(function stepfour() {
-    return terminal.log(logstyles.log, "You have not unlocked infinite upgrades.");
+    return terminal.log(
+        logstyles.log,
+        "You have not unlocked infinite upgrades.",
+    );
 });
 terminal.addCommand(function baseup() {
-    return terminal.log(logstyles.log, "You have not unlocked infinite upgrades.");
+    return terminal.log(
+        logstyles.log,
+        "You have not unlocked infinite upgrades.",
+    );
 });
 terminal.addCommand(function upgbonus() {
-    return terminal.log(logstyles.log, "You have not unlocked infinite upgrades.");
+    return terminal.log(
+        logstyles.log,
+        "You have not unlocked infinite upgrades.",
+    );
 });
 terminal.addCommand(function maxpowerup() {
     return terminal.log(logstyles.log, "You have not leveled up enough");
@@ -624,48 +646,47 @@ const overcharged = new Achievement({
     action: () => {},
 });
 
-const cod = new fish("Cod", "A silly lil fish", 25, 50)
+const cod = new fish("Cod", "A silly lil fish", 25, 50);
 
 terminal.addCommand(function catchmeafish() {
-    cod.catchafish //Add your own fish.catchafish here! without it the fish no catchy watchy with this function
-})
+    cod.catchafish; //Add your own fish.catchafish here! without it the fish no catchy watchy with this function
+});
 //:3
 
-
 terminal.addCommand(function savemygame() {
-    localStorage.setItem("newsave", JSON.stringify(game))
-    terminal.log(logstyles.log, "Saved game!")
-})
+    localStorage.setItem("newsave", JSON.stringify(game));
+    terminal.log(logstyles.log, "Saved game!");
+});
 
 terminal.addCommand(function loadmygame() {
     if (localStorage.getItem("newsave") != undefined) {
-    game = localStorage.getItem(JSON.parse("newsave"))
-    terminal.log(logstyles.log, "Loaded save")
+        game = localStorage.getItem(JSON.parse("newsave"));
+        terminal.log(logstyles.log, "Loaded save");
+    } else {
+        terminal.log(
+            logstyles.log,
+            "Make a save before loading, id rather you not get softlocked.",
+        );
     }
-    else {
-        terminal.log(logstyles.log, "Make a save before loading, id rather you not get softlocked.")
-    }
-})
-
+});
 
 //Music engine, when adding song(s), place in `mus` folder as a number, then increment game.totalmus by 1. Eg, there are 5 songs, so if you want to add a 6th one, you place it in the mus folder as '6.wav' and set game.totalmus to 6.
 
 terminal.addCommand(function playasong() {
-    let playedsong = (randomnumber(1, game.totalmus)) 
+    let playedsong = randomnumber(1, game.totalmus);
     let playedsongdir = "../resources/mus/" + playedsong + ".wav";
     let audio = new Audio(playedsongdir);
     if (playedsong === 1) {
-        terminal.mus("Dogshit -Rando")
-    }
-    else {
-    terminal.mus(playedsong + ".wav")
+        terminal.mus("Dogshit -Rando");
+    } else {
+        terminal.mus(playedsong + ".wav");
     }
     audio.play();
-})
+});
 
 //@AerieTheGamer on discord, you're welcome.
 terminal.addCommand(function classicstyle() {
     logstyles.log = logstyles.classic;
     terminal.log(logstyles.classic, "Changed to classic log style!");
     //TODO: Add classic log style for errors etc.
-})
+});
