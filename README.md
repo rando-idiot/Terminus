@@ -18,9 +18,6 @@ Visit the github pages site, or run on your local machine by downnloading the re
 # __DISCORD__
 **https://discord.gg/kYyEQ2hjPs**
 
-# __about:blank__
-It is recommended to try using this game on the about:blank page as it has literally nothing in it. Or try using a javascript playground thingy. Idk. Pick your thingy.
-
 
 
 # https://rando-idiot.github.io/Terminus.JS/
