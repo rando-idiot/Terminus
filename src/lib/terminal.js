@@ -1,6 +1,10 @@
 import { isNumber, sleep } from "./helpers.js";
 import { events } from "./events.js";
 
+/**
+ * @typedef {"log" | "warn" | "error" | "mus" | "debug" | "italic" | "bold" | "x2size" | "x3size" | "classic" | "break" | "pointsdisplay"} LogStyle
+ */
+
 export class Terminal {
     /** @type {string[]} */
     #logs = [];
@@ -18,6 +22,9 @@ export class Terminal {
     #commandTyped = null;
     #ElementP = document.createElement("p");
     #joinLine = "\n\n";
+
+    /** @type {boolean} */
+    #isClassic = false;
 
     /**
      * @param {HTMLElement} terminalElement
@@ -113,92 +120,44 @@ export class Terminal {
         }
     }
 
-    log(style, ...args) {
-            if (style === "log") {
+    toggleClassic() {
+        this.#isClassic = !this.#isClassic;
+    }
+
+    /**
+     * @param {LogStyle} style
+     * @param  {...any} args
+     */
+    write(style, ...args) {
         if (this.#logsElement.children.length > 100) {
             this.#logsElement.removeChild(this.#logsElement.lastChild);
         }
 
         this.#ElementP.innerText = args.join(this.#joinLine);
+        this.#ElementP.classList.add(style);
         this.#logsElement.innerHTML = this.#ElementP.outerHTML +
             this.#logsElement.innerHTML;
-        }
-        else {
-            if (this.#logsElement.children.length > 100) {
-                this.#logsElement.removeChild(this.#logsElement.lastChild);
-            }
-    
-            this.#ElementP.innerText = args.join(this.#joinLine);
-            this.#ElementP.classList.add(style);
-            this.#logsElement.innerHTML = this.#ElementP.outerHTML +
-                this.#logsElement.innerHTML;
-            this.#ElementP.classList.remove(style);
-        }
+        this.#ElementP.classList.remove(style);
+    }
+    log(...args) {
+        this.write(this.#isClassic ? "classic" : "log", ...args);
     }
     warn(...args) {
-        if (this.#logsElement.children.length > 100) {
-            this.#logsElement.removeChild(this.#logsElement.lastChild);
-        }
-
-        this.#ElementP.innerText = args.join(this.#joinLine);
-        this.#ElementP.classList.add("warn");
-        this.#logsElement.innerHTML =
-            this.#ElementP.outerHTML + this.#logsElement.innerHTML;
-        this.#ElementP.classList.remove("warn");
+        this.write("warn", ...args);
     }
     error(...args) {
-        if (this.#logsElement.children.length > 100) {
-            this.#logsElement.removeChild(this.#logsElement.lastChild);
-        }
-
-        this.#ElementP.innerText = args.join(this.#joinLine);
-        this.#ElementP.classList.add("error");
-        this.#logsElement.innerHTML =
-            this.#ElementP.outerHTML + this.#logsElement.innerHTML;
-        this.#ElementP.classList.remove("error");
+        this.write("error", ...args);
     }
     mus(...args) {
-        if (this.#logsElement.children.length > 100) {
-            this.#logsElement.removeChild(this.#logsElement.lastChild);
-        }
-
-        this.#ElementP.innerText = "Now playing: " + args.join(this.#joinLine);
-        this.#ElementP.classList.add("mus");
-        this.#logsElement.innerHTML =
-            this.#ElementP.outerHTML + this.#logsElement.innerHTML;
-        this.#ElementP.classList.remove("mus");
+        this.write("mus", "Now playing: " + args.join(this.#joinLine));
     }
     debug(...args) {
-        if (this.#logsElement.children.length > 100) {
-            this.#logsElement.removeChild(this.#logsElement.lastChild);
-        }
-
-        this.#ElementP.innerText = args.join(this.#joinLine);
-        this.#ElementP.classList.add("debug");
-        this.#logsElement.innerHTML =
-            this.#ElementP.outerHTML + this.#logsElement.innerHTML;
-        this.#ElementP.classList.remove("debug");
+        this.write("debug", ...args);
     }
     break() {
-        this.#ElementP.innerText = "\n";
-        this.#ElementP.classList.add("break");
-        this.#logsElement.innerHTML =
-            this.#ElementP.outerHTML + this.#logsElement.innerHTML;
-        this.#ElementP.classList.remove("break");
+        this.write("break", "\n");
     }
     display(varname, givenvar) {
-        this.#ElementP.innerText = varname + ": " + givenvar
-        this.#ElementP.classList.add("pointsdisplay");
-        this.#logsElement.innerHTML = this.#ElementP.outerHTML +
-            this.#logsElement.innerHTML;
-        this.#ElementP.classList.remove("pointsdisplay");
+        this.write("pointsdisplay", varname + ": " + givenvar);
     }
-}
-export let logstyles = {
-    log: "log",
-    italic: "italic",
-    bold: "bold",
-    x2size: "x2size",
-    x3size: "x3size",
-    classic: "classic",
 }
