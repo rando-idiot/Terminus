@@ -1,5 +1,5 @@
 # Terminus.JS
-A somewhat small incremental game played in a web terminal.
+A somewhat small incremental game played in a web "terminal".
 
 # __HOW TO PLAY__
 Visit the github pages site, or run on your local machine by downnloading the repo.
