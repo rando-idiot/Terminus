@@ -143,10 +143,10 @@ export class Terminal {
         this.write(this.#isClassic ? "classic" : "log", ...args);
     }
     warn(...args) {
-        this.write("warn", ...args);
+        this.write(this.#isClassic ? "classic" : "warn", this.#isClassic ? "⚠ " + args.join(this.#joinLine) : args.join(this.#joinLine));
     }
     error(...args) {
-        this.write("error", ...args);
+        this.write(this.#isClassic ? "classic" : "error", this.#isClassic ? "⮾ " + args.join(this.#joinLine) : args.join(this.#joinLine));
     }
     mus(...args) {
         this.write("mus", "Now playing: " + args.join(this.#joinLine));
