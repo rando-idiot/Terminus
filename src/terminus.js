@@ -682,10 +682,12 @@ terminal.addCommand(function classicstyle() {
 });
 
 
-terminal.addCommand(function clear() {
+function clear() {
     terminal.clear();
+}
+terminal.addCommand(function clearconsole() {
+    clear();
 })
-
 
 function losscheck() {
     if (game.batteryres == 0) {
@@ -700,34 +702,36 @@ function losscheck() {
     }
 }
 
-function loadwheel() {
-    terminal.break
+async function loadwheel(endmsg) {
+    clear()
     terminal.log("|");
-    sleep(1000)
-    terminal.break
+    await sleep(1000);
+    clear()
     terminal.log("/")
-    sleep(1000)
-    terminal.break
+    await sleep(1000)
+    clear()
     terminal.log("-")
-    sleep(1000)
-    terminal.break
+    await sleep(1000)
+    clear()
     terminal.log("\\")
-    sleep(1000)
-    terminal.break
+    await sleep(1000)
+    clear()
     terminal.log("|")
+    await sleep(1000)
+    clear()
+    terminal.log(endmsg)
 }
-terminal.addCommand(function hardreset() {
+terminal.addCommand(async function hardreset() {
     terminal.log("Resetting...")
-    sleep(500)
-    loadwheel()
+    await sleep(500)
+    loadwheel("Reset!")
     game = defaultgame
-    terminal.log("Reset!")
 })
 
 let price = "price"
 let buy = "buy"
 
-terminal.addCommand(function lithium(type) {
+terminal.addCommand(async function lithium(type) {
     if (type == price) {
         terminal.log("Lithium costs " + game.batteryresprice + " points.");
         terminal.log("You have " + game.batteryres + " lithium.");
@@ -752,8 +756,16 @@ terminal.addCommand(function lithium(type) {
     }
     if (losscheck()) {
         terminal.log("You are softlocked! Resetting...");
-        sleep(1000)
+        await sleep(1000)
         loadwheel()
         game = defaultgame
     }
 });
+
+
+
+
+terminal.addCommand(function eep() {
+    terminal.log("Nighty-Night")
+    sleep(1000000000000000000000000000000000000000000)
+})
