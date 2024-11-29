@@ -711,16 +711,16 @@ function losscheck() {
 function loadwheel() {
     terminal.break
     terminal.log("|");
-    sleep(100)
+    sleep(1000)
     terminal.break
     terminal.log("/")
-    sleep(100)
+    sleep(1000)
     terminal.break
     terminal.log("-")
-    sleep(100)
+    sleep(1000)
     terminal.break
     terminal.log("\\")
-    sleep(100)
+    sleep(1000)
     terminal.break
     terminal.log("|")
 }
