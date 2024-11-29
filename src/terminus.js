@@ -223,6 +223,7 @@ game.power$onChange((power) => {
         return terminal.log("Full charge.");
     }
     terminal.log("Current battery: " + game.power);
+    terminal.log("Current lithium: " + game.batteryres);
 });
 terminal.addCommand(function charge() {
     if (game.power < game.maxbattery && game.batteryres > 0) {
