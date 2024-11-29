@@ -3,11 +3,10 @@ import { randomnumber, sleep, spawn } from "./lib/helpers.js";
 import { Achievement } from "./lib/achievements.js";
 import { fish } from "./lib/fish.js";
 import { events } from "./lib/events.js";
-// import "./lib/skills.js"; // this is heavily broken rn, TODO: change this to use class (like achievements)
 
 let game = events({
     terminal: new Terminal(document.body.querySelector("#terminal")),
-    gameverison: "0.2.7",
+    gameverison: "0.3.0",
     unlocks: events({
         begin: false,
         index: false,
@@ -40,6 +39,8 @@ let game = events({
     rechargerate: 1,
     antipower: 10,
     itemduration: 0,
+    batteryres: 50,
+    batteryresprice: 25,
     pointcalc: () => {
         game.pointcalcstatus = false;
         game.points += game.basegain +
@@ -53,9 +54,12 @@ let game = events({
     },
     totalmus: 1,
 });
+const defaultgame = game
 
-// 0.2.7
-// MUSIC RELATED STUFF, SEE COMMIT MSGS
+
+
+// 0.3.0
+// You'll see.
 function greetMessage() {
     let date = new Date();
     if (randomnumber(0, 10000) == 1) {
@@ -89,7 +93,8 @@ terminal.addCommand(function hints(force = -1) {
         "Run 'fullscreen' to be able to, well, play in fullscreen. Call again to exit.",
         "Yes, there is fishing. use 'catchmeafish' to go fishing.",
         "Use 'playasong' to play a random song. (WIP)",
-        //TODO: Re add clear() to new terminal.
+        "You can use 'hardreset' to entirely reset your gamestate.",
+        "Use 'clear' to entirely clear the console. Use at own risk.",
     ];
     if (force >= 0) return terminal.log(list[force]);
     terminal.log(list[Math.floor(Math.random() * list.length)]);
@@ -226,6 +231,8 @@ terminal.addCommand(function help() {
         "discord\n- Gives a link to the terminus.js discord.",
         "hints\n- Shows a hint.",
         "achievements\n- Shows achievements.",
+        "lithium buy\n- Buys lithium for the price listed by 'lithium price'",
+        "lithium price\n- Shows the price of lithium in points.\n-- Lithium is used to charge. If you have 0 charge, <= 0 points, and 0 lithium, your game is reset.",
         "savemygame\n - Saves your game.",
         "loadmygame\n - Loads your most recent save.",
     ];
@@ -245,8 +252,13 @@ game.power$onChange((power) => {
     terminal.log("Current battery: " + game.power);
 });
 terminal.addCommand(function charge() {
-    if (game.power < game.maxbattery) {
+    if (game.power < game.maxbattery && game.batteryres > 0) {
         game.power = game.power + game.rechargerate;
+        game.batteryres -= 1;
+    }
+    else if (game.batteryres == 0) {
+        terminal.log("Not enough lithium!");
+        terminal.log("Use 'lithium buy' to buy 1 lithium, and 'lithium price' to see the price of it.")
     }
 });
 
@@ -701,5 +713,81 @@ terminal.addCommand(function playasong() {
 terminal.addCommand(function classicstyle() {
     terminal.toggleClassic();
     terminal.log("Changed to classic log style!");
-    //TODO: Add classic log style for errors etc.
+});
+
+
+terminal.addCommand(function clear() {
+    terminal.clear();
+})
+
+
+function losscheck() {
+    if (game.batteryres == 0) {
+        if (game.points == 0) {
+            if (game.power == 0) {
+                return true
+            }
+        }
+    }
+    else {
+        return false
+    }
+}
+
+function loadwheel() {
+    terminal.break
+    terminal.log("|");
+    sleep(100)
+    terminal.break
+    terminal.log("/")
+    sleep(100)
+    terminal.break
+    terminal.log("-")
+    sleep(100)
+    terminal.break
+    terminal.log("\\")
+    sleep(100)
+    terminal.break
+    terminal.log("|")
+}
+terminal.addCommand(function hardreset() {
+    terminal.log("Resetting...")
+    sleep(500)
+    loadwheel()
+    game = defaultgame
+    terminal.log("Reset!")
+})
+
+let price = "price"
+let buy = "buy"
+
+terminal.addCommand(function lithium(type) {
+    if (type == price) {
+        terminal.log("Lithium costs " + game.batteryresprice + " points.");
+        terminal.log("You have " + game.batteryres + " lithium.");
+    }
+    else if (type == buy) {
+        if (game.points > 0) {
+            if (game.batteryresprice > game.points) {
+                terminal.log("Bought 1 lithium for " + game.batteryresprice + ".");
+                game.batteryres = game.batteryres + 1
+                game.points = game.points - game.batteryresprice
+                game.batteryresprice = game.batteryresprice * game.batteryresprice
+                terminal.log("You now have" + game.points + "points.");
+                terminal.log("You now have" + game.batteryres + "lithium.")
+            }
+            else {
+                terminal.log("You can't afford any lithium!")
+            }
+        }
+        else {
+            terminal.log("You don't have any points.");
+        }
+    }
+    if (losscheck()) {
+        terminal.log("You are softlocked! Resetting...");
+        sleep(1000)
+        loadwheel()
+        game = defaultgame
+    }
 });

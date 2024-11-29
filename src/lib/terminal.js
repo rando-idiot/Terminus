@@ -160,4 +160,11 @@ export class Terminal {
     display(varname, givenvar) {
         this.write("pointsdisplay", varname + ": " + givenvar);
     }
+    clear() {
+        let i = 1
+        while (i < 100) {
+            terminal.break
+            i = i + 1
+        } 
+    }
 }
