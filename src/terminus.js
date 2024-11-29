@@ -765,7 +765,7 @@ terminal.addCommand(async function lithium(type) {
 
 
 
-terminal.addCommand(function eep() {
+terminal.addCommand(async function eep() {
     terminal.log("Nighty-Night")
-    sleep(1000000000000000000000000000000000000000000)
+    await sleep(1000000000000000000000000000000000000000000)
 })
