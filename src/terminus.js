@@ -15,7 +15,6 @@ let game = events({
         infshop: false,
     }),
     skillpoints: 0,
-    xp: 0,
     pointcalcstatus: false,
     infstage: 0,
     points: 0,
@@ -236,18 +235,10 @@ terminal.addCommand(function charge() {
     }
 });
 
-const exptolevel = 100;
 terminal.addCommand(function update() {
     if (game.power <= 0) {
-        game.xp = game.xp + 10;
-        terminal.log("Gained 10 exp.");
-        if (game.xp == exptolevel) {
-            game.skillpoints = game.skillpoints + 1;
-            terminal.log("Leveled up!");
-        }
         return;
     }
-
     game.powerpoints = game.power / game.antipower;
     game.power -= 1;
 
