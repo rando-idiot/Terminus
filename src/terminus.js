@@ -14,10 +14,6 @@ let game = events({
         configyml: false,
         infshop: false,
     }),
-    misc: events({ // I do not know why i called this misc, just shove random shtuff here.
-        cantaffordskill: "You need more skill points.",
-        needparentskill: "Unlock the previous skill first.",
-    }),
     skillpoints: 0,
     xp: 0,
     pointcalcstatus: false,
