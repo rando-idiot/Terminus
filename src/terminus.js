@@ -172,29 +172,7 @@ if (DEBUG_MODE) {
             terminal.log("Above is terminal.break test");
         }),
         terminal.addCommand(function genthumbnail() {
-            terminal.break();
-            terminal.break();
-            terminal.break();
-            terminal.break();
-            terminal.break();
-            terminal.break();
-            terminal.break();
-            terminal.break();
-            terminal.break();
-            terminal.break();
-            terminal.break();
-            terminal.break();
-            terminal.break();
-            terminal.break();
-            terminal.break();
-            terminal.break();
-            terminal.break();
-            terminal.break();
-            terminal.break();
-            terminal.break();
-            terminal.break();
-            terminal.break();
-            terminal.break();
+            terminal.clear()
             terminal.log("Hello World!");
         })
     ];
