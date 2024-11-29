@@ -1,6 +1,8 @@
 @font-face {
     font-family: "Monocraft";
     src: url("resources/Monocraft.woff") format("woff");
+}
+@font-face {
     font-family: "Cascadia";
     src: url("resources/CascadiaCode.woff2") format("woff2");
 }
