@@ -19,5 +19,6 @@ Visit the github pages site, or run on your local machine by downnloading the re
 **https://discord.gg/kYyEQ2hjPs**
 
 
-
-# https://rando-idiot.github.io/Terminus.JS/
+# OFFICIAL LINKS
+## https://rando-idiot.github.io/Terminus.JS/
+## https://galaxy.click/play/-6846930328733316
