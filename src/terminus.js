@@ -738,7 +738,7 @@ terminal.addCommand(async function lithium(type) {
     }
     else if (type == buy) {
         if (game.points > 0) {
-            if (game.batteryresprice > game.points) {
+            if (game.batteryresprice < game.points) {
                 terminal.log("Bought 1 lithium for " + game.batteryresprice + ".");
                 game.batteryres = game.batteryres + 1
                 game.points = game.points - game.batteryresprice
