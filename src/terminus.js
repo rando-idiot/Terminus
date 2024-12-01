@@ -34,7 +34,6 @@ let game = events({
     rechargerate: 1,
     antipower: 10,
     itemduration: 0,
-    batteryres: 50,
     batteryresprice: 2,
     pointcalc: () => {
         game.pointcalcstatus = false;
@@ -89,7 +88,7 @@ terminal.addCommand(function hints(force = -1) {
         "Yes, there is fishing. use 'catchmeafish' to go fishing.",
         "Use 'playasong' to play a random song. (WIP)",
         "You can use 'hardreset' to entirely reset your gamestate.",
-        "Use 'clear' to entirely clear the console. Use at own risk.",
+        "Use 'clearconsole' to entirely clear the console. Use at own risk.",
     ];
     if (force >= 0) return terminal.log(list[force]);
     terminal.log(list[Math.floor(Math.random() * list.length)]);
@@ -217,7 +216,7 @@ terminal.addCommand(function help() {
     terminal.log(...list);
 });
 // help();
-
+let price = "price"
 game.power$onChange((power) => {
     if (game.power == game.maxbattery) {
         return terminal.log("Full charge.");
@@ -225,15 +224,17 @@ game.power$onChange((power) => {
     terminal.log("Current battery: " + game.power);
     terminal.log("Current lithium: " + game.batteryres);
 });
-terminal.addCommand(function charge() {
-    if (game.power < game.maxbattery && game.batteryres > 0) {
-        game.batteryres -= 1;
+terminal.addCommand(function charge(param) {
+    if (param == price) {
+        terminal.log("It costs " + game.batteryresprice + " points to charge.")
+    }
+    else {
+    if (game.power < game.maxbattery) {
+        game.points = game.points - game.batteryresprice
+        game.batteryresprice *= 2
         game.power = game.power + game.rechargerate;
     }
-    else if (game.batteryres == 0) {
-        terminal.log("Not enough lithium!");
-        terminal.log("Use 'lithium buy' to buy 1 lithium, and 'lithium price' to see the price of it.")
-    }
+}
 });
 
 terminal.addCommand(function update() {
@@ -728,45 +729,22 @@ terminal.addCommand(async function hardreset() {
     game = defaultgame
 })
 
-let price = "price"
-let buy = "buy"
-
-terminal.addCommand(async function lithium(type) {
-    if (type == price) {
-        terminal.log("Lithium costs " + game.batteryresprice + " points.");
-        terminal.log("You have " + game.batteryres + " lithium.");
-    }
-    else if (type == buy) {
-        if (game.points > 0) {
-            if (game.batteryresprice <= game.points) {
-                terminal.log("Bought 1 lithium for " + game.batteryresprice + ".");
-                game.batteryres = game.batteryres + 1
-                game.points = game.points - game.batteryresprice
-                game.batteryresprice = game.batteryresprice * game.batteryresprice
-                terminal.log("You now have " + game.points + " points.");
-                terminal.log("You now have " + game.batteryres + " lithium.")
-            }
-            else {
-                terminal.log("You can't afford any lithium!")
-            }
-        }
-        else {
-            terminal.log("You don't have any points.");
-        }
-    }
-    if (losscheck()) {
-        terminal.log("You are softlocked! Resetting...");
-        await sleep(1000)
-        loadwheel()
-        game = defaultgame
-    }
-});
-
-
-
 
 terminal.addCommand(async function eep() {
     terminal.log("Nighty-Night")
     await sleep(9007199300000000)
     game.points = game.points + 1000000000000000
+})
+
+terminal.addCommand(function echo(string) {
+    if (string == undefined) {
+        terminal.log("Please put in a statement surrounded by quotes. eg. \"silly\" would print `silly` in the terminal. ")
+    }
+    else {
+        terminal.log(string)
+    }
+})
+
+terminal.addCommand(function sudo() {
+    terminal.write("classic","User is not in sudoers file. This incident will be reported.")
 })
