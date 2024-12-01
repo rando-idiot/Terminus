@@ -227,8 +227,8 @@ game.power$onChange((power) => {
 });
 terminal.addCommand(function charge() {
     if (game.power < game.maxbattery && game.batteryres > 0) {
-        game.power = game.power + game.rechargerate;
         game.batteryres -= 1;
+        game.power = game.power + game.rechargerate;
     }
     else if (game.batteryres == 0) {
         terminal.log("Not enough lithium!");
@@ -652,7 +652,7 @@ terminal.addCommand(function savemygame() {
 
 terminal.addCommand(function loadmygame() {
     if (localStorage.getItem("newsave") != undefined) {
-        game = localStorage.getItem(JSON.parse("newsave"));
+        game = JSON.parse(localStorage.getItem("newsave"));
         terminal.log("Loaded save");
     } else {
         terminal.log(
@@ -742,9 +742,9 @@ terminal.addCommand(async function lithium(type) {
                 terminal.log("Bought 1 lithium for " + game.batteryresprice + ".");
                 game.batteryres = game.batteryres + 1
                 game.points = game.points - game.batteryresprice
-                game.batteryresprice = game.batteryresprice * 2
-                terminal.log("You now have" + game.points + "points.");
-                terminal.log("You now have" + game.batteryres + "lithium.")
+                game.batteryresprice = game.batteryresprice * game.batteryresprice
+                terminal.log("You now have " + game.points + " points.");
+                terminal.log("You now have " + game.batteryres + " lithium.")
             }
             else {
                 terminal.log("You can't afford any lithium!")
