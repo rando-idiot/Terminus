@@ -21,7 +21,7 @@ let game = events({
     steponeadd: 0,
     steptwomult: 1,
     stepthreemult: 1,
-    stepfouradd: 1,
+    stepfouradd: 0,
     basegain: 1,
     upgradebonus: 1,
     upgpriceboost: 0,
@@ -82,6 +82,7 @@ terminal.addCommand(function hints(force = -1) {
     const list = [
         "You can generate points by calling update.",
         "Power mult = power / 10",
+        "On update: points = points + basegain + steponeadd * steptwomult * stepthreemult + stepfouradd * (power / 10)",
         "help can update its contents based on the things you have purchased.",
         "You can get more hints by calling hints.",
         "Run 'fullscreen' to be able to, well, play in fullscreen. Call again to exit.",
@@ -222,19 +223,20 @@ game.power$onChange((power) => {
         return terminal.log("Full charge.");
     }
     terminal.log("Current battery: " + game.power);
-    terminal.log("Current lithium: " + game.batteryres);
 });
 terminal.addCommand(function charge(param) {
     if (param == price) {
         terminal.log("It costs " + game.batteryresprice + " points to charge.")
     }
-    else {
-    if (game.power < game.maxbattery) {
+
+    else if (game.power < game.maxbattery) {
         game.points = game.points - game.batteryresprice
         game.batteryresprice *= 2
         game.power = game.power + game.rechargerate;
     }
-}
+    if (losscheck()) {
+        game = defaultgame
+    }
 });
 
 terminal.addCommand(function update() {
@@ -250,9 +252,13 @@ terminal.addCommand(function update() {
 terminal.addCommand(function shop() {
     terminal.log(...[
         "begin: $5.........The beginning",
+        "- Increases base point gain.",
         "index: $20........index.html",
+        "- Increases mult 1 by 0.5. See hints for point calculation equation.",
         "doctype: $50......<!DOCTYPE HTML>",
+        "- Increases mult 2 by 0.5.",
         "configyml: $100...config.yml",
+        "- Increases the points added in the last step of the equation by 2",
         game.upgstage === 0
             ? "push: $500........git push 1"
             : game.upgstage === 1
@@ -305,7 +311,7 @@ terminal.addCommand(function doctype() {
 });
 
 game.unlocks.configyml$on(true, () => {
-    game.stepfourmult *= 2;
+    game.stepfouradd += 5;
     game.points -= 100;
     terminal.log("Created config.yml!");
 });
@@ -691,17 +697,17 @@ terminal.addCommand(function clearconsole() {
 })
 
 function losscheck() {
-    if (game.batteryres == 0) {
+
         if (game.points <= 0) {
             if (game.power == 0) {
                 return true
             }
         }
+        else {
+            return false
+        }
     }
-    else {
-        return false
-    }
-}
+
 
 async function loadwheel(endmsg) {
     clear()
