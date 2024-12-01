@@ -199,14 +199,13 @@ terminal.addCommand(function help() {
         "shop\n- Shows the available purchasable items.",
         "update\n- Increases points. Equivalent of clicking in a clicker game.",
         "charge\n- Gain power.",
+        "charge price\n- Shows the price of charging. If you cannot afford it and you have 0 power, you're game is reset",
+        "hardreset\n- Entirely resets your game. Should be useful if you get stuck.",
         "github\n- Shows the github repo link.",
         "credits\n- Shows the credits.",
         "discord\n- Gives a link to the terminus.js discord.",
         "hints\n- Shows a hint.",
         "achievements\n- Shows achievements.",
-        "lithium buy\n- Buys lithium for the price listed by 'lithium price'",
-        "lithium price\n- Shows the price of lithium in points.\n-- Lithium is used to charge. If you have 0 charge, <= 0 points, and 0 lithium, your game is reset.",
-        "savemygame\n - Saves your game.",
         "loadmygame\n - Loads your most recent save.",
     ];
 
