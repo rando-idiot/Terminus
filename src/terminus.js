@@ -652,7 +652,7 @@ terminal.addCommand(function savemygame() {
 
 terminal.addCommand(function loadmygame() {
     if (localStorage.getItem("newsave") != undefined) {
-        game = localStorage.getItem(JSON.parse("newsave"));
+        game = JSON.parse(localStorage.getItem("newsave"));
         terminal.log("Loaded save");
     } else {
         terminal.log(
