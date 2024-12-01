@@ -104,6 +104,8 @@ export class Terminal {
     }
 
     #run(rawCommand) {
+        this.log("> " + rawCommand);
+        
         let [command, ...args] = rawCommand.split(" ");
 
         if (!this.#commands[command]) {
