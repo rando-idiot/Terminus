@@ -743,8 +743,8 @@ terminal.addCommand(async function lithium(type) {
                 game.batteryres = game.batteryres + 1
                 game.points = game.points - game.batteryresprice
                 game.batteryresprice = game.batteryresprice * game.batteryresprice
-                terminal.log("You now have" + game.points + "points.");
-                terminal.log("You now have" + game.batteryres + "lithium.")
+                terminal.log("You now have " + game.points + " points.");
+                terminal.log("You now have " + game.batteryres + " lithium.")
             }
             else {
                 terminal.log("You can't afford any lithium!")
