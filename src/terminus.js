@@ -691,7 +691,7 @@ terminal.addCommand(function clearconsole() {
 
 function losscheck() {
     if (game.batteryres == 0) {
-        if (game.points == 0) {
+        if (game.points <= 0) {
             if (game.power == 0) {
                 return true
             }
