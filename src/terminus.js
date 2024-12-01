@@ -35,7 +35,7 @@ let game = events({
     antipower: 10,
     itemduration: 0,
     batteryres: 50,
-    batteryresprice: 25,
+    batteryresprice: 2,
     pointcalc: () => {
         game.pointcalcstatus = false;
         game.points += game.basegain +
