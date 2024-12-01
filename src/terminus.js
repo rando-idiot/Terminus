@@ -227,8 +227,8 @@ game.power$onChange((power) => {
 });
 terminal.addCommand(function charge() {
     if (game.power < game.maxbattery && game.batteryres > 0) {
-        game.power = game.power + game.rechargerate;
         game.batteryres -= 1;
+        game.power = game.power + game.rechargerate;
     }
     else if (game.batteryres == 0) {
         terminal.log("Not enough lithium!");
