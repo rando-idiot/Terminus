@@ -27,7 +27,7 @@ let game = events({
     upgpriceboost: 0,
     upgstage: 0,
     updateloop: 1,
-    power: 10,
+    power: 50,
     powerpoints: 1, //Hahah PP
     indebted: 1,
     maxbattery: 15,
@@ -179,19 +179,8 @@ if (DEBUG_MODE) {
 
 game.points$onChange((points) => {
     terminal.log(`You have ${points.toFixed(2)} points.`);
-    if (!game.indebted && points < 0) {
-        game.indebted = true;
-    } else if (game.indebted && points > 0) {
-        game.indebted = false;
-    }
 });
 
-game.indebted$on(true, () => {
-    terminal.log("You are in debt.");
-});
-game.indebted$on(false, () => {
-    terminal.log("You got out of debt.");
-});
 
 terminal.addCommand(function help() {
     const list = [
@@ -229,6 +218,9 @@ terminal.addCommand(function charge(param) {
     }
 
     else if (game.power < game.maxbattery) {
+        if (game.points < game.batteryresprice) {
+            return terminal.log("Cannot afford!")
+        }
         game.points = game.points - game.batteryresprice
         game.batteryresprice *= 2
         game.power = game.power + game.rechargerate;
@@ -242,10 +234,9 @@ terminal.addCommand(function update() {
     if (game.power <= 0) {
         return;
     }
+    game.pointcalc();
     game.powerpoints = game.power / game.antipower;
     game.power -= 1;
-
-    game.pointcalc();
 });
 
 terminal.addCommand(function shop() {
@@ -259,12 +250,12 @@ terminal.addCommand(function shop() {
         "configyml: $100...config.yml",
         "- Increases the points added in the last step of the equation by 2",
         game.upgstage === 0
-            ? "push: $500........git push 1"
+            ? "push: $500........git push 1 \n Unlocks INFSHOP. I think. I honsestly dont remember."
             : game.upgstage === 1
-            ? "push: $5000.......git push 2"
+            ? "push: $5000.......git push 2 \n Increases the stage of upgrades."
             : game.upgstage === 2
-            ? "push: $50000......git push 3"
-            : "push: $???........git push ?",
+            ? "push: $50000......git push 3 \n Increases the stage of upgrades."
+            : "push: $???........git push ? \n UNFINISHED. For now, you have reached the end. Feel free to become god with the infshop upgrades!",
     ]);
 });
 
@@ -274,7 +265,7 @@ game.unlocks.begin$on(true, () => {
     terminal.log("Began!");
 });
 terminal.addCommand(function begin() {
-    if (game.indebted) return terminal.log("Cannot afford!");
+    if (game.points < 5) return terminal.log("Cannot afford!");
     game.unlocks.begin = true;
     terminal.changeCommand(function begin() {
         terminal.log("You already began.");
@@ -287,7 +278,7 @@ game.unlocks.index$on(true, () => {
     terminal.log("Created index.html!");
 });
 terminal.addCommand(function index() {
-    if (game.indebted) return terminal.log("Cannot afford!");
+    if (game.points < 20) return terminal.log("Cannot afford!");
     game.unlocks.index = true;
     terminal.changeCommand(function index() {
         terminal.log("You already created index.html");
@@ -300,7 +291,7 @@ game.unlocks.doctype$on(true, () => {
     terminal.log("Added <!DOCTYPE HTML>!\n");
 });
 terminal.addCommand(function doctype() {
-    if (game.indebted) return terminal.log("Cannot afford!");
+    if (game.points < 50) return terminal.log("Cannot afford!");
     game.unlocks.doctype = true;
     terminal.changeCommand(function doctype() {
         terminal.log(
@@ -315,7 +306,7 @@ game.unlocks.configyml$on(true, () => {
     terminal.log("Created config.yml!");
 });
 terminal.addCommand(function configyml() {
-    if (game.indebted) return terminal.log("Cannot afford!");
+    if (game.points < 100) return terminal.log("Cannot afford!");
     game.unlocks.configyml = true;
     terminal.changeCommand(function configyml() {
         terminal.log("You already created config.yml");
@@ -324,14 +315,14 @@ terminal.addCommand(function configyml() {
 
 game.upgstage$on(1, () =>
     terminal.changeCommand(function push() {
-        if (game.indebted) return "Come back when you're a little bit richer";
+        if (game.points < 5000) return "Come back when you're a little bit richer";
 
         game.upgstage = 2;
         game.points -= 5000;
     }));
 game.upgstage$on(2, () =>
     terminal.changeCommand(function push() {
-        if (game.indebted) return "Come back when you're a little bit richer";
+        if (game.points < 50000) return "Come back when you're a little bit richer";
 
         game.upgstage = 3;
         game.points -= 50000;
@@ -344,7 +335,7 @@ game.upgstage$on(3, () =>
         );
     }));
 terminal.addCommand(function push() {
-    if (game.indebted) {
+    if (game.points < 500) {
         return terminal.log("you are brokies :3");
     }
 
@@ -413,7 +404,7 @@ terminal.addCommand(function infshop() {
 
 game.upgstage$on(1, () => {
     terminal.changeCommand(function stepone() {
-        if (game.indebted) {
+        if (game.points < 5 + game.upgpriceboost * game.upgpriceboost) {
             return terminal.log("You don't have enough money");
         }
 
@@ -426,7 +417,7 @@ game.upgstage$on(1, () => {
     });
 
     terminal.changeCommand(function steptwo() {
-        if (game.indebted) {
+        if (game.points < 25 + game.upgpriceboost * game.upgpriceboost) {
             return terminal.log("You don't have enough money");
         }
 
@@ -439,7 +430,7 @@ game.upgstage$on(1, () => {
     });
 
     terminal.changeCommand(function stepthree() {
-        if (game.indebted) {
+        if (game.points < 25 + game.upgpriceboost * game.upgpriceboost) {
             return terminal.log("You don't have enough money");
         }
 
@@ -452,7 +443,7 @@ game.upgstage$on(1, () => {
     });
 
     terminal.changeCommand(function stepfour() {
-        if (game.indebted) {
+        if (game.points < 2 + game.upgpriceboost * game.upgpriceboost) {
             return terminal.log("You don't have enough money");
         }
 
@@ -465,7 +456,7 @@ game.upgstage$on(1, () => {
     });
 
     terminal.changeCommand(function baseup() {
-        if (game.indebted) {
+        if (game.points < 500 + game.upgpriceboost * game.upgpriceboost) {
             return terminal.log("You don't have enough money");
         }
 
@@ -478,7 +469,7 @@ game.upgstage$on(1, () => {
     });
 
     terminal.changeCommand(function upgbonus() {
-        if (game.indebted) {
+        if (game.points < 100 + game.upgpriceboost * game.upgpriceboost) {
             return terminal.log("You don't have enough money");
         }
 
@@ -493,7 +484,7 @@ game.upgstage$on(1, () => {
 
 game.upgstage$on(2, () => {
     terminal.changeCommand(function stepone() {
-        if (game.indebted) {
+        if (game.points < 20 + game.upgpriceboost * game.upgpriceboost) {
             return terminal.log("You don't have enough money");
         }
 
@@ -506,7 +497,7 @@ game.upgstage$on(2, () => {
     });
 
     terminal.changeCommand(function steptwo() {
-        if (game.indebted) {
+        if (game.points < 100 + game.upgpriceboost * game.upgpriceboost) {
             return terminal.log("You don't have enough money");
         }
 
@@ -519,7 +510,7 @@ game.upgstage$on(2, () => {
     });
 
     terminal.changeCommand(function stepthree() {
-        if (game.indebted) {
+        if (game.points < 100 + game.upgpriceboost * game.upgpriceboost) {
             return terminal.log("You don't have enough money");
         }
 
@@ -532,7 +523,7 @@ game.upgstage$on(2, () => {
     });
 
     terminal.changeCommand(function stepfour() {
-        if (game.indebted) {
+        if (game.points < 8 * + game.upgpriceboost * game.upgpriceboost) {
             return terminal.log("You don't have enough money");
         }
 
@@ -544,7 +535,7 @@ game.upgstage$on(2, () => {
         terminal.log("purchased stepfour;");
     });
     terminal.changeCommand(function maxpowerup() {
-        if (game.indebted) {
+        if (game.points < 800 * + game.upgpriceboost * game.upgpriceboost) {
             return terminal.log("You don't have enough money");
         }
 
@@ -638,9 +629,9 @@ const fullbattery = new Achievement({
 });
 const overcharged = new Achievement({
     name: "Overcharged",
-    description: "Get a power value over the default maximum.",
+    description: "Get a power value over the amount you started with.",
     eventValueSubscription: game.power$subscription(),
-    criteria: (p) => p > 15, // default maximum
+    criteria: (p) => p > 50, // default maximum
     action: () => {},
 });
 
