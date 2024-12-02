@@ -6,7 +6,7 @@ import { events } from "./lib/events.js";
 
 let game = events({
     terminal: new Terminal(document.body.querySelector("#terminal")),
-    gameverison: "0.3.0",
+    gameverison: "0.3.1",
     unlocks: events({
         begin: false,
         index: false,
@@ -51,8 +51,8 @@ const defaultgame = game
 
 
 
-// 0.3.0
-// You'll see.
+// 0.3.1
+// Idk ill put the real changelog on galaxy.click
 function greetMessage() {
     let date = new Date();
     if (randomnumber(0, 10000) == 1) {
