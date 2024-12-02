@@ -687,7 +687,7 @@ terminal.addCommand(function clearconsole() {
 
 function losscheck() {
 
-        if (game.points <= 0) {
+        if (game.points < game.batteryresprice) {
             if (game.power == 0) {
                 return true
             }
@@ -740,6 +740,11 @@ terminal.addCommand(function echo(string) {
     }
 })
 
-terminal.addCommand(function sudo() {
+terminal.addCommand(function sudo(param) {
+    if (param == "rm -rf") {
+        game = defaultgame
+    }
+    else {
     terminal.write("classic","User is not in sudoers file. This incident will be reported.")
+    }   
 })
