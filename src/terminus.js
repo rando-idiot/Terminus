@@ -221,7 +221,7 @@ terminal.addCommand(function charge(param) {
             return terminal.log("Cannot afford!")
         }
         game.points = game.points - game.batteryresprice
-        game.batteryresprice *= 2
+        game.batteryresprice *= 1.1
         game.power = game.power + game.rechargerate;
     }
     if (losscheck()) {
