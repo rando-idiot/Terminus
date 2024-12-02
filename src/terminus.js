@@ -29,7 +29,7 @@ let game = events({
     updateloop: 1,
     power: 50,
     powerpoints: 1, //Hahah PP
-    maxbattery: 15,
+    maxbattery: 50,
     rechargerate: 1,
     antipower: 10,
     itemduration: 0,
@@ -628,7 +628,7 @@ const fullbattery = new Achievement({
 });
 const overcharged = new Achievement({
     name: "Overcharged",
-    description: "Get a power value over the amount you started with.",
+    description: "Get a power value over the max.",
     eventValueSubscription: game.power$subscription(),
     criteria: (p) => p > 50, // default maximum
     action: () => {},
