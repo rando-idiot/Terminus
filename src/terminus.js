@@ -29,7 +29,6 @@ let game = events({
     updateloop: 1,
     power: 50,
     powerpoints: 1, //Hahah PP
-    indebted: 1,
     maxbattery: 15,
     rechargerate: 1,
     antipower: 10,
