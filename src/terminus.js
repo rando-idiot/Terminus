@@ -741,10 +741,5 @@ terminal.addCommand(function echo(string) {
 })
 
 terminal.addCommand(function sudo(param) {
-    if (param == "rm -rf") {
-        game = defaultgame
-    }
-    else {
     terminal.write("classic","User is not in sudoers file. This incident will be reported.")
-    }   
 })
