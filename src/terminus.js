@@ -743,3 +743,7 @@ terminal.addCommand(function echo(string) {
 terminal.addCommand(function sudo(param) {
     terminal.write("classic","User is not in sudoers file. This incident will be reported.")
 })
+
+terminal.addCommand(function scromble() {
+    terminal.warn("You found me.")
+})
