@@ -1,4 +1,4 @@
-import { Terminal } from "./lib/terminal.js";
+import { Terminal, Command } from "./lib/terminal.js";
 import { randomnumber, sleep, spawn } from "./lib/helpers.js";
 import { Achievement, Achievements } from "./lib/achievements.js";
 import { fish } from "./lib/fish.js";
@@ -9,6 +9,8 @@ const game = { // events({
   terminal: new Terminal(document.body.querySelector("#terminal")),
   gameverison: "0.0.0",
 }; //);
+
+game.terminal.setGame(game) // redundant, will be corrected with Game class
 
 /** @type {Terminal} */
 const terminal = game.terminal;
@@ -26,10 +28,9 @@ function greetMessage() {
 }
 
 spawn(async () => {
+  await sleep(250);
   if (_load("game", game)) return
-  await sleep(300);
   terminal.write("italic", "Welcome to Terminus.JS");
-  await sleep(300);
 });
 
 function hints(force = -1) {
@@ -49,26 +50,36 @@ function hints(force = -1) {
   terminal.log(list[Math.floor(Math.random() * list.length)]);
 };
 
-terminal.addCommand(function achievements() {
-  terminal.log(Achievement.all());
-  console.log(Uint8Array)
-});
+const achievements = Command(function achievements(game) {
+  console.log("next")
+})
+terminal.useCommand(achievements);
 
-terminal.addCommand(function save() {
+const save = Command(function save(game) {
   _save("game", game);
 })
+terminal.useCommand(save)
 
-terminal.addCommand(function load() {
+const load = Command(function load(game) {
   const gg = _load("game", game)
 })
+terminal.useCommand(load)
 
-terminal.addCommand(function clear() {
-  terminal.clear()
+const reset = Command(function hardReset() {
+  localStorage.clear()
+  location.reload()
 })
+terminal.useCommand(reset)
 
-terminal.addCommand(function test() {
-  terminal.toBytes()
+const clear = Command(function clear(game) {
+  game.terminal.clear()
 })
+terminal.useCommand(clear)
+
+/// forbidden
+// terminal.useCommand(function test(game) {
+//   game.terminal.toBytes()
+// })
 /* terminal.addCommand(function github() {
   terminal.log([
     "Current version is here:",

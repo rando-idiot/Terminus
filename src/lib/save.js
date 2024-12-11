@@ -4,7 +4,6 @@ const GLOBAL_CLASSES = []
 
 export function save(key, obj) {
   const str = serialize(obj)
-  console.log(obj, str)
   localStorage.setItem(key, str)
 }
 
@@ -25,10 +24,9 @@ export function serialize(obj) {
     case "string":
       return `"${obj.replace(/\\/g, "\\\\").replace(/\n/g, "\\n")}"`
     case "function":
-      console.warn("function serialized, saving as hash: ", obj.toString())
-      return hash(obj.toString())
+      // console.warn("function serialized, saving as hash: ", obj.toString())
+      return obj.hash ?? hash(obj.toString())
     default:
-
       return obj.toString()
   }
 }
@@ -71,11 +69,13 @@ function deserializeOnto(obj, src) {
   const obj_keys = Object.keys(obj).filter(key => key != "class")
 
   for (const key of src_keys) {
-    console.log(obj[key], src[key])
+    // console.log(obj[key], src[key])
     switch (typeof obj[key]) {
       case "object":
         deserializeOnto(obj[key], src[key]);
         break;
+      case "function":
+        src[key] = eval(obj[key])
       default:
         src[key] = obj[key]
     }

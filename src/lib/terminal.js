@@ -17,12 +17,13 @@ export class Terminal {
   #inputElement
   /** @type {HTMLElement} */
   #logsElement
-  /** @type {{[key: string]: () => void}} */
+  /** @type {{[name: string]: id: number}} */
   #commands = {}
   /** @type {string?} */
   #commandTyped = null
   #ElementP = document.createElement('p')
   #joinLine = '\n\n'
+  #game
 
   /**
    * @param {HTMLElement} terminalElement
@@ -72,28 +73,21 @@ export class Terminal {
     })
   }
 
-  addCommand(func) {
-    const name = func.name
-    if (!name) throw new Error('Command function must have a name.')
-
-    if (this.#commands[name]) {
-      throw new Error(`Command ${name} already exists.`)
-    }
-    this.#commands[name] = func
+  setGame(game) {
+    this.#game = game
   }
-  changeCommand(func) {
-    const name = func.name
-    if (!name) throw new Error('Command function must have a name.')
 
-    if (!this.#commands[name]) {
-      throw new Error(`Command ${name} does not exist.`)
-    }
-    this.#commands[name] = func
+  /** @param {{name: string, id: number}} command  */
+  useCommand(command) {
+    assert(typeof command !== "function", "Supplying functions is forbidden")
+    assert(isDefined(command.name) && isDefined(command.id), 'Command must have a name and id.')
+
+    this.#commands[command.name] = COMMANDS[command.name][command.id]
   }
+
   removeCommand(name) {
-    if (!this.#commands[name]) {
-      throw new Error(`Command ${name} does not exist.`)
-    }
+    assert(isDefined(this.#commands[name]), `Command ${name} does not exist.`)
+
     delete this.#commands[name]
   }
 
@@ -110,7 +104,7 @@ export class Terminal {
     args = args.map((arg) => (isNumber(arg) ? Number(arg) : arg))
 
     try {
-      this.#commands[command](...(args || []))
+      this.#commands[command](this.#game, ...(args || []))
     } catch (err) {
       this.error(err)
       console.error(err)
@@ -171,7 +165,8 @@ export class Terminal {
       historyIndex: this.#historyIndex,
       commands: this.#commands,
       commandTyped: this.#commandTyped,
-      joinLine: this.#joinLine
+      joinLine: this.#joinLine,
+      globalCommands: COMMANDS,
     })
   }
 
@@ -179,20 +174,18 @@ export class Terminal {
    * Doesn't take a json string, but a parsed object.
    */
   fromJson(src) {
-    console.log(this, src)
+    console.log(serialize(this.#commands), serialize(src.commands))
     for (const [style, args] of src.logs) {
       this.write(style, args)
     }
     this.#history = src.history ?? this.#history
     this.#historyIndex = src.historyIndex ?? this.#historyIndex
-    for (const [key, val] of Object.entries(this.#commands)) {
-      if (!isDefined(src.commands[key])) {
-        console.warn(`Command \`${key}\` not found in save`)
-        continue
-      }
-      if (hash(val.toString()) !== src.commands[key]) {
-        console.warn(`Command \`${key}\` is changed`)
-      }
+    console.log(src.commands, this.#commands)
+    // this.#commands = src.commands ?? this.#commands
+    for (const [name, hashes] of Object.entries(src.globalCommands).filter(([n, _]) => n !== "class")) {
+      COMMANDS[name]
+       ?.filter((f, id) => (f.hash !== hashes[id]))
+       ?.forEach((cond, id) => void console.warn(`Command ${serialize([name, id])} got changed.`))
     }
     this.#commandTyped = src.commandTyped ?? this.#commandTyped
     this.#joinLine = src.joinLine ?? this.#joinLine
@@ -201,7 +194,25 @@ export class Terminal {
     } else {
       this.#inputElement.value = this.#commandTyped ?? ""
     }
-    console.log(this.#inputElement.value, this)
+    // console.log(this.#inputElement.value, this)
   }
 }
 makeClassGlobal(Terminal)
+
+/** @type {{[name: string]: Array<(game: Game, ...args: (string | number)[]) => void>} */
+const COMMANDS = {}
+
+export function Command(/** @type {(game: Game, ...args: (string | number)[]) => void>} */ fn) {
+  assert(isDefined(fn.name), "Command function must have a name")
+  fn.hash = hash(fn.toString())
+
+  let id = COMMANDS[fn.name]?.findIndex(f => f.hash === fn.hash) ??
+    (COMMANDS[fn.name] = [], -1)
+
+  if (id === -1) {
+    id = COMMANDS[fn.name].length
+    COMMANDS[fn.name].push(fn)
+  }
+
+  return { name: fn.name, id }
+}

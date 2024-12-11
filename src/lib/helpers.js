@@ -1,6 +1,5 @@
 
 export function isDefined(val) {
-  console.log(val)
   return val !== undefined && val !== null
 }
 
@@ -63,3 +62,7 @@ export function hash(str, seed = 0) {
 
   return 4294967296 * (2097151 & h2) + (h1 >>> 0);
 };
+
+Math.clamp = function(val, min, max) {
+  return Math.max(Math.min(val, max), min)
+}
