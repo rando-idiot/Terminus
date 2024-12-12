@@ -3,6 +3,7 @@ import { assert, hash, isDefined } from "./helpers.js"
 const GLOBAL_CLASSES = []
 
 export function save(key, obj) {
+  if (!isDefined(obj)) return void localStorage.clear(key)
   const str = serialize(obj)
   localStorage.setItem(key, str)
 }
@@ -11,23 +12,22 @@ export function load(key, src) {
   const str = localStorage.getItem(key)
   if (!isDefined(str)) return false
   const obj = JSON.parse(str)
+  console.log("loaded:\n",obj, src)
   deserializeOnto(obj, src);
   return true
 }
 
 export function serialize(obj) {
-  if (!isDefined(obj)) return '""'
+  if (!isDefined(obj)) return null
   if (obj instanceof Array) return `[${obj.map(serialize).toString()}]`
   switch (typeof obj) {
     case "object":
       return toJson(obj)
-    case "string":
-      return `"${obj.replace(/\\/g, "\\\\").replace(/\n/g, "\\n")}"`
     case "function":
       // console.warn("function serialized, saving as hash: ", obj.toString())
       return obj.hash ?? hash(obj.toString())
     default:
-      return obj.toString()
+      return JSON.stringify(obj)
   }
 }
 
@@ -43,7 +43,7 @@ function toJson(obj) {
     const bar = Object.getOwnPropertyNames(obj.__proto__)
     return JSON.stringify(obj)
   }
-  let result = `{"class":"${Object.getPrototypeOf(obj).constructor.name}",`
+  let result = obj.class ? "{" : `{"class":"${Object.getPrototypeOf(obj).constructor.name}",`
   for (const [key, val] of entries) {
     result += `"${key}":${serialize(val)},`
   }
@@ -62,14 +62,14 @@ function deserializeOnto(obj, src) {
     console.warn("Saved data prototypes don't match, data may be corrupted.\nGot:", constructor.name, obj.class)
 
   if (obj.class !== "Object") {
-    src.fromJson(obj)
+    // updates src from object obj
+    return void src.fromJson(obj)
   }
 
   const src_keys = Object.keys(src)
   const obj_keys = Object.keys(obj).filter(key => key != "class")
 
   for (const key of src_keys) {
-    // console.log(obj[key], src[key])
     switch (typeof obj[key]) {
       case "object":
         deserializeOnto(obj[key], src[key]);
@@ -80,7 +80,6 @@ function deserializeOnto(obj, src) {
         src[key] = obj[key]
     }
   }
-  // console.log(obj)
 }
 
 export function deserialize(obj, rec = 2) {
@@ -96,7 +95,6 @@ export function deserialize(obj, rec = 2) {
   if (rec) for (const [k, v] of Object.entries(obj)) {
     deserialize(v, rec - 1)
   }
-  console.log("parsed", obj)
 }
 
 export function makeClassGlobal(obj) {

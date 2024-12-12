@@ -1,4 +1,4 @@
-import { isDefined } from './helpers.js'
+import { isDefined } from './lib/helpers.js'
 import { Terminal } from './terminal.js'
 
 /**

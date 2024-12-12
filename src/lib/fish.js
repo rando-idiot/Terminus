@@ -1,5 +1,5 @@
 import { randomnumber } from './helpers.js'
-import { Terminal } from './terminal.js'
+import { Terminal } from '../terminal.js'
 
 export class fish {
     constructor(name, desc, price, chance) {

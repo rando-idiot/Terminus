@@ -1,41 +1,11 @@
-import { Terminal, Command } from "./lib/terminal.js";
-import { randomnumber, sleep, spawn } from "./lib/helpers.js";
-import { Achievement, Achievements } from "./lib/achievements.js";
-import { fish } from "./lib/fish.js";
-import { events } from './lib/events.js';
-import { save as _save, load as _load } from "./lib/save.js";
+import { Game } from "./game.js";
 
-const game = { // events({
-  terminal: new Terminal(document.body.querySelector("#terminal")),
-  gameverison: "0.0.0",
-}; //);
+const game = new Game();
 
-game.terminal.setGame(game) // redundant, will be corrected with Game class
-
-/** @type {Terminal} */
-const terminal = game.terminal;
-
-function greetMessage() {
-  let date = new Date();
-  if (randomnumber(0, 10000) == 1) {
-    return "Unwelcome to AntiTerminus.";
-  } else if (date.getMonth() == 0 && getDate() == 1) {
-    return "Happy New Year! Welcome to Terminus.";
-  } else if (date.getMonth() == 8 && date.getDate() == 15) {
-    return `It's Terminus.JS anniversary! Welcome!`;
-  }
-  return;
-}
-
-spawn(async () => {
-  await sleep(250);
-  if (_load("game", game)) return
-  terminal.write("italic", "Welcome to Terminus.JS");
-});
-
+/*
 function hints(force = -1) {
   const list = [
-    /* "You can generate points by calling update.",
+    "You can generate points by calling update.",
     "Power mult = power / 10",
     "On update: points = points + basegain + steponeadd * steptwomult * stepthreemult + stepfouradd * (power / 10)",
     "help can update its contents based on the things you have purchased.",
@@ -44,37 +14,12 @@ function hints(force = -1) {
     "Yes, there is fishing. use 'catchmeafish' to go fishing.",
     "Use 'playasong' to play a random song. (WIP)",
     "You can use 'hardreset' to entirely reset your gamestate.",
-    "Use 'clearconsole' to entirely clear the console. Use at own risk.", */
+    "Use 'clearconsole' to entirely clear the console. Use at own risk.",
   ];
   if (force >= 0) return terminal.log(list[force]);
   terminal.log(list[Math.floor(Math.random() * list.length)]);
-};
+}; */
 
-const achievements = Command(function achievements(game) {
-  console.log("next")
-})
-terminal.useCommand(achievements);
-
-const save = Command(function save(game) {
-  _save("game", game);
-})
-terminal.useCommand(save)
-
-const load = Command(function load(game) {
-  const gg = _load("game", game)
-})
-terminal.useCommand(load)
-
-const reset = Command(function hardReset() {
-  localStorage.clear()
-  location.reload()
-})
-terminal.useCommand(reset)
-
-const clear = Command(function clear(game) {
-  game.terminal.clear()
-})
-terminal.useCommand(clear)
 
 /// forbidden
 // terminal.useCommand(function test(game) {
@@ -91,9 +36,7 @@ terminal.useCommand(clear)
 
 terminal.addCommand(function credits() {
   [
-    "Developer: @rando.idiot on discord.",
-    "Major contributor: @.bleb1k on discord.",
-    "Check us out!",
+    "Developers: @rando.idiot and @.bleb1k on discord.",
   ].forEach((str) => terminal.log(str));
 });
 
