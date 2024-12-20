@@ -3,6 +3,7 @@
  * @todo Rewrite using data-driven approach
  * @todo Implement deserialization
  * @todo Implement serialization
+ * @deprecated TODO: Rewrite as a class and support saves
  */
 
 import { isDefined } from './helpers.js'
