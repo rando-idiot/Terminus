@@ -8,7 +8,7 @@ Visit the github pages site, or run on your local machine by downnloading the re
 
    install git (if not installed)
    
-   run `git clone --depth=1 https://github.com/rando-idiot/Terminus.JS.git`
+   run `git clone --depth=1 https://github.com/rando-idiot/Terminus.git`
    
    install node.js (if not installed)
 
@@ -20,5 +20,4 @@ Visit the github pages site, or run on your local machine by downnloading the re
 
 
 # OFFICIAL LINKS
-## https://rando-idiot.github.io/Terminus.JS/
-## https://galaxy.click/play/481
+## https://rando-idiot.github.io/Terminus
