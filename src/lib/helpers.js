@@ -65,3 +65,16 @@ export function hash(str, seed = 0) {
 Math.clamp = function(val, min, max) {
   return Math.max(Math.min(val, max), min)
 }
+
+
+/** 
+ * @param {string} name 
+ */ 
+export async function findmoddir(name) {
+  const modlist = "../mods/mods.json"
+  const r = new Request(modlist)
+  const r1 = await fetch(r)
+  const r2 = await r1.json()
+  const moddir = `r2.moddirs.${name}.dir`
+  return JSON.stringify(moddir)
+}
