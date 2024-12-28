@@ -69,6 +69,7 @@ Math.clamp = function(val, min, max) {
 
 /** 
  * @param {string} name 
+ * @returns {string} Relative to mods folder.
  */ 
 export async function findmoddir(name) {
   const modlist = "../mods/mods.json"
@@ -77,4 +78,30 @@ export async function findmoddir(name) {
   const r2 = await r1.json()
   const moddir = `r2.moddirs.${name}.dir`
   return JSON.stringify(moddir)
+}
+
+/**
+ * @param {string} name
+ * @returns {string}
+ */
+export async function findmodrun(name) {
+  const modlist = "../mods/mods.json"
+  const r = new Request(modlist)
+  const r1 = await fetch(r)
+  const r2 = await r1.json()
+  const modrun = `r2.mods.${name}.runfunc`
+  return JSON.stringify(modrun)
+}
+/**
+ * @link {https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/JSON}
+ * @param {string} relativefiledir 
+ * @param {json} jsonstructure 
+ * @returns {string} 
+ */
+export async function jsonread(relativefiledir, jsonstructure) {
+  const r = new Request(relativefiledir)
+  const r1 = await fetch(r)
+  const r2 = await r1.json()
+  const content = `r2.${jsonstructure}`
+  return JSON.stringify(content)
 }

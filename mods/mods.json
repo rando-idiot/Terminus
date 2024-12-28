@@ -1,11 +1,14 @@
 {
-    "moddirs": {
+    "mods": {
         "example": {
-            "dir": "./example.js"
+            "dir": "./example.js",
+            "runfunc": "example()"
         }
-    }
-
-
-
+    },
+    "modlist": ["example"],
+    "totalmods": 0,
+    "modlist comment": "//Its an array for a reason.",
+    "totalmods comment": "//Increment every time you add a mod. And yes, it should be 0 on a vanilla copy. Because arrays. Dont ask.",
+    "Should json allow comments?": true
 
 }
