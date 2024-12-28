@@ -5,40 +5,45 @@ import { serialize, load, save } from "./lib/save.js";
 
 export class Game {
   /** @type {Terminal} */
-  terminal
+  terminal;
   /** @type {string} */
-  version
+  version;
 
   constructor() {
-    this.terminal = new Terminal(document.body.querySelector("#terminal"), this)
-    this.version = "0.0.0-dev"
+    this.terminal = new Terminal(
+      document.body.querySelector("#terminal"),
+      this
+    );
+    this.version = "0.0.0-dev";
 
-    this.#init()
-    this.#run()
+    this.#init();
+    this.#run();
   }
 
   #init() {
-    const { terminal } = this
-
-    terminal.useCommands(CMD.terminalCmds)
-    terminal.useCommands(CMD.saveCmds)
+    const { terminal } = this;
+    console.log(CMD);
+    terminal.useCommands(CMD.terminalCmds);
+    terminal.useCommands(CMD.saveCmds);
   }
 
   #run() {
-    const { terminal } = this
-    
+    const { terminal } = this;
+
     spawn(async () => {
       await sleep(250);
-      if (load("game", this)) return // void console.log("loaded", this)
+      if (load("game", this)) return; // void console.log("loaded", this)
       terminal.write("italic", "Welcome to Terminus.JS");
-      await sleep(1750)
-      terminal.log("This is an early development build.")
-      await sleep(1750)
-      terminal.log("This means that many things is unfinished and you may encounter bugs.\n")
-      await sleep(3000)
-      terminal.log("Enter 'help' to start")
-      terminal.useCommands(CMD.firstStage)
-      save("game", this)
+      await sleep(1750);
+      terminal.log("This is an early development build.");
+      await sleep(1750);
+      terminal.log(
+        "This means that many things is unfinished and you may encounter bugs.\n"
+      );
+      await sleep(3000);
+      terminal.log("Enter 'start' to begin");
+      terminal.useCommands(CMD.intro);
+      save("game", this);
     });
   }
 
@@ -47,14 +52,16 @@ export class Game {
       class: "Game",
       terminal: this.terminal,
       version: this.version,
-    })
+    });
   }
 
   fromJson(obj) {
-    console.log(this, obj)
-    this.terminal.fromJson(obj.terminal)
+    console.log(this, obj);
+    this.terminal.fromJson(obj.terminal);
     if (this.version !== obj.version)
-      console.warn(`Loading save from version: ${obj.version}, current: ${this.version}`)
-    this.version = obj.version
+      console.warn(
+        `Loading save from version: ${obj.version}, current: ${this.version}`
+      );
+    this.version = obj.version;
   }
 }

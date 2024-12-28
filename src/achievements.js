@@ -1,17 +1,17 @@
-import { isDefined } from './lib/helpers.js'
-import { Terminal } from './terminal.js'
+import { isDefined } from "./lib/helpers.js";
+import { Terminal } from "./terminal.js";
 
 /**
  * @typedef {number} AchievementId
  */
 
 export class Achievements {
-  #all = []
+  #all = [];
   /** @type {Terminal} */
-  #terminal = undefined
+  #terminal = undefined;
 
   constructor(/** @type {{terminal: Terminal} */ parameters) {
-    this.#terminal = parameters.terminal
+    this.#terminal = parameters.terminal;
   }
 
   /**
@@ -43,42 +43,42 @@ export class Achievements {
       eventSubscription: parameters.eventSubscription,
     });
 
-    this.#all.push(achievement)
+    this.#all.push(achievement);
 
-    return achievement.id
+    return achievement.id;
   }
 
   get(/** @type {AchievementId} */ id) {
-    return this.#all[id]
+    return this.#all[id];
   }
 
   toString() {
     return (
-      'Achievements\n\n' +
+      "Achievements\n\n" +
       this.#all
         .filter((/** @type {Achievement} */ a) => a.visible)
         .map(String)
-        .join('\n--------------------\n')
-    )
+        .join("\n--------------------\n")
+    );
   }
 }
 
 export class Achievement {
-  id
-  name
-  description
-  criteria
-  parents = []
-  children = []
-  achieved = false
-  #visible = false
+  id;
+  name;
+  description;
+  criteria;
+  parents = [];
+  children = [];
+  achieved = false;
+  #visible = false;
   /**
    * @example
    * new Achievement({
    *     id: 0,
    *     name: "New achievement.",
    *     description: "Achievement example.",
-   *     
+   *
    * })
    * @param {object} parameters
    * @param {number} parameters.id
@@ -90,38 +90,37 @@ export class Achievement {
    * @param {Achievements} parameters.achievements
    */
   constructor(parameters) {
-    const { terminal, achievements } = parameters
-    this.name = parameters.name
-    this.description = parameters.description
+    const { terminal, achievements } = parameters;
+    this.name = parameters.name;
+    this.description = parameters.description;
 
     if (isDefined(parameters.requirements)) {
       parameters.requirements.forEach((parent) => {
-        this.parents.push(parent.id)
-        parent.children.push(this.id)
-      })
-    } else this.#visible = true
+        this.parents.push(parent.id);
+        parent.children.push(this.id);
+      });
+    } else this.#visible = true;
 
     this.criteria = parameters.eventSubscription(
       (foo) => {
-        return parameters.criteria(foo)
+        return parameters.criteria(foo);
       },
       () => {
-        this.achieved = true
-        this.#visible = true
+        this.achieved = true;
+        this.#visible = true;
         this.children.forEach((child) => {
-          const other = achievements.get(child)
+          const other = achievements.get(child);
           if (
             !other.#visible &&
             other.parents.every((p) => achievements.get(p).achieved)
           )
-            other.#visible = true
-        })
-        terminal.log('New Achievement: ' + this.name)
-        parameters.action()
+            other.#visible = true;
+        });
+        terminal.log("New Achievement: " + this.name);
+        parameters.action();
       },
       { once: true }
-    )
-
+    );
   }
 
   get visible() {
@@ -129,6 +128,6 @@ export class Achievement {
   }
 
   toString() {
-    return `${this.achieved ? '✔' : '✘'} ${this.name}\n` + this.description
+    return `${this.achieved ? "✔" : "✘"} ${this.name}\n` + this.description;
   }
 }
