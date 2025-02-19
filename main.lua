@@ -1,3 +1,4 @@
+local moonshine = require 'moonshine'
 function love.load()
     io.stdout:setvbuf("no")
     Sprites = {}
@@ -23,6 +24,7 @@ function love.load()
     inputOffsetY = -2 * love.graphics.getHeight() / 6
     inputSeparation = 1 * love.graphics.getWidth() / 100
     love.keyboard.setKeyRepeat(false)
+    enableCRT = false
     --god i hate lua
 end
 function love.textinput(t)
@@ -52,6 +54,16 @@ function love.draw()
     love.graphics.print(currentInput3, NormalFont, WindowSize.middlePointX - inputScaleX / 2, WindowSize.middlePointY - inputScaleY / 2, 0, inputScaleX, inputScaleY, inputOffsetX, inputOffsetY)
     love.graphics.print(currentInput4, NormalFont, WindowSize.middlePointX - inputScaleX / 2 + inputSeparation, WindowSize.middlePointY - inputScaleY / 2,0, inputScaleX, inputScaleY, inputOffsetX, inputOffsetY)
     love.graphics.print(currentInput5, NormalFont, WindowSize.middlePointX - inputScaleX / 2 + inputSeparation * 2, WindowSize.middlePointY - inputScaleY / 2,0, inputScaleX, inputScaleY, inputOffsetX, inputOffsetY)
+    if enableCRT then
+    crtFilter = moonshine(moonshine.effects.crt)
+    .chain(moonshine.effects.scanlines)
+    crtFilter.scanlines.opacity = 1
+    crtFilter.scanlines.thickness = 100
+    crtFilter.scanlines.frequency = love.graphics.getHeight() / 5
+    crtFilter(function()
+        love.graphics.rectangle("fill", 0,0,love.graphics.getWidth() * 64,love.graphics.getHeight() * 64)
+    end)
+    end
 end
 
 function love.keypressed(key, scancode, isrepeat)
