@@ -12,12 +12,7 @@ function love.load()
     WindowSize = {}
     WindowSize.middlePointX = love.graphics.getWidth() / 2
     WindowSize.middlePointY = love.graphics.getHeight() / 2
-    currentInput1 = "_"
-    currentInput2 = "_"
-    currentInput3 = "_"
-    currentInput4 = "_"
-    currentInput5 = "_"
-    foo = 0
+    currentInput = "_ _ _ _ _"
     inputScaleX = 1
     inputScaleY = 1
     inputOffsetX = -3 * love.graphics.getWidth() / 9
@@ -27,70 +22,35 @@ function love.load()
     --god i hate lua
 end
 function love.textinput(t)
-    if (foo == 0) then
-        currentInput1 = t
+    if currentInput == "_ _ _ _ _" then
+        currentInput = ""
     end
-    if (foo == 1) then
-    currentInput2 = t    
-    end
-    if (foo == 2) then
-        currentInput3 = t
-    end
-    if (foo == 3) then 
-        currentInput4 = t
-    end
-    if (foo == 4) then
-        currentInput5 = t
-    end
-    if (foo ~= 5) then
-    foo = foo + 1
-    end
+
+    currentInput = currentInput .. t
+    print()
 end
 function love.draw()
     love.graphics.rectangle("line", 0,0, love.graphics.getWidth(),love.graphics.getHeight())
-    love.graphics.print(currentInput1, NormalFont, WindowSize.middlePointX - inputScaleX / 2 - inputSeparation * 2, WindowSize.middlePointY - inputScaleY / 2,0, inputScaleX, inputScaleY, inputOffsetX, inputOffsetY)
-    love.graphics.print(currentInput2, NormalFont, WindowSize.middlePointX - inputScaleX / 2 - inputSeparation, WindowSize.middlePointY - inputScaleY / 2,0, inputScaleX, inputScaleY, inputOffsetX, inputOffsetY)
-    love.graphics.print(currentInput3, NormalFont, WindowSize.middlePointX - inputScaleX / 2, WindowSize.middlePointY - inputScaleY / 2, 0, inputScaleX, inputScaleY, inputOffsetX, inputOffsetY)
-    love.graphics.print(currentInput4, NormalFont, WindowSize.middlePointX - inputScaleX / 2 + inputSeparation, WindowSize.middlePointY - inputScaleY / 2,0, inputScaleX, inputScaleY, inputOffsetX, inputOffsetY)
-    love.graphics.print(currentInput5, NormalFont, WindowSize.middlePointX - inputScaleX / 2 + inputSeparation * 2, WindowSize.middlePointY - inputScaleY / 2,0, inputScaleX, inputScaleY, inputOffsetX, inputOffsetY)
+    love.graphics.print(currentInput, NormalFont, WindowSize.middlePointX - inputScaleX / 2 - inputSeparation * 2, WindowSize.middlePointY - inputScaleY / 2,0, inputScaleX, inputScaleY, inputOffsetX, inputOffsetY)
 end
+love._openConsole()
+
+
 
 function love.keypressed(key, scancode, isrepeat)
     if key == "backspace" or scancode == "backspace" then
-    if (foo == 5) then
-        foo = foo - 1
-    end
-    if (foo == 0) then
-        currentInput1 = "_"
-    end
-    if (foo == 1) then
-    currentInput2 = "_"
-    end
-    if (foo == 2) then
-        currentInput3 = "_"
-    end
-    if (foo == 3) then 
-        currentInput4 = "_"
-    end
-    if (foo == 4) then
-        currentInput5 = "_"
-    end
-    if foo > 0 then
-    foo = foo - 1
-    end
+        if currentInput == "_ _ _ _ _" then
+            currentInput = ""
+            return
+        end
+        currentInput = currentInput.sub(currentInput,0,-2)
 
-end
-
-if key == "return" or scancode == "return" then
-    if currentInput1 == "F" and currentInput2 == "i" and currentInput3 == "s" and currentInput4 == "h" and currentInput5 == "." then
-        print("HOLY SHIT FISH????????")
-        foo = 0
-        currentInput1 = "_"
-        currentInput2 = "_"
-        currentInput3 = "_"
-        currentInput4 = "_"
-        currentInput5 = "_"
     end
+    if key == "return" or scancode == "return" then
+        if currentInput.lower(currentInput) == "fish." then
+            print("HOLY SHIT FISH????????")
+            currentInput = "_ _ _ _ _"
+        end
 
     end
 end
