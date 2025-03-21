@@ -1,5 +1,6 @@
 local moonshine = require 'moonshine'
 function love.load()
+    
     io.stdout:setvbuf("no")
     Sprites = {}
     Sprites.missingTexture = love.graphics.newImage('sprites/null.png')
@@ -24,6 +25,7 @@ function love.load()
     inputOffsetY = -2 * love.graphics.getHeight() / 6
     inputSeparation = 1 * love.graphics.getWidth() / 100
     love.keyboard.setKeyRepeat(false)
+    NormalFont:setFilter("nearest", "nearest")
     --god i hate lua
 end
 function love.textinput(t)
@@ -48,11 +50,11 @@ function love.textinput(t)
 end
 function love.draw()
     love.graphics.rectangle("line", 0,0, love.graphics.getWidth(),love.graphics.getHeight())
-    love.graphics.print(currentInput1, NormalFont, WindowSize.middlePointX - inputScaleX / 2 - inputSeparation * 2, WindowSize.middlePointY - inputScaleY / 2,0, inputScaleX, inputScaleY, inputOffsetX, inputOffsetY)
-    love.graphics.print(currentInput2, NormalFont, WindowSize.middlePointX - inputScaleX / 2 - inputSeparation, WindowSize.middlePointY - inputScaleY / 2,0, inputScaleX, inputScaleY, inputOffsetX, inputOffsetY)
-    love.graphics.print(currentInput3, NormalFont, WindowSize.middlePointX - inputScaleX / 2, WindowSize.middlePointY - inputScaleY / 2, 0, inputScaleX, inputScaleY, inputOffsetX, inputOffsetY)
-    love.graphics.print(currentInput4, NormalFont, WindowSize.middlePointX - inputScaleX / 2 + inputSeparation, WindowSize.middlePointY - inputScaleY / 2,0, inputScaleX, inputScaleY, inputOffsetX, inputOffsetY)
-    love.graphics.print(currentInput5, NormalFont, WindowSize.middlePointX - inputScaleX / 2 + inputSeparation * 2, WindowSize.middlePointY - inputScaleY / 2,0, inputScaleX, inputScaleY, inputOffsetX, inputOffsetY)
+    love.graphics.print(currentInput1, NormalFont, math.floor(WindowSize.middlePointX - inputScaleX / 2 - inputSeparation * 2), math.floor(WindowSize.middlePointY - inputScaleY / 2),0, inputScaleX, inputScaleY, inputOffsetX, inputOffsetY)
+    love.graphics.print(currentInput2, NormalFont, math.floor(WindowSize.middlePointX - inputScaleX / 2 - inputSeparation), math.floor(WindowSize.middlePointY - inputScaleY / 2),0, inputScaleX, inputScaleY, inputOffsetX, inputOffsetY)
+    love.graphics.print(currentInput3, NormalFont, math.floor(WindowSize.middlePointX - inputScaleX / 2), math.floor(WindowSize.middlePointY - inputScaleY / 2), 0, inputScaleX, inputScaleY, inputOffsetX, inputOffsetY)
+    love.graphics.print(currentInput4, NormalFont, math.floor(WindowSize.middlePointX - inputScaleX / 2 + inputSeparation), math.floor(WindowSize.middlePointY - inputScaleY / 2),0, inputScaleX, inputScaleY, inputOffsetX, inputOffsetY)
+    love.graphics.print(currentInput5, NormalFont, math.floor(WindowSize.middlePointX - inputScaleX / 2 + inputSeparation * 2), math.floor(WindowSize.middlePointY - inputScaleY / 2),0, inputScaleX, inputScaleY, inputOffsetX, inputOffsetY)
 end
 
 function love.keypressed(key, scancode, isrepeat)
@@ -81,16 +83,19 @@ function love.keypressed(key, scancode, isrepeat)
 
 end
 
+function resetInput()
+    currentInput1 = "_"
+    currentInput2 = "_"
+    currentInput3 = "_"
+    currentInput4 = "_"
+    currentInput5 = "_"
+end
+
 if key == "return" or scancode == "return" then
     if currentInput1 == "F" and currentInput2 == "i" and currentInput3 == "s" and currentInput4 == "h" and currentInput5 == "." then
         print("HOLY SHIT FISH????????")
         foo = 0
-        currentInput1 = "_"
-        currentInput2 = "_"
-        currentInput3 = "_"
-        currentInput4 = "_"
-        currentInput5 = "_"
+        resetInput();
     end
-
-    end
+end
 end
